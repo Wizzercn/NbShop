@@ -20,7 +20,7 @@ public class Cms_site extends Model implements Serializable {
     @Column
     @Comment("预留商城ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String shopid;
+    private String storeId;
 
     @Column
     @Comment("名称")
@@ -116,12 +116,12 @@ public class Cms_site extends Model implements Serializable {
         this.id = id;
     }
 
-    public String getShopid() {
-        return shopid;
+    public String getStoreId() {
+        return storeId;
     }
 
-    public void setShopid(String shopid) {
-        this.shopid = shopid;
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 
     public String getSite_name() {

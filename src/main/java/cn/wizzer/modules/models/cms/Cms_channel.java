@@ -23,7 +23,7 @@ public class Cms_channel extends Model implements Serializable {
     @Column
     @Comment("预留商城ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String shopid;
+    private String storeId;
 
     @Column
     @Comment("父级ID")
@@ -85,12 +85,12 @@ public class Cms_channel extends Model implements Serializable {
         this.id = id;
     }
 
-    public String getShopid() {
-        return shopid;
+    public String getStoreId() {
+        return storeId;
     }
 
-    public void setShopid(String shopid) {
-        this.shopid = shopid;
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 
     public String getParentId() {
