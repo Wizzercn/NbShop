@@ -59,7 +59,7 @@ body{background:#515e72;color:#59595a;line-height:1.5;direction:ltr;-webkit-font
   background: transparent;
 }
 .header .brand {
-  width: 150px;
+  width: 180px;
   float: left;
 }
 .header .brand .navbar-brand {
@@ -310,7 +310,7 @@ body{background:#515e72;color:#59595a;line-height:1.5;direction:ltr;-webkit-font
  */
 /* main sidebar */
 .sidebar {
-  width: 150px;
+  width: 180px;
 }
 .sidebar .nav-title {
   font-size: 11px;
@@ -1054,7 +1054,7 @@ aside > .fffix > footer p {
   }
   .offscreen-left {
     -webkit-backface-visibility: hidden;
-    width: 150px;
+    width: 180px;
     height: 100%;
     overflow: auto;
     -moz-box-sizing: content-box;
@@ -1077,7 +1077,7 @@ aside > .fffix > footer p {
   }
   .offscreen-right {
     -webkit-backface-visibility: hidden;
-    width: 150px;
+    width: 180px;
     height: 100%;
     overflow: auto;
     -moz-box-sizing: content-box;
