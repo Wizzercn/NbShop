@@ -31,6 +31,11 @@ public class Shop_goods_brand extends Model implements Serializable {
     private String imgurl;
 
     @Column
+    @Comment("品牌介绍")
+    @ColDefine(type = ColType.TEXT)
+    private String note;
+
+    @Column
     @Comment("排序字段")
     @Prev({
             @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_brand"),
@@ -60,6 +65,14 @@ public class Shop_goods_brand extends Model implements Serializable {
 
     public void setImgurl(String imgurl) {
         this.imgurl = imgurl;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Integer getLocation() {

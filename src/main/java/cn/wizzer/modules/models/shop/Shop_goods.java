@@ -98,6 +98,14 @@ public class Shop_goods extends Model implements Serializable {
         this.id = id;
     }
 
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
     public String getName() {
         return name;
     }
