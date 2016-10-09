@@ -721,10 +721,19 @@ public class Setup implements org.nutz.mvc.Setup {
             for (Sql sql : sqls_cms) {
                 dao.execute(sql);
             }
+            //执行商品模块脚本
+            FileSqlManager fm_goods = new FileSqlManager("db/init_menu_shop_goods.sql");
+            List<Sql> sqlList_goods = fm_goods.createCombo(fm_goods.keys());
+            Sql[] sqls_goods = sqlList_goods.toArray(new Sql[sqlList_goods.size()]);
+            for (Sql sql : sqls_goods) {
+                dao.execute(sql);
+            }
             //微信模块菜单关联到角色
             dao.execute(Sqls.create("INSERT INTO sys_role_menu(roleId,menuId) SELECT @roleId,id FROM sys_menu WHERE path LIKE '0002%'").setParam("roleId", dbrole.getId()));
             //CMS模块菜单关联到角色
             dao.execute(Sqls.create("INSERT INTO sys_role_menu(roleId,menuId) SELECT @roleId,id FROM sys_menu WHERE path LIKE '0003%'").setParam("roleId", dbrole.getId()));
+            //商品模块
+            dao.execute(Sqls.create("INSERT INTO sys_role_menu(roleId,menuId) SELECT @roleId,id FROM sys_menu WHERE path LIKE '0004%'").setParam("roleId", dbrole.getId()));
         }
     }
 
