@@ -312,6 +312,32 @@ public class SysUserController {
     }
 
     @At
+    @Ok("beetl:/platform/sys/user/mode.html")
+    @RequiresAuthentication
+    public void mode() {
+
+    }
+
+    @At
+    @Ok("json")
+    @RequiresAuthentication
+    public Object modeDo(@Param("mode") String mode, HttpServletRequest req) {
+        try {
+            userService.update(Chain.make("loginPjax", "true".equals(mode)), Cnd.where("id", "=", req.getAttribute("uid")));
+            Subject subject = SecurityUtils.getSubject();
+            Sys_user user = (Sys_user) subject.getPrincipal();
+            if ("true".equals(mode)) {
+                user.setLoginPjax(true);
+            } else {
+                user.setLoginPjax(false);
+            }
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    @At
     @Ok("json")
     @RequiresAuthentication
     public Object doChangePassword(@Param("oldPassword") String oldPassword, @Param("newPassword") String newPassword, HttpServletRequest req) {
