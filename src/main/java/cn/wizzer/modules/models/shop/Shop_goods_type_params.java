@@ -40,7 +40,7 @@ public class Shop_goods_type_params extends Model implements Serializable {
     private Integer location;
 
     @One(target = Shop_goods_type_paramg.class, field = "groupId")
-    private Shop_goods_type_paramg typeParamg;
+    private Shop_goods_type_paramg paramg;
 
     public String getId() {
         return id;
@@ -74,11 +74,11 @@ public class Shop_goods_type_params extends Model implements Serializable {
         this.location = location;
     }
 
-    public Shop_goods_type_paramg getTypeParamg() {
-        return typeParamg;
+    public Shop_goods_type_paramg getParamg() {
+        return paramg;
     }
 
-    public void setTypeParamg(Shop_goods_type_paramg typeParamg) {
-        this.typeParamg = typeParamg;
+    public void setParamg(Shop_goods_type_paramg paramg) {
+        this.paramg = paramg;
     }
 }

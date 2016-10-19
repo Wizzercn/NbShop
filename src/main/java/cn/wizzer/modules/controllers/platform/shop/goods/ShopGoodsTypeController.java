@@ -6,10 +6,10 @@ import cn.wizzer.common.filter.PrivateFilter;
 import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
 import cn.wizzer.modules.models.shop.Shop_goods_type;
-import cn.wizzer.modules.services.shop.goods.ShopGoodsBrandService;
-import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecService;
-import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecValuesService;
-import cn.wizzer.modules.services.shop.goods.ShopGoodsTypeService;
+import cn.wizzer.modules.models.shop.Shop_goods_type_paramg;
+import cn.wizzer.modules.models.shop.Shop_goods_type_props;
+import cn.wizzer.modules.models.shop.Shop_goods_type_spec;
+import cn.wizzer.modules.services.shop.goods.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
@@ -32,6 +32,8 @@ public class ShopGoodsTypeController {
     private ShopGoodsTypeService shopGoodsTypeService;
     @Inject
     private ShopGoodsBrandService shopGoodsBrandService;
+    @Inject
+    private ShopGoodsTypePropsService shopGoodsTypePropsService;
     @Inject
     private ShopGoodsSpecService shopGoodsSpecService;
     @Inject
@@ -105,8 +107,26 @@ public class ShopGoodsTypeController {
     @At("/edit/?")
     @Ok("beetl:/platform/shop/goods/type/edit.html")
     @RequiresAuthentication
-    public Object edit(String id) {
-        return shopGoodsTypeService.fetch(id);
+    public Object edit(String id,@Param("isPhysical") int isPhysical, @Param("hasBrand") int hasBrand, @Param("hasProp") int hasProp, @Param("hasSpec") int hasSpec, @Param("hasParam") int hasParam, @Param("hasTab") int hasTab, HttpServletRequest req) {
+        Shop_goods_type obj= shopGoodsTypeService.fetch(id);
+        req.setAttribute("isPhysical", isPhysical);
+        req.setAttribute("hasBrand", hasBrand);
+        req.setAttribute("hasProp", hasProp);
+        req.setAttribute("hasSpec", hasSpec);
+        req.setAttribute("hasParam", hasParam);
+        req.setAttribute("hasTab", hasTab);
+        req.setAttribute("brandList", shopGoodsBrandService.query(Cnd.orderBy().asc("location")));
+        shopGoodsTypeService.fetchLinks(obj, null);
+        for(Shop_goods_type_props o:obj.getPropsList()){
+            shopGoodsTypeService.dao().fetchLinks(o, null);
+        }
+        for(Shop_goods_type_spec o:obj.getSpecList()){
+            shopGoodsTypeService.dao().fetchLinks(o, null);
+        }
+        for(Shop_goods_type_paramg o:obj.getParamgList()){
+            shopGoodsTypeService.dao().fetchLinks(o, null);
+        }
+        return obj;
     }
 
     @At

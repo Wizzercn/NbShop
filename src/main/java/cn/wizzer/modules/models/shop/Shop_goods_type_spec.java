@@ -30,6 +30,9 @@ public class Shop_goods_type_spec extends Model implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String specId;
 
+    @One(target = Shop_goods_spec.class, field = "specId")
+    private Shop_goods_spec spec;
+
     @Column
     @Comment("排序字段")
     @Prev({
@@ -60,6 +63,14 @@ public class Shop_goods_type_spec extends Model implements Serializable {
 
     public void setSpecId(String specId) {
         this.specId = specId;
+    }
+
+    public Shop_goods_spec getSpec() {
+        return spec;
+    }
+
+    public void setSpec(Shop_goods_spec spec) {
+        this.spec = spec;
     }
 
     public Integer getLocation() {

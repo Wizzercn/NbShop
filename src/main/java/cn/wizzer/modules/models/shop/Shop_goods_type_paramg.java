@@ -43,7 +43,7 @@ public class Shop_goods_type_paramg extends Model implements Serializable {
     private Shop_goods_type goodsType;
 
     @Many(target = Shop_goods_type_params.class, field = "groupId")
-    private List<Shop_goods_type_params> paramsList;
+    private List<Shop_goods_type_params> params;
 
     public String getId() {
         return id;
@@ -85,11 +85,11 @@ public class Shop_goods_type_paramg extends Model implements Serializable {
         this.goodsType = goodsType;
     }
 
-    public List<Shop_goods_type_params> getParamsList() {
-        return paramsList;
+    public List<Shop_goods_type_params> getParams() {
+        return params;
     }
 
-    public void setParamsList(List<Shop_goods_type_params> paramsList) {
-        this.paramsList = paramsList;
+    public void setParams(List<Shop_goods_type_params> params) {
+        this.params = params;
     }
 }

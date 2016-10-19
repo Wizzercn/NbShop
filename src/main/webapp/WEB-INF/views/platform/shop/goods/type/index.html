@@ -174,9 +174,12 @@ layout("/layouts/platform.html"){
                     //hide.bs.modal      hide方法调用之后立即触发该事件
                     //hidden.bs.modal    此事件在模态框被隐藏
                     $("#link").attr("href", "${base!}/platform/shop/goods/type/edit/"+id+
-                            "?is_physical="+$('input:radio[name=is_physical]:checked').val()+
-                            "&use_props="+$('input:radio[name=use_props]:checked').val()+
-                            "&use_spec="+$('input:radio[name=use_spec]:checked').val()
+                            "?isPhysical="+$('input:radio[name=isPhysical]:checked').val()+
+                            "&hasSpec="+$('input:radio[name=hasSpec]:checked').val()+
+                            "&hasProp="+$('input:radio[name=hasProp]:checked').val()+
+                            "&hasParam="+$('input:radio[name=hasParam]:checked').val()+
+                            "&hasTab="+$('input:radio[name=hasTab]:checked').val()+
+                            "&hasBrand="+$('input:radio[name=hasBrand]:checked').val()
                     ).trigger("click");
                 });
                 $("#typeDialog").modal("hide");
