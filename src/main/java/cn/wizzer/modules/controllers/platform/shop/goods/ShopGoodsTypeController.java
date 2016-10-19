@@ -7,6 +7,8 @@ import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
 import cn.wizzer.modules.models.shop.Shop_goods_type;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsBrandService;
+import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecService;
+import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecValuesService;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsTypeService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.nutz.dao.Cnd;
@@ -29,6 +31,11 @@ public class ShopGoodsTypeController {
     private ShopGoodsTypeService shopGoodsTypeService;
     @Inject
     private ShopGoodsBrandService shopGoodsBrandService;
+    @Inject
+    private ShopGoodsSpecService shopGoodsSpecService;
+    @Inject
+    private ShopGoodsSpecValuesService shopGoodsSpecValuesService;
+
     @At("")
     @Ok("beetl:/platform/shop/goods/type/index.html")
     @RequiresAuthentication
@@ -36,11 +43,18 @@ public class ShopGoodsTypeController {
 
     }
 
-    @At("/note")
-    @Ok("beetl:/platform/shop/goods/type/note.html")
+    @At("/spec")
+    @Ok("beetl:/platform/shop/goods/type/spec.html")
     @RequiresAuthentication
-    public void note() {
+    public Object spec() {
+        return shopGoodsSpecService.query(Cnd.orderBy().asc("location"));
+    }
 
+    @At("/spec_val/?")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object spec_val(String id) {
+        return Result.success("",shopGoodsSpecValuesService.query(Cnd.where("specId", "=", id).asc("location")));
     }
 
     @At("/next/?")
@@ -62,13 +76,13 @@ public class ShopGoodsTypeController {
     @Ok("beetl:/platform/shop/goods/type/add.html")
     @RequiresAuthentication
     public void add(@Param("isPhysical") int isPhysical, @Param("hasBrand") int hasBrand, @Param("hasProp") int hasProp, @Param("hasSpec") int hasSpec, @Param("hasParam") int hasParam, @Param("hasTab") int hasTab, HttpServletRequest req) {
-        req.setAttribute("isPhysical",isPhysical);
-        req.setAttribute("hasBrand",hasBrand);
-        req.setAttribute("hasProp",hasProp);
-        req.setAttribute("hasSpec",hasSpec);
-        req.setAttribute("hasParam",hasParam);
-        req.setAttribute("hasTab",hasTab);
-        req.setAttribute("brandList",shopGoodsBrandService.query(Cnd.orderBy().asc("location")));
+        req.setAttribute("isPhysical", isPhysical);
+        req.setAttribute("hasBrand", hasBrand);
+        req.setAttribute("hasProp", hasProp);
+        req.setAttribute("hasSpec", hasSpec);
+        req.setAttribute("hasParam", hasParam);
+        req.setAttribute("hasTab", hasTab);
+        req.setAttribute("brandList", shopGoodsBrandService.query(Cnd.orderBy().asc("location")));
     }
 
     @At
