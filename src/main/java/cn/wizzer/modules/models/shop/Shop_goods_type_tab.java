@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 商品类型-参数分组表
+ * 商品类型-自定义TAB表
  * Created by wizzer on 2016/10/19.
  */
 @Table("shop_goods_type_tab")
