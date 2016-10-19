@@ -40,8 +40,35 @@ public class Shop_goods_type extends Model implements Serializable {
     @ColDefine(type = ColType.BOOLEAN)
     private boolean hasProp;
 
+    @Column
+    @Comment("使用参数")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean hasParam;
+
+    @Column
+    @Comment("自定义Tab")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean hasTab;
+
+    @Column
+    @Comment("关联品牌")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean hasBrand;
+
+    @Many(target = Shop_goods_type_spec.class, field = "typeId")
+    private List<Shop_goods_type_spec> specList;
+
     @Many(target = Shop_goods_type_props.class, field = "typeId")
     private List<Shop_goods_type_props> propsList;
+
+    @Many(target = Shop_goods_type_paramg.class, field = "typeId")
+    private List<Shop_goods_type_paramg> paramgList;
+
+    @Many(target = Shop_goods_type_tab.class, field = "typeId")
+    private List<Shop_goods_type_tab> tabList;
+
+    @ManyMany(from = "typeId", relation = "shop_goods_type_brand", target = Shop_goods_brand.class, to = "brandId")
+    protected List<Shop_goods_brand> brandList;
 
     public String getId() {
         return id;
@@ -83,11 +110,67 @@ public class Shop_goods_type extends Model implements Serializable {
         this.hasProp = hasProp;
     }
 
+    public boolean isHasParam() {
+        return hasParam;
+    }
+
+    public void setHasParam(boolean hasParam) {
+        this.hasParam = hasParam;
+    }
+
+    public boolean isHasTab() {
+        return hasTab;
+    }
+
+    public void setHasTab(boolean hasTab) {
+        this.hasTab = hasTab;
+    }
+
+    public boolean isHasBrand() {
+        return hasBrand;
+    }
+
+    public void setHasBrand(boolean hasBrand) {
+        this.hasBrand = hasBrand;
+    }
+
+    public List<Shop_goods_type_spec> getSpecList() {
+        return specList;
+    }
+
+    public void setSpecList(List<Shop_goods_type_spec> specList) {
+        this.specList = specList;
+    }
+
     public List<Shop_goods_type_props> getPropsList() {
         return propsList;
     }
 
     public void setPropsList(List<Shop_goods_type_props> propsList) {
         this.propsList = propsList;
+    }
+
+    public List<Shop_goods_type_paramg> getParamgList() {
+        return paramgList;
+    }
+
+    public void setParamgList(List<Shop_goods_type_paramg> paramgList) {
+        this.paramgList = paramgList;
+    }
+
+    public List<Shop_goods_type_tab> getTabList() {
+        return tabList;
+    }
+
+    public void setTabList(List<Shop_goods_type_tab> tabList) {
+        this.tabList = tabList;
+    }
+
+    public List<Shop_goods_brand> getBrandList() {
+        return brandList;
+    }
+
+    public void setBrandList(List<Shop_goods_brand> brandList) {
+        this.brandList = brandList;
     }
 }

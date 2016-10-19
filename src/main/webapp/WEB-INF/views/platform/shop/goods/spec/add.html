@@ -115,7 +115,7 @@ layout("/layouts/platform.html"){
         });
         $("#tab .btn").unbind("click").on("click",function(){
             var btn=$(this);
-            $("#buttom").load( "${base!}/platform/img/image?w=36&h=36", function( response, status, xhr ) {
+            $("#buttom").load( "${base!}/platform/shop/goods/spec/image?w=36&h=36", function( response, status, xhr ) {
                 $("#imgUploadOK").unbind("click").on("click",function(){
                     btn.find("img").attr("src",$("#imgUploadPicurl").val());
                     btn.find("input[type=hidden]").val($("#imgUploadPicurl").val());

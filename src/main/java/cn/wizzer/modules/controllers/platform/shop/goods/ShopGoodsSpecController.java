@@ -10,6 +10,7 @@ import cn.wizzer.modules.models.shop.Shop_goods_spec_values;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecService;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecValuesService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -30,6 +31,14 @@ public class ShopGoodsSpecController {
     private ShopGoodsSpecService shopGoodsSpecService;
     @Inject
     private ShopGoodsSpecValuesService shopGoodsSpecValuesService;
+
+    @At("/image")
+    @Ok("beetl:/platform/shop/goods/spec/image.html")
+    @RequiresAuthentication
+    public void index(@Param("w") int w, @Param("h") int h, HttpServletRequest req) {
+        req.setAttribute("w", w);
+        req.setAttribute("h",h);
+    }
 
     @At("")
     @Ok("beetl:/platform/shop/goods/spec/index.html")
@@ -55,6 +64,7 @@ public class ShopGoodsSpecController {
 
     @At
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.spec.add")
     @SLog(tag = "新建商品规格", msg = "规格名称:${args[0].name}")
     public Object addDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
@@ -83,6 +93,7 @@ public class ShopGoodsSpecController {
 
     @At
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.spec.edit")
     @SLog(tag = "修改商品规格", msg = "规格名称:${args[0].name}")
     public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
@@ -108,6 +119,7 @@ public class ShopGoodsSpecController {
 
     @At({"/delete", "/delete/?"})
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.spec.delete")
     @SLog(tag = "删除商品规格", msg = "ID:${args[2].getAttribute('id')}")
     public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
         try {

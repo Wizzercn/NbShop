@@ -1,25 +1,24 @@
 <%
-layout("/layouts/private.html"){
+layout("/layouts/platform.html"){
 %>
-<section class="content-wrap bg-white">
-    <header class="header navbar bg-white shadow">
-        <div class="btn-group tool-button">
-            <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/shop/goods/shop/goods/type/add" data-pjax><i class="ti-plus"></i> 新建Shop_goods_type</a>
-            <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
-        </div>
-    </header>
-    <div class=panel-body style="padding-top: 50px;">
-        <div class="table-responsive no-border">
-            <table class="table table-bordered table-striped mg-t datatable">
-                <thead>
-                    <tr>
-                            <th>操作</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" id="add"><i class="ti-plus"></i> 添加类型</a>
+        <a id="link" href="" data-pjax></a>
+        <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
     </div>
-</section>
+</header>
+<div class=panel-body style="padding-top: 50px;">
+    <div class="table-responsive no-border">
+        <table class="table table-bordered table-striped mg-t datatable">
+            <thead>
+            <tr>
+                <th>类型名称</th>
+                <th>商品性质</th>
+                <th>操作</th>
+        </table>
+    </div>
+</div>
 <div id="dialogDelete" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -30,30 +29,24 @@ layout("/layouts/private.html"){
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        删除后无法恢复。<br/>
-                        <br/>确定删除吗？
+                        删除后无法恢复，确定删除吗？ <br/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
-                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在删除...">确  定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="ok" type="button" class="btn btn-primary" data-loading-text="正在删除...">确 定</button>
             </div>
         </div>
     </div>
 </div>
-<div id="dialogDetail" class="modal fade bs-modal-sm" tabindex="-3" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-    </div>
-</div>
+<div id="typeHtml"></div>
 <script language="JavaScript">
     var datatable;
     function initDatatable() {
         datatable = $('.datatable').DataTable({
             "dom": '<"toolbar">frtip',
-            "searching":false,
+            "searching": false,
             "processing": false,
             "serverSide": true,
             "select": true,
@@ -68,27 +61,35 @@ layout("/layouts/private.html"){
                 sublime.closeLoadingbar($(".main-content"));
             },
             "ajax": {
-                "url": "${base}/platform/shop/goods/shop/goods/type/data",
+                "url": "${base!}/platform/shop/goods/type/data",
                 "type": "post",
                 "data": function (d) {
-                    //d.unitid = $('#unitid').val();
                 }
             },
             "order": [[0, "desc"]],
             "columns": [
+                {"data": "name", "bSortable": true},
+                {"data": "isPhysical", "bSortable": true}
             ],
             "columnDefs": [
                 {
                     "render": function (data, type, row) {
+                        if (data) {
+                            return '实体商品';
+                        }
+                        return '虚拟商品';
+                    },
+                    "targets": 1
+                },
+                {
+                    "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base}/platform/shop/goods/shop/goods/type/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
-                                '<li><a href="${base}/platform/shop/goods/shop/goods/type/edit/' + row.id + '" data-pjax>修改</a></li>' +
-                                '<li class="divider"></li>' +
+                                '<li><a href="javascript:;" onclick="edit(\'' + row.id + '\')">修改</a></li>' +
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 0
+                    "targets": 2
                 }
             ]
         });
@@ -102,13 +103,13 @@ layout("/layouts/private.html"){
     function del(id) {
         var dialog = $("#dialogDelete");
         dialog.modal("show");
-        dialog.find("#okDel").unbind("click");
-        dialog.find("#okDel").bind("click", function (event) {
+        dialog.find("#ok").unbind("click");
+        dialog.find("#ok").bind("click", function (event) {
             var btn = $(this);
             btn.button("loading");
-            $.post("${base}/platform/shop/goods/shop/goods/type/delete/" + id, {}, function (data) {
+            $.post("${base!}/platform/shop/goods/type/delete/" + id, {}, function (data) {
                 if (data.code == 0) {
-                    datatable.ajax.reload(null,false);
+                    datatable.ajax.reload(null, false);
                 } else {
                     Toast.error(data.msg);
                 }
@@ -127,13 +128,13 @@ layout("/layouts/private.html"){
             });
             var dialog = $("#dialogDelete");
             dialog.modal("show");
-            dialog.find("#okDel").unbind("click");
-            dialog.find("#okDel").bind("click", function (event) {
+            dialog.find("#ok").unbind("click");
+            dialog.find("#ok").bind("click", function (event) {
                 var btn = $(this);
                 btn.button("loading");
-                $.post("${base}/platform/shop/goods/shop/goods/type/delete", {ids: ids.toString()}, function (data) {
+                $.post("${base!}/platform/shop/goods/type/delete", {ids: ids.toString()}, function (data) {
                     if (data.code == 0) {
-                        datatable.ajax.reload(null,false);
+                        datatable.ajax.reload(null, false);
                     } else {
                         Toast.error(data.msg);
                     }
@@ -145,12 +146,50 @@ layout("/layouts/private.html"){
             Toast.warning("请先选择要删除的项！");
         }
     }
-    $(function () {
-        initDatatable();
-        $("#dialogDetail").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
+    function next(id){
+        $("#typeHtml").load("${base!}/platform/shop/goods/type/next/"+id, function (response, status, xhr) {
+            $("#typeDialog").modal("show");
+            $("#nextOK").on("click",function(){
+                $("#typeDialog").unbind("hidden.bs.modal").on("hidden.bs.modal", function () {
+                    //hide.bs.modal      hide方法调用之后立即触发该事件
+                    //hidden.bs.modal    此事件在模态框被隐藏
+                    $("#link").attr("href", "${base!}/platform/shop/goods/type/add?id="+id+
+                            "&isPhysical="+$('input:radio[name=isPhysical]:checked').val()+
+                            "&hasSpec="+$('input:radio[name=hasSpec]:checked').val()+
+                            "&hasProp="+$('input:radio[name=hasProp]:checked').val()+
+                            "&hasParam="+$('input:radio[name=hasParam]:checked').val()+
+                            "&hasTab="+$('input:radio[name=hasTab]:checked').val()+
+                            "&hasBrand="+$('input:radio[name=hasBrand]:checked').val()
+                    ).trigger("click");
+                });
+                $("#typeDialog").modal("hide");
+            });
         });
+    }
+    function edit(id){
+        $("#typeHtml").load("${base!}/platform/shop/goods/type/next/"+id, function (response, status, xhr) {
+            $("#typeDialog").modal("show");
+            $("#nextOK").on("click",function(){
+                $("#typeDialog").unbind("hidden.bs.modal").on("hidden.bs.modal", function () {
+                    //hide.bs.modal      hide方法调用之后立即触发该事件
+                    //hidden.bs.modal    此事件在模态框被隐藏
+                    $("#link").attr("href", "${base!}/platform/shop/goods/type/edit/"+id+
+                            "?is_physical="+$('input:radio[name=is_physical]:checked').val()+
+                            "&use_props="+$('input:radio[name=use_props]:checked').val()+
+                            "&use_spec="+$('input:radio[name=use_spec]:checked').val()
+                    ).trigger("click");
+                });
+                $("#typeDialog").modal("hide");
+            });
+        });
+    }
+    $(function () {
+        $("#add").on("click", function () {
+            next(0);
+        });
+        initDatatable();
     });
 </script>
+
 
 <%}%>
