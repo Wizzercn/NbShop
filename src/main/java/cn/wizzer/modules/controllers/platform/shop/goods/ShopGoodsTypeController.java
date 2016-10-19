@@ -11,6 +11,7 @@ import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecService;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsSpecValuesService;
 import cn.wizzer.modules.services.shop.goods.ShopGoodsTypeService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -87,6 +88,7 @@ public class ShopGoodsTypeController {
 
     @At
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.type.add")
     @SLog(tag = "新建商品类型", msg = "")
     public Object addDo(@Param("..") Shop_goods_type shopGoodsType, HttpServletRequest req) {
         try {
@@ -106,6 +108,7 @@ public class ShopGoodsTypeController {
 
     @At
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.type.edit")
     @SLog(tag = "修改商品类型", msg = "ID:${args[0].id}")
     public Object editDo(@Param("..") Shop_goods_type shopGoodsType, HttpServletRequest req) {
         try {
@@ -121,6 +124,7 @@ public class ShopGoodsTypeController {
 
     @At({"/delete", "/delete/?"})
     @Ok("json")
+    @RequiresPermissions("shop.goods.conf.type.delete")
     @SLog(tag = "删除商品类型", msg = "ID:${args[2].getAttribute('id')}")
     public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
         try {
@@ -137,16 +141,5 @@ public class ShopGoodsTypeController {
         }
     }
 
-
-    @At("/detail/?")
-    @Ok("beetl:/platform/shop/goods/type/detail.html")
-    @RequiresAuthentication
-    public Object detail(String id) {
-        if (!Strings.isBlank(id)) {
-            return shopGoodsTypeService.fetch(id);
-
-        }
-        return null;
-    }
 
 }

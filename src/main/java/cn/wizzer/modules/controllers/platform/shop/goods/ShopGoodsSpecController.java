@@ -68,16 +68,7 @@ public class ShopGoodsSpecController {
     @SLog(tag = "新建商品规格", msg = "规格名称:${args[0].name}")
     public Object addDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
-            shopGoodsSpecService.insert(shopGoodsSpec);
-            for (int i = 0; i < spec_value.length; i++) {
-                Shop_goods_spec_values values = new Shop_goods_spec_values();
-                values.setSpecId(shopGoodsSpec.getId());
-                values.setSpec_value(Strings.sNull(spec_value[i]));
-                if (shopGoodsSpec.getType() == 1) {
-                    values.setSpec_picurl(Strings.sNull(spec_picurl[i]));
-                }
-                shopGoodsSpecValuesService.insert(values);
-            }
+            shopGoodsSpecService.add(shopGoodsSpec, spec_value,spec_picurl);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -97,19 +88,7 @@ public class ShopGoodsSpecController {
     @SLog(tag = "修改商品规格", msg = "规格名称:${args[0].name}")
     public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
-
-            shopGoodsSpec.setOpAt((int) (System.currentTimeMillis() / 1000));
-            shopGoodsSpecService.updateIgnoreNull(shopGoodsSpec);
-            shopGoodsSpecValuesService.clear(Cnd.where("specId", "=", shopGoodsSpec.getId()));
-            for (int i = 0; i < spec_value.length; i++) {
-                Shop_goods_spec_values values = new Shop_goods_spec_values();
-                values.setSpecId(shopGoodsSpec.getId());
-                values.setSpec_value(Strings.sNull(spec_value[i]));
-                if (shopGoodsSpec.getType() == 1) {
-                    values.setSpec_picurl(Strings.sNull(spec_picurl[i]));
-                }
-                shopGoodsSpecValuesService.insert(values);
-            }
+            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
