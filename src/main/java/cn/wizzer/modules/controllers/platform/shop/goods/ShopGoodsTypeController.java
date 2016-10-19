@@ -89,13 +89,13 @@ public class ShopGoodsTypeController {
     @At
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.type.add")
-    @SLog(tag = "新建商品类型", msg = "")
-    public Object addDo(@Param("..") Shop_goods_type shopGoodsType,@Param("brand")String[] brand,@Param("props_name")String[] props_name,
-                        @Param("props_values")String[] props_values,@Param("specId")String[] specId,
-                        @Param("group_name")String[] group_name,@Param("group_params")String[] group_params,
-                        @Param("tab_name")String[] tab_name,@Param("tab_note")String[] tab_note,HttpServletRequest req) {
+    @SLog(tag = "新建商品类型", msg = "类型名称:${args[0].name}")
+    public Object addDo(@Param("..") Shop_goods_type shopGoodsType, @Param("brand") String[] brand, @Param("props_name") String[] props_name, @Param("props_type") String[] props_type,
+                        @Param("props_values") String[] props_values, @Param("specId") String[] specId,
+                        @Param("group_name") String[] group_name, @Param("group_params") String[] group_params,
+                        @Param("tab_name") String[] tab_name, @Param("tab_note") String[] tab_note, HttpServletRequest req) {
         try {
-            shopGoodsTypeService.add(shopGoodsType, brand,props_name,props_values,specId,group_name,group_params,tab_name,tab_note);
+            shopGoodsTypeService.add(shopGoodsType, brand, props_name, props_type, props_values, specId, group_name, group_params, tab_name, tab_note);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -112,7 +112,7 @@ public class ShopGoodsTypeController {
     @At
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.type.edit")
-    @SLog(tag = "修改商品类型", msg = "ID:${args[0].id}")
+    @SLog(tag = "修改商品类型", msg = "类型名称:${args[0].name}")
     public Object editDo(@Param("..") Shop_goods_type shopGoodsType, HttpServletRequest req) {
         try {
 

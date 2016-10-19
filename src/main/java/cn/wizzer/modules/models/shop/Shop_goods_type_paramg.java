@@ -31,6 +31,14 @@ public class Shop_goods_type_paramg extends Model implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 100)
     private String name;
 
+    @Column
+    @Comment("排序字段")
+    @Prev({
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_paramg"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_paramg")
+    })
+    private Integer location;
+
     @One(target = Shop_goods_type.class, field = "typeId")
     private Shop_goods_type goodsType;
 
@@ -59,6 +67,14 @@ public class Shop_goods_type_paramg extends Model implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getLocation() {
+        return location;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
     }
 
     public Shop_goods_type getGoodsType() {
