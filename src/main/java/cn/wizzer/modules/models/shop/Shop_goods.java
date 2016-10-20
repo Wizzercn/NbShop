@@ -80,6 +80,36 @@ public class Shop_goods extends Model implements Serializable {
     @ColDefine(type = ColType.BOOLEAN)
     private boolean hasSpec;
 
+    @Column
+    @Comment("是否下架")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean disabled;
+
+    @Column
+    @Comment("上架时间")
+    @ColDefine(type = ColType.INT)
+    private int upAt;
+
+    @Column
+    @Comment("下架时间")
+    @ColDefine(type = ColType.INT)
+    private int downAt;
+
+    @Column
+    @Comment("浏览量")
+    @ColDefine(type = ColType.INT)
+    private int numView;
+
+    @Column
+    @Comment("评论量")
+    @ColDefine(type = ColType.INT)
+    private int numComment;
+
+    @Column
+    @Comment("销售量")
+    @ColDefine(type = ColType.INT)
+    private int numSale;
+
     @One(target = Shop_goods_class.class, field = "classId")
     public Shop_goods_class goodsClass;
 
@@ -197,6 +227,54 @@ public class Shop_goods extends Model implements Serializable {
 
     public void setHasSpec(boolean hasSpec) {
         this.hasSpec = hasSpec;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public int getUpAt() {
+        return upAt;
+    }
+
+    public void setUpAt(int upAt) {
+        this.upAt = upAt;
+    }
+
+    public int getDownAt() {
+        return downAt;
+    }
+
+    public void setDownAt(int downAt) {
+        this.downAt = downAt;
+    }
+
+    public int getNumView() {
+        return numView;
+    }
+
+    public void setNumView(int numView) {
+        this.numView = numView;
+    }
+
+    public int getNumComment() {
+        return numComment;
+    }
+
+    public void setNumComment(int numComment) {
+        this.numComment = numComment;
+    }
+
+    public int getNumSale() {
+        return numSale;
+    }
+
+    public void setNumSale(int numSale) {
+        this.numSale = numSale;
     }
 
     public Shop_goods_class getGoodsClass() {

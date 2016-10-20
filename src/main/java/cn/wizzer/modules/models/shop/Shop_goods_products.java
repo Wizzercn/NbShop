@@ -96,11 +96,6 @@ public class Shop_goods_products extends Model implements Serializable {
     private int downAt;
 
     @Column
-    @Comment("浏览量")
-    @ColDefine(type = ColType.INT)
-    private int numView;
-
-    @Column
     @Comment("销售量")
     @ColDefine(type = ColType.INT)
     private int numSale;
@@ -242,14 +237,6 @@ public class Shop_goods_products extends Model implements Serializable {
 
     public void setDownAt(int downAt) {
         this.downAt = downAt;
-    }
-
-    public int getNumView() {
-        return numView;
-    }
-
-    public void setNumView(int numView) {
-        this.numView = numView;
     }
 
     public int getNumSale() {
