@@ -26,6 +26,11 @@ public class Shop_goods_brand extends Model implements Serializable {
     private String name;
 
     @Column
+    @Comment("品牌网址")
+    @ColDefine(type = ColType.VARCHAR, width = 255)
+    private String url;
+
+    @Column
     @Comment("图片地址")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String imgurl;
@@ -57,6 +62,14 @@ public class Shop_goods_brand extends Model implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getImgurl() {

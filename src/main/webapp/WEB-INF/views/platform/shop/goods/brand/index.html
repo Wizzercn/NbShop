@@ -14,6 +14,7 @@ layout("/layouts/platform.html"){
             <thead>
             <tr>
                 <th>品牌名称</th>
+                <th>品牌网址</th>
                 <th>品牌图标</th>
                 <th>操作</th>
         </table>
@@ -68,9 +69,19 @@ layout("/layouts/platform.html"){
             "order": [[0, "desc"]],
             "columns": [
                 {"data": "name", "bSortable": true},
+                {"data": "url", "bSortable": true},
                 {"data": "imgurl", "bSortable": true}
             ],
             "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        if(data){
+                            return '<a href="'+row.imgurl+'" target="_blank"><img src="'+row.imgurl+'" style="width: 20px;height: 20px;"></a>';
+                        }
+                        return '';
+                    },
+                    "targets": 2
+                },
                 {
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
@@ -79,7 +90,7 @@ layout("/layouts/platform.html"){
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 2
+                    "targets": 3
                 }
             ]
         });
