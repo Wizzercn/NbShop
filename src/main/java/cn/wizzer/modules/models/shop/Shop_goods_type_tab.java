@@ -1,6 +1,7 @@
 package cn.wizzer.modules.models.shop;
 
 import cn.wizzer.common.base.Model;
+import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
@@ -35,6 +36,14 @@ public class Shop_goods_type_tab extends Model implements Serializable {
     @ColDefine(type = ColType.TEXT)
     private String note;
 
+    @Column
+    @Comment("排序字段")
+    @Prev({
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_tab"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_tab")
+    })
+    private Integer location;
+
     @One(target = Shop_goods_type.class, field = "typeId")
     private Shop_goods_type goodsType;
 
@@ -68,6 +77,14 @@ public class Shop_goods_type_tab extends Model implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Integer getLocation() {
+        return location;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
     }
 
     public Shop_goods_type getGoodsType() {

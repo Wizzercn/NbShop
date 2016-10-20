@@ -22,6 +22,11 @@ public class Shop_goods_type_params extends Model implements Serializable {
     private String id;
 
     @Column
+    @Comment("类型ID")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String typeId;
+
+    @Column
     @Comment("分组ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String groupId;
@@ -48,6 +53,14 @@ public class Shop_goods_type_params extends Model implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public String getGroupId() {

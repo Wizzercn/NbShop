@@ -67,8 +67,8 @@ public class Shop_goods_type extends Model implements Serializable {
     @Many(target = Shop_goods_type_tab.class, field = "typeId")
     private List<Shop_goods_type_tab> tabList;
 
-    @ManyMany(from = "typeId", relation = "shop_goods_type_brand", target = Shop_goods_brand.class, to = "brandId")
-    protected List<Shop_goods_brand> brandList;
+    @Many(target = Shop_goods_type_brand.class, field = "typeId")
+    protected List<Shop_goods_type_brand> brandList;
 
     public String getId() {
         return id;
@@ -166,11 +166,11 @@ public class Shop_goods_type extends Model implements Serializable {
         this.tabList = tabList;
     }
 
-    public List<Shop_goods_brand> getBrandList() {
+    public List<Shop_goods_type_brand> getBrandList() {
         return brandList;
     }
 
-    public void setBrandList(List<Shop_goods_brand> brandList) {
+    public void setBrandList(List<Shop_goods_type_brand> brandList) {
         this.brandList = brandList;
     }
 }

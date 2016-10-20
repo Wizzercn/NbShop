@@ -54,6 +54,7 @@ layout("/layouts/platform.html"){
                                            value="" placeholder="类型名称">
                                 </div>
                             </div>
+                            <%if(1==hasBrand){%>
                             <div class="form-group">
                                 <label for="brand" class="col-sm-2 control-label">关联品牌</label>
 
@@ -65,6 +66,7 @@ layout("/layouts/platform.html"){
                                     </div>
                                 </div>
                             </div>
+                            <%}%>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="props">
@@ -506,6 +508,20 @@ layout("/layouts/platform.html"){
             });
             $("#noteDialog").modal("show");
         });
+        $("#tabTab .up").unbind("click").on("click",function(){
+            var p=$(this).parent().parent();
+            var nextTR = p.prev();
+            if (nextTR.length > 0) {
+                nextTR.insertAfter(p);
+            }
+        });
+        $("#tabTab .down").unbind("click").on("click",function(){
+            var p=$(this).parent().parent();
+            var nextTR = p.next();
+            if (nextTR.length > 0) {
+                nextTR.insertBefore(p);
+            }
+        });
         $("#tabTab .del").unbind("click").on("click",function(){
             var tr=$("#tabTab tbody").find("tr");
             if (tr.length > 0) {
@@ -543,7 +559,9 @@ layout("/layouts/platform.html"){
                     '<input type="text" name="tab_name" class="form-control" style="width: 150px;" data-parsley-required="true"></td>' +
                     '<td><button type="button" class="btn btn-default"><i class="fa fa-plus mr5"></i>编辑内容</button></td>'+
                     '<td><input type="hidden" name="tab_note" class="form-control" style="width: 80px;" readonly></td>'+
-                    '<td><i class="del fa fa-remove" style="cursor:pointer;padding: 5px;" title="删除"></i></td></tr>');
+                    '<td><i class="up fa fa-arrow-up" style="cursor:pointer;padding: 5px;" title="向上移动"></i>' +
+                    '<i class="down fa fa-arrow-down" style="cursor:pointer;padding: 5px;" title="向下移动"></i>' +
+                    '<i class="del fa fa-remove" style="cursor:pointer;padding: 5px;" title="删除"></i></td></tr>');
             binTabEvent();
         });
         $("#propsAdd").on("click",function(){

@@ -5,10 +5,7 @@ import cn.wizzer.common.base.Result;
 import cn.wizzer.common.filter.PrivateFilter;
 import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
-import cn.wizzer.modules.models.shop.Shop_goods_type;
-import cn.wizzer.modules.models.shop.Shop_goods_type_paramg;
-import cn.wizzer.modules.models.shop.Shop_goods_type_props;
-import cn.wizzer.modules.models.shop.Shop_goods_type_spec;
+import cn.wizzer.modules.models.shop.*;
 import cn.wizzer.modules.services.shop.goods.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -107,8 +104,8 @@ public class ShopGoodsTypeController {
     @At("/edit/?")
     @Ok("beetl:/platform/shop/goods/type/edit.html")
     @RequiresAuthentication
-    public Object edit(String id,@Param("isPhysical") int isPhysical, @Param("hasBrand") int hasBrand, @Param("hasProp") int hasProp, @Param("hasSpec") int hasSpec, @Param("hasParam") int hasParam, @Param("hasTab") int hasTab, HttpServletRequest req) {
-        Shop_goods_type obj= shopGoodsTypeService.fetch(id);
+    public Object edit(String id, @Param("isPhysical") int isPhysical, @Param("hasBrand") int hasBrand, @Param("hasProp") int hasProp, @Param("hasSpec") int hasSpec, @Param("hasParam") int hasParam, @Param("hasTab") int hasTab, HttpServletRequest req) {
+        Shop_goods_type obj = shopGoodsTypeService.fetch(id);
         req.setAttribute("isPhysical", isPhysical);
         req.setAttribute("hasBrand", hasBrand);
         req.setAttribute("hasProp", hasProp);
@@ -116,15 +113,15 @@ public class ShopGoodsTypeController {
         req.setAttribute("hasParam", hasParam);
         req.setAttribute("hasTab", hasTab);
         req.setAttribute("brandList", shopGoodsBrandService.query(Cnd.orderBy().asc("location")));
-        shopGoodsTypeService.fetchLinks(obj, null);
-        for(Shop_goods_type_props o:obj.getPropsList()){
-            shopGoodsTypeService.dao().fetchLinks(o, null);
+        shopGoodsTypeService.fetchLinks(obj, null, Cnd.orderBy().asc("location"));
+        for (Shop_goods_type_props o : obj.getPropsList()) {
+            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
         }
-        for(Shop_goods_type_spec o:obj.getSpecList()){
-            shopGoodsTypeService.dao().fetchLinks(o, null);
+        for (Shop_goods_type_spec o : obj.getSpecList()) {
+            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
         }
-        for(Shop_goods_type_paramg o:obj.getParamgList()){
-            shopGoodsTypeService.dao().fetchLinks(o, null);
+        for (Shop_goods_type_paramg o : obj.getParamgList()) {
+            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
         }
         return obj;
     }
@@ -133,11 +130,12 @@ public class ShopGoodsTypeController {
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.type.edit")
     @SLog(tag = "修改商品类型", msg = "类型名称:${args[0].name}")
-    public Object editDo(@Param("..") Shop_goods_type shopGoodsType, HttpServletRequest req) {
+    public Object editDo(@Param("..") Shop_goods_type shopGoodsType, @Param("brand") String[] brand, @Param("props_name") String[] props_name, @Param("props_type") String[] props_type,
+                         @Param("props_values") String[] props_values, @Param("specId") String[] specId,
+                         @Param("group_name") String[] group_name, @Param("group_params") String[] group_params,
+                         @Param("tab_name") String[] tab_name, @Param("tab_note") String[] tab_note, HttpServletRequest req) {
         try {
-
-            shopGoodsType.setOpAt((int) (System.currentTimeMillis() / 1000));
-            shopGoodsTypeService.updateIgnoreNull(shopGoodsType);
+            shopGoodsTypeService.update(shopGoodsType, brand, props_name, props_type, props_values, specId, group_name, group_params, tab_name, tab_note, Strings.sNull(req.getAttribute("uid")));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -152,10 +150,10 @@ public class ShopGoodsTypeController {
     public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
         try {
             if (ids != null && ids.length > 0) {
-                shopGoodsTypeService.delete(ids);
+                shopGoodsTypeService.deleteType(ids);
                 req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
             } else {
-                shopGoodsTypeService.delete(id);
+                shopGoodsTypeService.deleteType(id);
                 req.setAttribute("id", id);
             }
             return Result.success("system.success");

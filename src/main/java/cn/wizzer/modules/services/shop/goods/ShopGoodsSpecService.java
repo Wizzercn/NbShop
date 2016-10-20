@@ -50,10 +50,12 @@ public class ShopGoodsSpecService extends Service<Shop_goods_spec> {
      * @param shopGoodsSpec
      * @param spec_value
      * @param spec_picurl
+     * @param uid
      */
     @Aop(TransAop.READ_COMMITTED)
-    public void update(Shop_goods_spec shopGoodsSpec, String[] spec_value, String[] spec_picurl) {
+    public void update(Shop_goods_spec shopGoodsSpec, String[] spec_value, String[] spec_picurl,String uid) {
         shopGoodsSpec.setOpAt((int) (System.currentTimeMillis() / 1000));
+        shopGoodsSpec.setOpBy(uid);
         this.updateIgnoreNull(shopGoodsSpec);
         shopGoodsSpecValuesService.clear(Cnd.where("specId", "=", shopGoodsSpec.getId()));
         for (int i = 0; i < spec_value.length; i++) {

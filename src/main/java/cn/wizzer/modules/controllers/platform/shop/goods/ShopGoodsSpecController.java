@@ -88,7 +88,7 @@ public class ShopGoodsSpecController {
     @SLog(tag = "修改商品规格", msg = "规格名称:${args[0].name}")
     public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
-            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl);
+            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl,Strings.sNull(req.getAttribute("uid")));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
