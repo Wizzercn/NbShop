@@ -5,6 +5,7 @@ import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 商品分类表
@@ -36,9 +37,9 @@ public class Shop_goods_class extends Model implements Serializable {
     private String name;
 
     @Column
-    @Comment("首页显示")
-    @ColDefine(type = ColType.BOOLEAN)
-    private boolean isIndex;
+    @Comment("商品类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String typeId;
 
     @Column
     @Comment("是否禁用")
@@ -56,6 +57,12 @@ public class Shop_goods_class extends Model implements Serializable {
     @Column
     @Comment("有子节点")
     private boolean hasChildren;
+
+    @Many(target = Shop_goods.class, field = "classId")
+    protected List<Shop_goods> goodsList;
+
+    @One(target = Shop_goods_type.class, field = "typeId")
+    private Shop_goods_type goodsType;
 
     public String getId() {
         return id;
@@ -89,12 +96,12 @@ public class Shop_goods_class extends Model implements Serializable {
         this.name = name;
     }
 
-    public boolean isIndex() {
-        return isIndex;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setIsIndex(boolean isIndex) {
-        this.isIndex = isIndex;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public boolean isDisabled() {
@@ -119,5 +126,21 @@ public class Shop_goods_class extends Model implements Serializable {
 
     public void setHasChildren(boolean hasChildren) {
         this.hasChildren = hasChildren;
+    }
+
+    public List<Shop_goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Shop_goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public Shop_goods_type getGoodsType() {
+        return goodsType;
+    }
+
+    public void setGoodsType(Shop_goods_type goodsType) {
+        this.goodsType = goodsType;
     }
 }
