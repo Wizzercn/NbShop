@@ -71,6 +71,11 @@ public class Shop_goods extends Model implements Serializable {
     private String spec;
 
     @Column
+    @Comment("参数详情")
+    @ColDefine(type = ColType.TEXT)
+    private String param;
+
+    @Column
     @Comment("启用规格")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean hasSpec;
@@ -176,6 +181,14 @@ public class Shop_goods extends Model implements Serializable {
 
     public void setSpec(String spec) {
         this.spec = spec;
+    }
+
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
     }
 
     public boolean isHasSpec() {
