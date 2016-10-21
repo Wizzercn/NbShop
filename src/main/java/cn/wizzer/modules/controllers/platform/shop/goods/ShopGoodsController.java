@@ -5,14 +5,13 @@ import cn.wizzer.common.base.Result;
 import cn.wizzer.common.filter.PrivateFilter;
 import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
-import cn.wizzer.modules.models.shop.Shop_goods;
-import cn.wizzer.modules.models.shop.Shop_goods_type_brand;
-import cn.wizzer.modules.models.shop.Shop_goods_type_paramg;
-import cn.wizzer.modules.models.shop.Shop_goods_type_props;
+import cn.wizzer.modules.models.shop.*;
 import cn.wizzer.modules.services.shop.goods.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
@@ -21,6 +20,7 @@ import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @IocBean
@@ -42,6 +42,9 @@ public class ShopGoodsController {
     private ShopGoodsTypePropsService shopGoodsTypePropsService;
     @Inject
     private ShopGoodsTypeBrandService shopGoodsTypeBrandService;
+    @Inject
+    private ShopGoodsTypeSpecService shopGoodsTypeSpecService;
+
     @Inject
     private ShopMemberLvService shopMemberLvService;
 
@@ -99,13 +102,6 @@ public class ShopGoodsController {
         return Result.success("", list);
     }
 
-    @At
-    @Ok("json:full")
-    @RequiresAuthentication
-    public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
-        Cnd cnd = Cnd.NEW();
-        return shopGoodsService.data(length, start, draw, order, columns, cnd, null);
-    }
 
     @At
     @Ok("beetl:/platform/shop/goods/goods/add.html")
@@ -114,6 +110,33 @@ public class ShopGoodsController {
         req.setAttribute("typeList", shopGoodsTypeService.query());
         req.setAttribute("lvList", shopMemberLvService.query());
     }
+
+
+    @At("/spec/?")
+    @Ok("beetl:/platform/shop/goods/goods/spec.html")
+    @RequiresAuthentication
+    public void spec(String id, HttpServletRequest req) {
+        List<String> ids = new ArrayList<>();
+        List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", id));
+        for (Shop_goods_type_spec spec : typeSpecList) {
+            ids.add(spec.getSpecId());
+        }
+        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids));
+        for (Shop_goods_spec spec : list) {
+            shopGoodsSpecService.fetchLinks(spec, "specValues");
+        }
+        req.setAttribute("specList", list);
+        req.setAttribute("lvList", shopMemberLvService.query());
+    }
+
+    @At
+    @Ok("json:full")
+    @RequiresAuthentication
+    public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
+        Cnd cnd = Cnd.NEW();
+        return shopGoodsService.data(length, start, draw, order, columns, cnd, null);
+    }
+
 
     @At
     @Ok("json")
