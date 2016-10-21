@@ -544,7 +544,7 @@ layout("/layouts/platform.html"){
             'queueSizeLimit': 6,
             'formData': {},
             'queueID': 'queue',
-            'uploadScript': '/open/fileupload/dbimage',
+            'uploadScript': '${base!}/open/file/upload/dbimage',
             'onUploadComplete': function (file, data) {
                 data = JSON.parse(data);
                 if (data.code == 0) {
@@ -555,7 +555,7 @@ layout("/layouts/platform.html"){
                         c="divImgD";
                     }
                     $("#img").append("<div id='imgId"+imgId+"' class='"+c+"'>" +
-                            "<img  onclick=\"setImg('imgId"+imgId+"')\" src='" + data.path + "?type=s' style='width:100px;height: 80px;margin-bottom: 1px;'><br>" +
+                            "<img  onclick=\"setImg('imgId"+imgId+"')\" src='" + data.data+ "' style='width:100px;height: 80px;margin-bottom: 1px;'><br>" +
                             "<i style='float: right;padding-top: 4px;' class='fa fa-close' onclick=\"delImg('imgId"+imgId+"')\"></i></div>");
                     sort.destroy();
                     sort = Sortable.create(container);

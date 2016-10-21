@@ -4,6 +4,7 @@ import cn.wizzer.common.base.Globals;
 import cn.wizzer.common.base.Result;
 import cn.wizzer.common.util.DateUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.nutz.img.Images;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.Files;
@@ -17,6 +18,7 @@ import org.nutz.mvc.upload.TempFile;
 import org.nutz.mvc.upload.UploadAdaptor;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.io.File;
 import java.util.Date;
 
@@ -47,6 +49,36 @@ public class UploadController {
                 return Result.success("上传成功", Globals.AppBase+f);
             }
         } catch (Exception e) {
+            return Result.error("系统错误");
+        } catch (Throwable e) {
+            return Result.error("图片格式错误");
+        }
+    }
+
+    @AdaptBy(type = UploadAdaptor.class, args = {"ioc:imageUpload"})
+    @POST
+    @At
+    @Ok("json")
+    @RequiresAuthentication
+    //AdaptorErrorContext必须是最后一个参数
+    public Object dbimage(@Param("Filedata") TempFile tf, HttpServletRequest req, AdaptorErrorContext err) {
+        try {
+            if (err != null && err.getAdaptorErr() != null) {
+                return NutMap.NEW().addv("code", 1).addv("msg", "文件不合法");
+            } else if (tf == null) {
+                return Result.error("空文件");
+            } else {
+                String p = Globals.AppRoot;
+                String suffix = tf.getSubmittedFileName().substring(tf.getSubmittedFileName().indexOf("."));
+                String f = Globals.AppUploadPath + "/image/" + DateUtil.format(new Date(), "yyyyMMdd") + "/" + R.UU32();
+                Files.write(new File(p + f + suffix), tf.getInputStream());
+                Images.zoomScale(p + f + suffix, p + f + "_s" + suffix, 60, 60, Color.GRAY);
+                Images.zoomScale(p + f + suffix, p + f + "_m" + suffix, 220, 220, Color.GRAY);
+                Images.zoomScale(p + f + suffix, p + f + "_l" + suffix, 430, 430, Color.GRAY);
+                return Result.success("上传成功", Globals.AppBase + f + "_s" + suffix);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return Result.error("系统错误");
         } catch (Throwable e) {
             return Result.error("图片格式错误");
