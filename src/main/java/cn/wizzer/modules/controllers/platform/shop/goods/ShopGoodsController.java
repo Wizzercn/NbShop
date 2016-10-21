@@ -73,9 +73,9 @@ public class ShopGoodsController {
     @Ok("json")
     @RequiresAuthentication
     public Object getProps(String id) {
-        List<Shop_goods_type_props> list = shopGoodsTypePropsService.query(Cnd.where("typeId", "=", id));
+        List<Shop_goods_type_props> list = shopGoodsTypePropsService.query(Cnd.where("typeId", "=", id).asc("location"));
         for (Shop_goods_type_props props : list) {
-            shopGoodsTypePropsService.fetchLinks(props, "propsValues");
+            shopGoodsTypePropsService.fetchLinks(props, "propsValues",Cnd.orderBy().asc("location"));
         }
         return Result.success("", list);
     }
@@ -84,9 +84,9 @@ public class ShopGoodsController {
     @Ok("json")
     @RequiresAuthentication
     public Object getParam(String id) {
-        List<Shop_goods_type_paramg> list = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", id));
+        List<Shop_goods_type_paramg> list = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", id).asc("location"));
         for (Shop_goods_type_paramg paramg : list) {
-            shopGoodsTypeParamgService.fetchLinks(paramg, "params");
+            shopGoodsTypeParamgService.fetchLinks(paramg, "params",Cnd.orderBy().asc("location"));
         }
         return Result.success("", list);
     }
@@ -95,9 +95,9 @@ public class ShopGoodsController {
     @Ok("json")
     @RequiresAuthentication
     public Object getBrand(String id) {
-        List<Shop_goods_type_brand> list = shopGoodsTypeBrandService.query(Cnd.where("typeId", "=", id));
+        List<Shop_goods_type_brand> list = shopGoodsTypeBrandService.query(Cnd.where("typeId", "=", id).asc("location"));
         for (Shop_goods_type_brand brand : list) {
-            shopGoodsTypeBrandService.fetchLinks(brand, "brand");
+            shopGoodsTypeBrandService.fetchLinks(brand, "brand",Cnd.orderBy().asc("location"));
         }
         return Result.success("", list);
     }
@@ -117,13 +117,13 @@ public class ShopGoodsController {
     @RequiresAuthentication
     public void spec(String id, HttpServletRequest req) {
         List<String> ids = new ArrayList<>();
-        List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", id));
+        List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", id).asc("location"));
         for (Shop_goods_type_spec spec : typeSpecList) {
             ids.add(spec.getSpecId());
         }
         List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids));
         for (Shop_goods_spec spec : list) {
-            shopGoodsSpecService.fetchLinks(spec, "specValues");
+            shopGoodsSpecService.fetchLinks(spec, "specValues",Cnd.orderBy().asc("location"));
         }
         req.setAttribute("specList", list);
         req.setAttribute("lvList", shopMemberLvService.query());
