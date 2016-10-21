@@ -6,6 +6,7 @@ import cn.wizzer.common.filter.PrivateFilter;
 import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
 import cn.wizzer.modules.models.shop.Shop_goods;
+import cn.wizzer.modules.models.shop.Shop_goods_type_brand;
 import cn.wizzer.modules.models.shop.Shop_goods_type_paramg;
 import cn.wizzer.modules.models.shop.Shop_goods_type_props;
 import cn.wizzer.modules.services.shop.goods.*;
@@ -39,6 +40,8 @@ public class ShopGoodsController {
     private ShopGoodsTypeParamgService shopGoodsTypeParamgService;
     @Inject
     private ShopGoodsTypePropsService shopGoodsTypePropsService;
+    @Inject
+    private ShopGoodsTypeBrandService shopGoodsTypeBrandService;
     @Inject
     private ShopMemberLvService shopMemberLvService;
 
@@ -81,6 +84,17 @@ public class ShopGoodsController {
         List<Shop_goods_type_paramg> list = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", id));
         for (Shop_goods_type_paramg paramg : list) {
             shopGoodsTypeParamgService.fetchLinks(paramg, "params");
+        }
+        return Result.success("", list);
+    }
+
+    @At("/getBrand/?")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object getBrand(String id) {
+        List<Shop_goods_type_brand> list = shopGoodsTypeBrandService.query(Cnd.where("typeId", "=", id));
+        for (Shop_goods_type_brand brand : list) {
+            shopGoodsTypeBrandService.fetchLinks(brand, "brand");
         }
         return Result.success("", list);
     }

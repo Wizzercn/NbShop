@@ -371,6 +371,17 @@ layout("/layouts/platform.html"){
             }
         }, "json");
     }
+    function getBrand(id){
+        $.post("${base!}/platform/shop/goods/goods/getBrand/" + id, {}, function (branddata) {
+            if(branddata.code==0){
+                var str='';
+                $("#brandId").append('<option value=""></option>');
+                $.each(branddata.data,function(i,brand){
+                    $("#brandId").append('<option value="'+brand.brandId+'">'+brand.brand.name+'</option>');
+                });
+            }
+        }, "json");
+    }
     //选择商品分类
     function selectClass() {
         var tree = $.jstree.reference("#jsTreeClass");
@@ -379,11 +390,15 @@ layout("/layouts/platform.html"){
         $("#addForm #classId").val(node[0].text);
         $("#addForm input[name='classId']").val(id);
         $("#dialogSelectClass").modal("hide");
+        $("#brandId").find("option").remove();
         $.post("${base!}/platform/shop/goods/goods/getClass/" + id, {}, function (data) {
             if(data.code==0){
                 var type=data.data.goodsType;
                 if(type){
                     $("#typeId option[value='"+type.id+"']").attr("selected", true);
+                    if(type.hasBrand){
+                        getBrand(type.id);
+                    }
                     if(type.hasProp){
                         $("#kzsx_tab").show();
                         getProps(type.id);
@@ -468,8 +483,9 @@ layout("/layouts/platform.html"){
                 $("#spec_values").val('[]');
                 $("#param_values").val('[]');
                 $("#prop_values").val('[]');
-
+                $("#brandId").find("option").remove();
             }else {
+                getBrand($(this).val());
                 $.post("${base!}/platform/shop/goods/goods/getType/" + $(this).val(), {}, function (data) {
 
                     if(data.code==0){
