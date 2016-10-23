@@ -17,7 +17,10 @@ public class ShopGoodsProductsService extends Service<Shop_goods_products> {
     	super(dao);
     }
 
-
+    /**
+     * 加个注释吧，这个是获取货号前缀的
+     * @return
+     */
     public String getSkuPrefix(){
         String uuid= "S"+R.UU32().substring(1,12).toUpperCase();
         if(dao().meta().isMySql()){
