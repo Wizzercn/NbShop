@@ -90,7 +90,22 @@ layout("/layouts/platform.html"){
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label"><span style="color: red">*</span>商品名称</label>
 
+                                    <div class="col-sm-8">
+                                        <input type="text" id="name" class="form-control" name="name" data-parsley-required="true"
+                                               placeholder="商品名称"  data-parsley-maxlength="150">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">商品标题</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="title" class="form-control" name="title"
+                                               placeholder="商品标题"  data-parsley-maxlength="150">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="brandId" class="col-sm-2 control-label">品牌</label>
 
@@ -116,22 +131,7 @@ layout("/layouts/platform.html"){
                                 <div id="sp_new" style="display: none">
                                 </div>
                                 <div id="sp">
-                                    <div class="form-group">
-                                        <label for="name" class="col-sm-2 control-label"><span style="color: red">*</span>商品名称</label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" id="name" class="form-control" name="name" data-parsley-required="true"
-                                                   placeholder="商品名称"  data-parsley-maxlength="150">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="title" class="col-sm-2 control-label">商品标题</label>
-
-                                        <div class="col-sm-8">
-                                            <input type="text" id="title" class="form-control" name="title"
-                                            placeholder="商品标题"  data-parsley-maxlength="150">
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <label for="price" class="col-sm-2 control-label">销售价</label>
 
@@ -525,12 +525,7 @@ layout("/layouts/platform.html"){
             getType($(this).val());
         });
         $("#specBtn").on("click",function(){
-            if($("#sku").val()==""){
-                Toast.warning("请填写货号");
-                $("#sku").focus();
-                return false;
-            }
-            $("#specHtml").load("${base!}/platform/shop/goods/goods/spec/"+$("#typeId").val(), function (response, status, xhr) {
+            $("#specHtml").load("${base!}/platform/shop/goods/goods/spec/"+$("#typeId").val()+"/"+$("#sku").val(), function (response, status, xhr) {
                 $("#dialogSpec").modal("show");
             });
         });

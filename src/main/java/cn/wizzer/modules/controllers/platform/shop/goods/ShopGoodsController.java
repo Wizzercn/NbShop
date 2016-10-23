@@ -44,7 +44,8 @@ public class ShopGoodsController {
     private ShopGoodsTypeBrandService shopGoodsTypeBrandService;
     @Inject
     private ShopGoodsTypeSpecService shopGoodsTypeSpecService;
-
+    @Inject
+    private ShopGoodsProductsService shopGoodsProductsService;
     @Inject
     private ShopMemberLvService shopMemberLvService;
 
@@ -112,10 +113,10 @@ public class ShopGoodsController {
     }
 
 
-    @At("/spec/?")
+    @At({"/spec/?/?","/spec/?/"})
     @Ok("beetl:/platform/shop/goods/goods/spec.html")
     @RequiresAuthentication
-    public void spec(String id, HttpServletRequest req) {
+    public void spec(String id,String sku,HttpServletRequest req) {
         List<String> ids = new ArrayList<>();
         List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", id).asc("location"));
         for (Shop_goods_type_spec spec : typeSpecList) {
@@ -125,6 +126,10 @@ public class ShopGoodsController {
         for (Shop_goods_spec spec : list) {
             shopGoodsSpecService.fetchLinks(spec, "specValues",Cnd.orderBy().asc("location"));
         }
+        if(Strings.isEmpty(Strings.sNull(sku).trim())){
+            sku=shopGoodsProductsService.getSkuPrefix();
+        }
+        req.setAttribute("sku", sku);
         req.setAttribute("specList", list);
         req.setAttribute("lvList", shopMemberLvService.query());
     }
