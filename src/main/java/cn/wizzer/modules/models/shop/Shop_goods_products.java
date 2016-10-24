@@ -11,6 +11,7 @@ import java.io.Serializable;
  * Created by wizzer on 2016/9/27.
  */
 @Table("shop_goods_products")
+@TableIndexes({@Index(name = "INDEX_SHOP_GOODS_PRODUCT", fields = {"sku"}, unique = true)})
 public class Shop_goods_products extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column

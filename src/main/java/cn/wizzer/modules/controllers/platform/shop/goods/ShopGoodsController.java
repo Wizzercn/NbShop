@@ -14,9 +14,12 @@ import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.mvc.adaptor.WhaleAdaptor;
 import org.nutz.mvc.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -179,9 +182,15 @@ public class ShopGoodsController {
     @Ok("json")
     @RequiresPermissions("shop.goods.manager.goods.add")
     @SLog(tag = "新建商品", msg = "商品名称:${args[0].name}")
-    public Object addDo(@Param("..") Shop_goods shopGoods, HttpServletRequest req) {
+    @AdaptBy(type = WhaleAdaptor.class)
+    //uploadifive上传文件后contentTypy改变,需要用WhaleAdaptor接收参数
+    public Object addDo(@Param("..") Shop_goods shopGoods, @Param("products") List<Shop_goods_products> products, @Param("spec_values") String spec_values, @Param("prop_values") String prop_values, @Param("param_values") String param_values,
+                        @Param("images") NutMap images,
+                        HttpServletRequest req) {
         try {
-            shopGoodsService.insert(shopGoods);
+            log.debug(Json.toJson(products));
+            log.debug(param_values);
+            //shopGoodsService.add(shopGoods,products,spec_values,prop_values,param_values,images);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

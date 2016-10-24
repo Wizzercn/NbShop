@@ -236,7 +236,7 @@ layout("/layouts/platform.html"){
             </div>
             <div class="col-lg-3"></div>
                 <input id="hasSpec" name="hasSpec" type="hidden" value="0">
-                <input id="specs" name="specs" type="hidden" value="">
+                <input id="products" name="products" type="hidden" value="">
                 <input id="images" name="images" type="hidden" value="">
                 <input id="spec_values" name="spec_values" type="hidden" value="[]">
                 <input id="prop_values" name="prop_values" type="hidden" value="[]">
@@ -360,11 +360,12 @@ layout("/layouts/platform.html"){
                 $.each(paramdata.data,function(i,param){
                     str+='<div class="form-group">';
                     str+='<label class="col-sm-3 control-label">'+param.name+'</label>';
-                    str+='</div>';
                     $.each(param.params,function(j,k) {
                         str += '<div class="col-sm-12" style="padding-bottom:5px;"><div class="col-sm-10 input-group"><span class="input-group-btn"><button class="btn" style="width:120px;" type="button">'+ k.name+'</button>';
                         str += '</span><input type="text" class="form-control" placeholder="'+ k.name+'"></div></div>';
                     });
+                    str+='</div>';
+
                 });
                 $("#xxcs").html(str);
             }else {
@@ -392,7 +393,7 @@ layout("/layouts/platform.html"){
             $("#sp_new").html('').hide();
             $("#sp").show();
             $("#hasSpec").val("0");
-            $("#specs").val('[]');
+            $("#products").val('[]');
             $("#spec_values").val('[]');
             $("#param_values").val('[]');
             $("#prop_values").val('[]');
@@ -404,7 +405,7 @@ layout("/layouts/platform.html"){
                     $("#sp_new").html('').hide();
                     $("#sp").show();
                     $("#hasSpec").val("0");
-                    $("#specs").val('[]');
+                    $("#products").val('[]');
                     $("#spec_values").val('[]');
                     $("#param_values").val('[]');
                     $("#prop_values").val('[]');
@@ -571,7 +572,7 @@ layout("/layouts/platform.html"){
             }
         });
         $("#save").on("click",function(){
-            if ($("#is_spec").val() == "false") {
+            if ($("#hasSpec").val() == "0") {
                 var specs = [];
                 var self = $("#sp");
                 var spec = "";
@@ -604,7 +605,7 @@ layout("/layouts/platform.html"){
                     'weight': weight,
                     'is_default': is_default
                 });
-                $("#specs").val(JSON.stringify(specs));
+                $("#products").val(JSON.stringify(specs));
             }
             var props=[];
             $("#kzsx").find(".form-group").each(function(){
@@ -614,9 +615,25 @@ layout("/layouts/platform.html"){
                 obj.value=self.find("select").val()||self.find("input").val()||'';
                 props.push(obj);
             });
-            console.log('props::'+JSON.stringify(props));
+            var params=[];
+            $("#xxcs").find(".form-group").each(function(){
+                var self=$(this);
+                var group=[];
+                var obj={};
+                obj.name=self.find("label").text();
+                self.find(".col-sm-12").each(function(){
+                    var o={};
+                    o.name=$(this).find(".btn").text();
+                    o.value=$(this).find("input").val();
+                    group.push(o);
+                });
+                obj.value=group;
+                params.push(obj);
+            });
+            //console.log('params::'+JSON.stringify(params));
             $("#images").val(JSON.stringify(getImg()));
             $("#prop_values").val(JSON.stringify(props));
+            $("#param_values").val(JSON.stringify(params));
             $('#addForm').submit();
         });
         $('#addForm').ajaxForm({

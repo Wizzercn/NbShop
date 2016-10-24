@@ -335,8 +335,8 @@
                     specs.push({'spec':spec,'gn':gn,'disabled':disabled,'stock':stock,'buyMin':buyMin,'buyMax':buyMax,'price':price,
                         'lvprice':JSON.parse(lvprice),'priceMarket':priceMarket,'priceCost':priceCost,'weight':weight,'isDefault':isDefault});
                 });
-                $("#is_spec").val("true");
-                $("#specs").val(JSON.stringify(specs));
+                $("#hasSpec").val("1");
+                $("#products").val(JSON.stringify(specs));
                 $("#sp").hide();
                 $("#sp_new").html('<div class="form-group" id="gg_new">'+
                         '<label for="gg_new" class="col-sm-2 control-label">规格</label>'+
