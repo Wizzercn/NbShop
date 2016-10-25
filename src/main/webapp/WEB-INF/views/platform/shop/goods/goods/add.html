@@ -45,6 +45,7 @@ layout("/layouts/platform.html"){
         <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
               action="${base!}/platform/shop/goods/goods/addDo" method="post">
             <input type="hidden" name="id" id="id" value="">
+            <input type="hidden" name="isSubmit" id="isSubmit" value="0">
             <div class="box-tab tabs-left">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#base" data-toggle="tab">基本信息</a>
@@ -637,21 +638,27 @@ layout("/layouts/platform.html"){
             $("#images").val(JSON.stringify(getImg()));
             $("#prop_values").val(JSON.stringify(props));
             $("#param_values").val(JSON.stringify(params));
-            $('#addForm').submit();
+            if($("#isSubmit").val()=="1"){
+                Toast.error("请勿重复提交");
+            }else{
+                $('#addForm').submit();
+            }
         });
         $('#addForm').ajaxForm({
             dataType: 'json',
             beforeSubmit: function (arr, form, options) {
                 form.find("button:submit").button("loading");
+                $("#isSubmit").val("1");
             },
             success: function (data, statusText, xhr, form) {
                 if (data.code == 0) {
-                    //$("#addForm").attr("action","${base!}/platform/shop/goods/goods/editDo");
-                    //$("#id").val(data.data);
+                    $("#addForm").attr("action","${base!}/platform/shop/goods/goods/editDo");
+                    $("#id").val(data.data);
                     Toast.success(data.msg);
                 } else {
                     Toast.error(data.msg);
                 }
+                $("#isSubmit").val("0");
                 form.find("button:submit").button("reset");
             }
         });

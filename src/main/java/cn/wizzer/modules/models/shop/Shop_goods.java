@@ -1,6 +1,7 @@
 package cn.wizzer.modules.models.shop;
 
 import cn.wizzer.common.base.Model;
+import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
@@ -114,6 +115,14 @@ public class Shop_goods extends Model implements Serializable {
     @Comment("销售量")
     @ColDefine(type = ColType.INT)
     private int numSale;
+
+    @Column
+    @Comment("排序字段")
+    @Prev({
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods")
+    })
+    private Integer location;
 
     @One(target = Shop_goods_class.class, field = "classId")
     public Shop_goods_class goodsClass;
@@ -288,6 +297,14 @@ public class Shop_goods extends Model implements Serializable {
 
     public void setNumSale(int numSale) {
         this.numSale = numSale;
+    }
+
+    public Integer getLocation() {
+        return location;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
     }
 
     public Shop_goods_class getGoodsClass() {
