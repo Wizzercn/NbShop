@@ -240,7 +240,6 @@
             var buyMin=$("#buyMin").val()||'1';
             var buyMax=$("#buyMax").val()||'100';
             var priceMarket=$("#priceMarket").val();
-            var priceCost=$("#priceCost").val();
             var weight=$("#weight").val();
             $.each(product_name,function(i,name){
                 i++;
@@ -258,7 +257,6 @@
                 str+="<td style='text-align: left;width: 150px;'><div style='float: left'><input name='price' type='text' value='"+price+"' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></div><div style='float: left'>" +
                         "<input name='lvprice' type='hidden' value='[]'><a class='member' href='javascript:;' style='color: #428bca;"+lv_show+"'>会员价</a></div></td>";
                 str+="<td><input name='priceMarket' value='"+priceMarket+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
-                str+="<td style='display: none'><input name='priceCost' value='"+priceCost+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
                 str+="<td><input name='weight' value='"+weight+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
                 str+="<td><input name='isDefault' type='checkbox'></td>";
                 str+="<td><a class='delSpec' href='javascript:;' style='color: #428bca'>删除</a></td>";
@@ -321,7 +319,7 @@
                     var self=$(this);
                     var spec=self.find("td:first").text();
                     specs_name+=spec+"|";
-                    var gn=self.find("input[name='sku']").val();
+                    var sku=self.find("input[name='sku']").val();
                     var disabled=self.find("input[name='up']").prop("checked")==false;
                     var stock=self.find("input[name='stock']").val();
                     var buyMin=self.find("input[name='buyMin']").val();
@@ -329,11 +327,10 @@
                     var price=self.find("input[name='price']").val();
                     var lvprice=self.find("input[name='lvprice']").val();
                     var priceMarket=self.find("input[name='priceMarket']").val();
-                    var priceCost=self.find("input[name='priceCost']").val();
                     var weight=self.find("input[name='weight']").val();
                     var isDefault=self.find("input[name='isDefault']").prop("checked")==true;
-                    specs.push({'spec':spec,'gn':gn,'disabled':disabled,'stock':stock,'buyMin':buyMin,'buyMax':buyMax,'price':price,
-                        'lvprice':JSON.parse(lvprice),'priceMarket':priceMarket,'priceCost':priceCost,'weight':weight,'isDefault':isDefault});
+                    specs.push({'spec':spec,'sku':sku,'disabled':disabled,'stock':stock,'buyMin':buyMin,'buyMax':buyMax,'price':price,
+                        'lvprice':JSON.parse(lvprice),'priceMarket':priceMarket,'weight':weight,'isDefault':isDefault});
                 });
                 $("#hasSpec").val("1");
                 $("#products").val(JSON.stringify(specs));

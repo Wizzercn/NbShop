@@ -526,6 +526,11 @@ layout("/layouts/platform.html"){
             getType($(this).val());
         });
         $("#specBtn").on("click",function(){
+            if($("#sku").val()==""){
+                Toast.warning("开启规格必须先填写货号");
+                $("#sku").focus();
+                return false;
+            }
             $("#specHtml").load("${base!}/platform/shop/goods/goods/spec/"+$("#typeId").val()+"/"+$("#sku").val(), function (response, status, xhr) {
                 $("#dialogSpec").modal("show");
             });
@@ -586,7 +591,6 @@ layout("/layouts/platform.html"){
                 var price = self.find("input[name='price']").val();
                 var lvprice = self.find("input[name='lvprice']").val()||[];
                 var priceMarket = self.find("input[name='priceMarket']").val();
-                var priceCost = self.find("input[name='priceCost']").val();
                 var weight = self.find("input[name='weight']").val();
                 var is_default = true;
                 specs.push({
@@ -601,7 +605,6 @@ layout("/layouts/platform.html"){
                     'price': price,
                     'lvprice': JSON.parse(lvprice),
                     'priceMarket': priceMarket,
-                    'priceCost': priceCost,
                     'weight': weight,
                     'is_default': is_default
                 });
@@ -643,8 +646,8 @@ layout("/layouts/platform.html"){
             },
             success: function (data, statusText, xhr, form) {
                 if (data.code == 0) {
-                    $("#addForm").attr("action","${base!}/platform/shop/goods/goods/editDo");
-                    $("#id").val(data.goodsid);
+                    //$("#addForm").attr("action","${base!}/platform/shop/goods/goods/editDo");
+                    //$("#id").val(data.data);
                     Toast.success(data.msg);
                 } else {
                     Toast.error(data.msg);

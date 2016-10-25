@@ -5,12 +5,15 @@ import cn.wizzer.common.base.Result;
 import cn.wizzer.common.filter.PrivateFilter;
 import cn.wizzer.common.page.DataTableColumn;
 import cn.wizzer.common.page.DataTableOrder;
+import cn.wizzer.common.util.StringUtil;
 import cn.wizzer.modules.models.shop.*;
 import cn.wizzer.modules.services.shop.goods.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.nutz.dao.Cnd;
-import org.nutz.dao.Sqls;
+import org.nutz.dao.*;
+import org.nutz.dao.Chain;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -51,6 +54,10 @@ public class ShopGoodsController {
     private ShopGoodsProductsService shopGoodsProductsService;
     @Inject
     private ShopMemberLvService shopMemberLvService;
+    @Inject
+    private ShopGoodsLvPriceService shopGoodsLvPriceService;
+    @Inject
+    private ShopGoodsImagesService shopGoodsImagesService;
 
     @At("")
     @Ok("beetl:/platform/shop/goods/goods/index.html")
@@ -184,14 +191,11 @@ public class ShopGoodsController {
     @SLog(tag = "新建商品", msg = "商品名称:${args[0].name}")
     @AdaptBy(type = WhaleAdaptor.class)
     //uploadifive上传文件后contentTypy改变,需要用WhaleAdaptor接收参数
-    public Object addDo(@Param("..") Shop_goods shopGoods, @Param("products") List<Shop_goods_products> products, @Param("spec_values") String spec_values, @Param("prop_values") String prop_values, @Param("param_values") String param_values,
-                        @Param("images") NutMap images,
+    public Object addDo(@Param("..") Shop_goods shopGoods, @Param("products") String products, @Param("spec_values") String spec_values, @Param("prop_values") String prop_values, @Param("param_values") String param_values,
+                        @Param("images") String images,
                         HttpServletRequest req) {
         try {
-            log.debug(Json.toJson(products));
-            log.debug(param_values);
-            //shopGoodsService.add(shopGoods,products,spec_values,prop_values,param_values,images);
-            return Result.success("system.success");
+            return Result.success("system.success", shopGoodsService.add(shopGoods, products, spec_values, prop_values, param_values, images));
         } catch (Exception e) {
             return Result.error("system.error");
         }

@@ -81,6 +81,11 @@ public class Shop_goods extends Model implements Serializable {
     private boolean hasSpec;
 
     @Column
+    @Comment("计量单位")
+    @ColDefine(type = ColType.VARCHAR, width = 25)
+    private String unit;
+
+    @Column
     @Comment("是否下架")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean disabled;
@@ -227,6 +232,14 @@ public class Shop_goods extends Model implements Serializable {
 
     public void setHasSpec(boolean hasSpec) {
         this.hasSpec = hasSpec;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public boolean isDisabled() {

@@ -6,6 +6,7 @@ import org.nutz.lang.Strings;
 import org.nutz.mvc.Mvcs;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -138,4 +139,35 @@ public class StringUtil {
     public boolean contains(String str, String s) {
         return Strings.sNull(str).contains(Strings.sNull(s));
     }
+
+    /**
+     * 分转换为元
+     *
+     * @param fen 分
+     * @return 元
+     */
+    public static String fenToYuan(int fen) {
+        try {
+            return new BigDecimal(fen).divide(new BigDecimal(100)).setScale(2).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "0.00";
+    }
+
+    /**
+     * 元转换为分
+     *
+     * @param yuan 元
+     * @return 分
+     */
+    public static int yuanToFen(String yuan) {
+        try {
+            return BigDecimal.valueOf(Double.valueOf(yuan)).multiply(new BigDecimal(100)).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }
