@@ -22,25 +22,21 @@ public class Shop_goods_tag extends Model implements Serializable {
     private String id;
 
     @Column
-    @Name
     @Comment("标签名称")
     @ColDefine(type = ColType.VARCHAR, width = 50)
     private String name;
 
     @Column
-    @Name
     @Comment("前台显示")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean onIndex;
 
     @Column
-    @Name
     @Comment("标签图片")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String imgurl;
 
     @Column
-    @Name
     @Comment("图片透明度")
     @ColDefine(type = ColType.INT)
     private int transparency;
