@@ -174,14 +174,14 @@ public class ShopGoodsController {
         for (Shop_goods_type_spec spec : typeSpecList) {
             ids.add(spec.getSpecId());
         }
-        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids));
+        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
         for (Shop_goods_spec spec : list) {
             shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
         }
         if (Strings.isEmpty(Strings.sNull(sku).trim())) {
             sku = shopGoodsProductsService.getSkuPrefix();
         }
-        req.setAttribute("sku", sku);
+        req.setAttribute("sku", sku.toUpperCase());
         req.setAttribute("specList", list);
         req.setAttribute("lvList", shopMemberLvService.query());
     }
@@ -207,15 +207,31 @@ public class ShopGoodsController {
     @Ok("beetl:/platform/shop/goods/goods/edit.html")
     @RequiresAuthentication
     public Object edit(String id,HttpServletRequest req) {
-        req.setAttribute("typeList", shopGoodsTypeService.query());
-        req.setAttribute("lvList", shopMemberLvService.query());
+        //获取商品信息
         Shop_goods obj= shopGoodsService.fetch(id);
+        //获取商品类型对应的规格信息
+        List<String> ids = new ArrayList<>();
+        List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
+        for (Shop_goods_type_spec spec : typeSpecList) {
+            ids.add(spec.getSpecId());
+        }
+        //组装规格的值
+        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
+        for (Shop_goods_spec spec : list) {
+            shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
+        }
+        //组装商品各类关联表数据
         shopGoodsService.fetchLinks(obj, null);
         List<Shop_goods_products> productsList=obj.getProductsList();
+        //取出货品对应的会员价格数据
         for(Shop_goods_products product:productsList){
             shopGoodsProductsService.fetchLinks(product,"lvPriceList");
         }
+        req.setAttribute("specList", list);
+        req.setAttribute("typeList", shopGoodsTypeService.query());
+        req.setAttribute("lvList", shopMemberLvService.query());
         req.setAttribute("productNum", productsList.size());
+        //在页面上显示商品类型管理的品牌
         req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId",obj.getTypeId())));
         return obj;
     }
@@ -224,6 +240,8 @@ public class ShopGoodsController {
     @Ok("json")
     @RequiresPermissions("shop.goods.manager.goods.edit")
     @SLog(tag = "修改商品", msg = "商品名称:${args[0].name}")
+    @AdaptBy(type = WhaleAdaptor.class)
+    //uploadifive上传文件后contentTypy改变,需要用WhaleAdaptor接收参数
     public Object editDo(@Param("..") Shop_goods shopGoods, HttpServletRequest req) {
         try {
 

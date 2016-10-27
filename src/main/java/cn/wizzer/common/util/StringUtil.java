@@ -1,6 +1,8 @@
 package cn.wizzer.common.util;
 
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.mvc.Mvcs;
@@ -170,4 +172,12 @@ public class StringUtil {
         }
     }
 
+    /**
+     * 将对象转为JSON字符串（页面上使用）
+     * @param obj
+     * @return
+     */
+    public String toJson(Object obj){
+        return Json.toJson(obj, JsonFormat.compact());
+    }
 }

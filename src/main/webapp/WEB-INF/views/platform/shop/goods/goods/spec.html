@@ -127,7 +127,7 @@
         var imgs=getImg();
         $("#dialogImg_imgs").html("");
         $.each(imgs,function(i,o){
-            var str="<div style='margin:2px;float:left;text-align: center;border: 1px solid #dcdcdc;cursor: pointer;' onclick=\"specSelImg("+id+",'"+o.url+"')\" >" +
+            var str="<div style='margin:2px;float:left;text-align: center;border: 1px solid #dcdcdc;cursor: pointer;' onclick=\"specSelImg('"+id+"','"+o.url+"')\" >" +
                     "<img src='" + o.url + "' style='width:100px;height: 80px;margin-bottom: 1px;'></div>";
             $("#dialogImg_imgs").append(str);
             $("#specImgDelBtn").unbind("click").on("click",function(){
@@ -273,7 +273,7 @@
                     $.each(lvp,function(i,lv){
                         var j=0;
                         $("#dialogLvSpec").find("input[type=text]").each(function(){
-                            if(i==j)$(this).val(lv.lv_price);
+                            if(i==j)$(this).val(lv.lvPrice);
                             j++;
                         });
                     });

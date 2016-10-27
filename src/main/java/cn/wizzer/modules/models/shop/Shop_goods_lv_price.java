@@ -32,7 +32,7 @@ public class Shop_goods_lv_price extends Model implements Serializable {
 
     @Column
     @Comment("等级ID")
-    @ColDefine(type = ColType.INT)
+    @ColDefine(type = ColType.VARCHAR)
     private String lvId;
 
     @Column
