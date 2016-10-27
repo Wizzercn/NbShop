@@ -593,7 +593,7 @@ layout("/layouts/platform.html"){
                 var lvprice = self.find("input[name='lvprice']").val()||[];
                 var priceMarket = self.find("input[name='priceMarket']").val();
                 var weight = self.find("input[name='weight']").val();
-                var is_default = true;
+                var isDefault = true;
                 specs.push({
                     'spec': spec,
                     'sku': sku,
@@ -607,7 +607,7 @@ layout("/layouts/platform.html"){
                     'lvprice': JSON.parse(lvprice),
                     'priceMarket': priceMarket,
                     'weight': weight,
-                    'is_default': is_default
+                    'isDefault': isDefault
                 });
                 $("#products").val(JSON.stringify(specs));
             }

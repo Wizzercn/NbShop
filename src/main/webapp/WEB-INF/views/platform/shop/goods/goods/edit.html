@@ -353,6 +353,22 @@ layout("/layouts/platform.html"){
                                         <div id="s_img${v.id!}">
 
                                         </div>
+                                        <script language="JavaScript">
+                                            $(function(){
+                                                var spec=JSON.parse(${obj.spec!});
+                                                $.each(spec,function (i,ss) {
+                                                    $.each(ss,function (j,s) {
+                                                        if(s.spec_value_id== v.id&& s.spec_id== o.id&& s.spec_value_imgurl){
+                                                            $("#s_img"+s.spec_value_id).html('<img class="specImg" src="'+s.spec_value_imgurl+'" style="height: 25px;width: 25px;">');
+                                                        }
+                                                        if(s.spec_value_id== v.id&& s.spec_id== o.id){
+                                                            $("#s"+s.spec_value_id).prop('checked',true);
+                                                        }
+                                                    });
+                                                });
+
+                                            });
+                                        </script>
                                     </div>
                                     <% }%>
                                 </div>
@@ -435,6 +451,20 @@ layout("/layouts/platform.html"){
                     <h4 class="modal-title">编辑会员价</h4>
                 </div>
                 <div class="modal-body">
+                    <%for(o in lvList){%>
+
+                    <div class="row mb10 lvpricecss"  data-lv-id="${o.id!}">
+                        <div class="form-group">
+                            <label for="dis_count2" class="col-sm-3 control-label" style="padding-top: 10px;">${o.name!}</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" style="width: 120px;" placeholder="">
+                            </div>
+                            <div id="dis_count2" class="col-sm-3" style="padding-top: 10px;">
+                                折扣率:${o.dis_count!}
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
@@ -624,7 +654,7 @@ layout("/layouts/platform.html"){
             });
             $("#dialogSpecOK").on("click",function(){
                 var is_default=0;
-                $("#plist tbody").find("input[name='is_default[]']").each(function(){
+                $("#plist tbody").find("input[name='isDefault']").each(function(){
                     if($(this).prop("checked"))is_default++;
                 });
                 if(is_default==1){
@@ -919,6 +949,24 @@ layout("/layouts/platform.html"){
         });
         <%if(obj.hasSpec){%>
             //start spec
+            //重新格式化会员价格信息
+            $("#plist tbody").find("tr").each(function(){
+            var self=$(this).find("input[name='lvprice']");console.log(self.val());
+            var lvprice=self.val();
+                if(lvprice!="[]"&&lvprice!=""){
+                 var lvList=JSON.parse(lvprice);
+                 var newList=[];
+                $.each(lvList,function(i,o){
+                var newObj={};
+            newObj.lvId=o.lvId;
+            newObj.lvPrice=setPrice(o.lvPrice);
+            newList.push(newObj);
+        }) ;
+            self.val(JSON.stringify(newList));
+                console.log(self.val());
+               }
+
+        });
             $("#specEditBtn").unbind("click").on("click",function(){
                 $("#dialogSpec").modal("show");
             });
@@ -1013,7 +1061,7 @@ layout("/layouts/platform.html"){
                 var lvprice = self.find("input[name='lvprice']").val()||[];
                 var priceMarket = self.find("input[name='priceMarket']").val();
                 var weight = self.find("input[name='weight']").val();
-                var is_default = true;
+                var isDefault = true;
                 specs.push({
                     'spec': spec,
                     'sku': sku,
@@ -1027,7 +1075,7 @@ layout("/layouts/platform.html"){
                     'lvprice': JSON.parse(lvprice),
                     'priceMarket': priceMarket,
                     'weight': weight,
-                    'is_default': is_default
+                    'isDefault': isDefault
                 });
                 $("#products").val(JSON.stringify(specs));
             }
