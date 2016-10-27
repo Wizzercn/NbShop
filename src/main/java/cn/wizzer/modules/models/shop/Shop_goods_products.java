@@ -5,6 +5,7 @@ import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 货品表
@@ -111,6 +112,9 @@ public class Shop_goods_products extends Model implements Serializable {
 
     @One(target = Shop_goods.class, field = "goodsId")
     private Shop_goods goods;
+
+    @Many(target = Shop_goods_lv_price.class, field = "productId")
+    private List<Shop_goods_lv_price> lvPriceList;
 
     public String getId() {
         return id;
@@ -262,5 +266,13 @@ public class Shop_goods_products extends Model implements Serializable {
 
     public void setGoods(Shop_goods goods) {
         this.goods = goods;
+    }
+
+    public List<Shop_goods_lv_price> getLvPriceList() {
+        return lvPriceList;
+    }
+
+    public void setLvPriceList(List<Shop_goods_lv_price> lvPriceList) {
+        this.lvPriceList = lvPriceList;
     }
 }

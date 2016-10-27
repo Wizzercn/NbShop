@@ -43,16 +43,16 @@ layout("/layouts/platform.html"){
 <div class="content-wrap">
     <div class="wrapper" style="min-height:500px;">
         <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
-              action="${base!}/platform/shop/goods/goods/addDo" method="post">
-            <input type="hidden" name="id" id="id" value="">
+              action="${base!}/platform/shop/goods/goods/editDo" method="post">
+            <input type="hidden" name="id" id="id" value="${obj.id!}">
             <input type="hidden" name="isSubmit" id="isSubmit" value="0">
             <div class="box-tab tabs-left">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#base" data-toggle="tab">基本信息</a>
                     </li>
-                    <li id="kzsx_tab" class="" style="display: none"><a href="#kzsx" data-toggle="tab">扩展属性</a>
+                    <li id="kzsx_tab" class="" style="display:<%if(isEmpty(obj.goodsType!)&&obj.goodsType.hasProp){%>block<%}else{%>none<%}%>;"><a href="#kzsx" data-toggle="tab">扩展属性</a>
                     </li>
-                    <li id="xxcs_tab" class="" style="display: none"><a href="#xxcs" data-toggle="tab">详细参数</a>
+                    <li id="xxcs_tab" class="" style="display: <%if(isEmpty(obj.goodsType!)&&obj.goodsType.hasParam){%>block<%}else{%>none<%}%>;"><a href="#xxcs" data-toggle="tab">详细参数</a>
                     </li>
                     <li class=""><a href="#inf" data-toggle="tab">商品介绍</a>
                     </li>
@@ -67,7 +67,7 @@ layout("/layouts/platform.html"){
                                     <div class="col-sm-8">
                                         <div class="input-group">
                                             <input id="classId" type="text" class="form-control" placeholder="请选择商品分类" disabled
-                                                   value=""/>
+                                                   value="<%if(!isEmpty(obj.goodsClass)){%>${obj.goodsClass.name!}<%}%>"/>
 
 			                             		<span class="input-group-btn">
 			                             			<button type="button" class="btn btn-primary" data-toggle="modal"
@@ -76,7 +76,7 @@ layout("/layouts/platform.html"){
 			                             		</span>
 
                                         </div>
-                                        <input type="hidden" name="classId" value="">
+                                        <input type="hidden" name="classId" value="<%if(!isEmpty(obj.goodsClass)){%>${obj.goodsClass.id!}<%}%>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -86,7 +86,7 @@ layout("/layouts/platform.html"){
                                         <select id="typeId" name="typeId" class="form-control">
                                             <option value="">通用商品</option>
                                             <%for(o in typeList){%>
-                                            <option value="${o.id!}">${o.name!}</option>
+                                            <option value="${o.id!}" <%if(obj.typeId==o.id){%>selected<%}%>>${o.name!}</option>
                                             <%}%>
                                         </select>
                                     </div>
@@ -96,7 +96,7 @@ layout("/layouts/platform.html"){
 
                                     <div class="col-sm-8">
                                         <input type="text" id="name" class="form-control" name="name" data-parsley-required="true"
-                                               placeholder="商品名称"  data-parsley-maxlength="150">
+                                               placeholder="商品名称" value="${obj.name!}"  data-parsley-maxlength="150">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,7 +104,7 @@ layout("/layouts/platform.html"){
 
                                     <div class="col-sm-8">
                                         <input type="text" id="title" class="form-control" name="title"
-                                               placeholder="商品标题"  data-parsley-maxlength="150">
+                                               placeholder="商品标题" value="${obj.title!}"  data-parsley-maxlength="150">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -112,6 +112,9 @@ layout("/layouts/platform.html"){
 
                                     <div class="col-sm-8">
                                         <select id="brandId" name="brandId" class="form-control">
+                                            <%for(o in brandList){%>
+                                            <option value="${o.id!}" <%if(obj.brandId==o.id){%>selected<%}%>>${o.name!}</option>
+                                            <%}%>
                                         </select>
                                     </div>
                                 </div>
@@ -126,12 +129,35 @@ layout("/layouts/platform.html"){
 
                                         </div>
                                         <div id="img">
+                                            <%if(!isEmpty(obj.imagesList)){
+                                            var i=0;
+                                            for(o in obj.imagesList){
+                                            i++;
+                                            var c="divImg";
+                                            if(o.imgurl==obj.imgurl){
+                                            c="divImgD";
+                                            }
+                                            %>
+                                            <div id='imgId${i}' class='${c}'>
+                                            <img  onclick="setImg('imgId${i}')" src='${o.imgurl!}' style='width:100px;height: 80px;margin-bottom: 1px;'><br>
+                                            <i style='float: right;padding-top: 4px;' class='fa fa-close' onclick="delImg('imgId${i}')"></i></div>
+                                            <%}}%>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="sp_new" style="display: none">
+                                <div id="sp_new" style="display: <%if(obj.hasSpec){%>block<%}else{%>none<%}%>;">
+                                    <%if(obj.hasSpec){%>
+                                   
+                                    <div class="form-group" id="gg_new">
+                                        <label for="gg_new" class="col-sm-2 control-label">规格</label>
+                                        <div class="col-sm-8">
+                                            <button id="specEditBtn" class="btn btn-primary" style="float: left;" type="button">编辑规格</button>
+                                            <div style="float: left;text-align: left;">已设置${productNum!0}个规格货品[<%for(o in obj.productsList){%>${o.spec};<%}%>]</div>
+                                        </div>
+                                    </div>
+                                    <%}%>
                                 </div>
-                                <div id="sp">
+                                <div id="sp" style="display: <%if(!obj.hasSpec){%>block<%}else{%>none<%}%>;">
 
                                     <div class="form-group">
                                         <label for="price" class="col-sm-2 control-label">销售价</label>

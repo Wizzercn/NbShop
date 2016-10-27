@@ -209,7 +209,7 @@ layout("/layouts/platform.html"){
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base!}/platform/shop/goods/goods/edit/' + row.id + '" target="_blank">编辑</a></li>' +
+                                '<li><a href="${base!}/platform/shop/goods/goods/edit/' + row.id + '" data-pjax>编辑</a></li>' +
                                 '<li class="divider"></li>'+
                                 '<li><a href="javascript:;" onclick="up(\'' + row.id + '\')">上架</a></li>' +
                                 '<li><a href="javascript:;" onclick="down(\'' + row.id + '\')">下架</a></li>' +

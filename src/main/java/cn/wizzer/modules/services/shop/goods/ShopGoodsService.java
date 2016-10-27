@@ -103,8 +103,8 @@ public class ShopGoodsService extends Service<Shop_goods> {
                         Shop_goods_lv_price lv = new Shop_goods_lv_price();
                         lv.setGoodsId(shopGoods.getId());
                         lv.setProductId(product.getId());
-                        lv.setLvId(Strings.sNull(lvPrice[k].getString("lv_id")));
-                        lv.setLvPrice(StringUtil.yuanToFen(Strings.sNull(lvPrice[k].getString("lv_price"))));
+                        lv.setLvId(Strings.sNull(lvPrice[k].getString("lvId")));
+                        lv.setLvPrice(StringUtil.yuanToFen(Strings.sNull(lvPrice[k].getString("lvPrice"))));
                         shopGoodsLvPriceService.insert(lv);
                     }
                 }

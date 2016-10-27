@@ -288,7 +288,7 @@
                         var id=$(this).attr("data-lv-id");
                         var price=$(this).find("input[type=text]").val();
                         if(price!="")
-                            lv.push({'lv_id':id,'lv_price':price});
+                            lv.push({'lvId':id,'lvPrice':price});
                     });
                     self.val(JSON.stringify(lv));
                 });

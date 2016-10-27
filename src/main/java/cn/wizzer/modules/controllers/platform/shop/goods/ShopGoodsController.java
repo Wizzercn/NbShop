@@ -58,6 +58,8 @@ public class ShopGoodsController {
     private ShopGoodsLvPriceService shopGoodsLvPriceService;
     @Inject
     private ShopGoodsImagesService shopGoodsImagesService;
+    @Inject
+    private ShopGoodsBrandService shopGoodsBrandService;
 
     @At("")
     @Ok("beetl:/platform/shop/goods/goods/index.html")
@@ -204,8 +206,18 @@ public class ShopGoodsController {
     @At("/edit/?")
     @Ok("beetl:/platform/shop/goods/goods/edit.html")
     @RequiresAuthentication
-    public Object edit(String id) {
-        return shopGoodsService.fetch(id);
+    public Object edit(String id,HttpServletRequest req) {
+        req.setAttribute("typeList", shopGoodsTypeService.query());
+        req.setAttribute("lvList", shopMemberLvService.query());
+        Shop_goods obj= shopGoodsService.fetch(id);
+        shopGoodsService.fetchLinks(obj, null);
+        List<Shop_goods_products> productsList=obj.getProductsList();
+        for(Shop_goods_products product:productsList){
+            shopGoodsProductsService.fetchLinks(product,"lvPriceList");
+        }
+        req.setAttribute("productNum", productsList.size());
+        req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId",obj.getTypeId())));
+        return obj;
     }
 
     @At
