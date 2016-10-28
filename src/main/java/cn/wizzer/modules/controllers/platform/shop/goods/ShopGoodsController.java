@@ -199,7 +199,7 @@ public class ShopGoodsController {
         try {
             return Result.success("system.success", shopGoodsService.add(shopGoods, products, spec_values, prop_values, param_values, images));
         } catch (Exception e) {
-            return Result.error("system.error");
+            return Result.error("system.error"+ ":请检查货号是否已被占用");
         }
     }
 
@@ -209,6 +209,16 @@ public class ShopGoodsController {
     public Object edit(String id,HttpServletRequest req) {
         //获取商品信息
         Shop_goods obj= shopGoodsService.fetch(id);
+        //获取商品类型对应的属性信息
+        List<Shop_goods_type_props> typePropList = shopGoodsTypePropsService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
+        for (Shop_goods_type_props props : typePropList) {
+            shopGoodsTypePropsService.fetchLinks(props, "propsValues", Cnd.orderBy().asc("location"));
+        }
+        //获取商品类型对应的参数信息
+        List<Shop_goods_type_paramg> typeParamgList = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
+        for (Shop_goods_type_paramg paramg : typeParamgList) {
+            shopGoodsTypeParamgService.fetchLinks(paramg, "params", Cnd.orderBy().asc("location"));
+        }
         //获取商品类型对应的规格信息
         List<String> ids = new ArrayList<>();
         List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
@@ -216,8 +226,8 @@ public class ShopGoodsController {
             ids.add(spec.getSpecId());
         }
         //组装规格的值
-        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
-        for (Shop_goods_spec spec : list) {
+        List<Shop_goods_spec> specList = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
+        for (Shop_goods_spec spec : specList) {
             shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
         }
         //组装商品各类关联表数据
@@ -227,7 +237,10 @@ public class ShopGoodsController {
         for(Shop_goods_products product:productsList){
             shopGoodsProductsService.fetchLinks(product,"lvPriceList");
         }
-        req.setAttribute("specList", list);
+
+        req.setAttribute("specList", specList);
+        req.setAttribute("typePropList", typePropList);
+        req.setAttribute("typeParamgList", typeParamgList);
         req.setAttribute("typeList", shopGoodsTypeService.query());
         req.setAttribute("lvList", shopMemberLvService.query());
         req.setAttribute("productNum", productsList.size());

@@ -50,9 +50,9 @@ layout("/layouts/platform.html"){
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#base" data-toggle="tab">基本信息</a>
                     </li>
-                    <li id="kzsx_tab" class="" style="display:<%if(isEmpty(obj.goodsType!)&&obj.goodsType.hasProp){%>block<%}else{%>none<%}%>;"><a href="#kzsx" data-toggle="tab">扩展属性</a>
+                    <li id="kzsx_tab" class="" style="display:<%if(!isEmpty(obj.goodsType)&&obj.goodsType.hasProp){%>block<%}else{%>none<%}%>;"><a href="#kzsx" data-toggle="tab">扩展属性</a>
                     </li>
-                    <li id="xxcs_tab" class="" style="display: <%if(isEmpty(obj.goodsType!)&&obj.goodsType.hasParam){%>block<%}else{%>none<%}%>;"><a href="#xxcs" data-toggle="tab">详细参数</a>
+                    <li id="xxcs_tab" class="" style="display: <%if(!isEmpty(obj.goodsType)&&obj.goodsType.hasParam){%>block<%}else{%>none<%}%>;"><a href="#xxcs" data-toggle="tab">详细参数</a>
                     </li>
                     <li class=""><a href="#inf" data-toggle="tab">商品介绍</a>
                     </li>
@@ -248,9 +248,90 @@ layout("/layouts/platform.html"){
                         </div>
                     </div>
                     <div class="tab-pane fade" id="kzsx">
+                        <%for(prop in typePropList){
+                        if(prop.type=='select') {
+                        %>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">${prop.name!}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" >
+                                    <option value=""></option>
+                                    <%for(value in prop.propsValues){
+                                    %>
+                                    <option value="${value.name!}" >${value.name!}</option>
+                                    <%
+                                    }%>
+                                </select>
+                            </div>
+                        </div>
+                        <%
+                        }else{
+                        %>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">${prop.name!}</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" value=""/>
+                            </div>
+                        </div>
+                        <%
 
+                        }%>
+
+                        <%}%>
+                        <script>
+                            $(function(){
+                                //初始化商品属性
+                                var prop=${obj.prop!"[]"};
+                                $.each(prop,function(i,o){
+                                    $("#kzsx").find(".form-group").each(function(j,k){
+                                        var self=$(this);
+                                        if(self.find(".control-label").html()== o.name){
+                                                self.find("input").val(o.value);
+                                                self.find("select").val(o.value);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
                     </div>
                     <div class="tab-pane fade" id="xxcs">
+                        <%for(paramg in typeParamgList){%>
+                        <div class="form-group">
+                        <label class="col-sm-3 control-label">${paramg.name!}</label>
+                        <%for(p in paramg.params){%>
+                        <div class="col-sm-12" style="padding-bottom:5px;">
+                            <div class="col-sm-10 input-group">
+                                <span class="input-group-btn">
+                                <button class="btn" style="width:120px;" type="button">${p.name!}</button>
+                                </span>
+                                <input type="text" class="form-control" placeholder="${p.name!}">
+                            </div>
+                        </div>
+                        <%}%>
+                         </div>
+                        <%}%>
+                        <script>
+                            $(function(){
+                                //初始化商品参数
+                                var param=${obj.param!"[]"};
+                                $.each(param,function(i,o){
+                                    var name= o.name;
+                                    $.each(o.value,function(j,k){
+                                        $("#xxcs").find(".form-group").each(function(r,t){
+                                            var self=$(this);
+                                            if($(this).find(".control-label").html()== o.name){
+                                                self.find(".input-group").each(function(n,m){
+                                                    var obj=$(this);
+                                                    if(obj.find("button").html()== k.name){
+                                                        obj.find("input").val(k.value);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
                     </div>
                     <div class="tab-pane fade" id="inf">
                         <div class="row mb10">
@@ -359,21 +440,6 @@ layout("/layouts/platform.html"){
                                 </div>
                             </div>
                             <% } %>
-                            <script language="JavaScript">
-                                $(function(){
-                                    var spec=${obj.spec!};
-                                    $.each(spec,function (i,ss) {
-                                        $.each(ss,function (j,s) {
-                                            if(s.spec_value_imgurl){
-                                                $("#s_img"+s.spec_value_id).html('<img class="specImg" src="'+s.spec_value_imgurl+'" style="height: 30px;width: 30px;">');
-                                            }
-                                            $("#s"+s.spec_value_id).prop('checked',true);
-
-                                        });
-                                    });
-
-                                });
-                            </script>
                         </div>
                         <div class="col-xs-12" style="padding-top: 5px;height: 45px;">
                             <button id="doProduct" type="button" class="btn btn-primary btn-sm">生成所有货品</button>
@@ -553,6 +619,17 @@ layout("/layouts/platform.html"){
             }
         }
         $(document).ready(function () {
+            //初始化商品设置的规格选项及规格图片
+            var spec=${obj.spec!"[]"};
+            $.each(spec,function (i,ss) {
+                $.each(ss,function (j,s) {
+                    if(s.spec_value_imgurl){
+                        $("#s_img"+s.spec_value_id).html('<img class="specImg" src="'+s.spec_value_imgurl+'" style="height: 30px;width: 30px;">');
+                    }
+                    $("#s"+s.spec_value_id).prop('checked',true);
+
+                });
+            });
             $(".specChkAll").on("click",function(){
                 if($(this).prop("checked")){
                     $(this).parent().parent().find("input[type=checkbox]").each(function(){
