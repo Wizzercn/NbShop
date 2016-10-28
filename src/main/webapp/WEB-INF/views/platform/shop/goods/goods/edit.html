@@ -163,8 +163,8 @@ layout("/layouts/platform.html"){
                                         <label for="price" class="col-sm-2 control-label">销售价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="price" class="form-control" style="width: 120px;" name="price" placeholder="销售价">
-                                            <input type="hidden" name="lvprice" value="[]">
+                                            <input type="text" id="price" class="form-control" value="${@string.fenToYuan(obj.productsList[0].price)}" style="width: 120px;" name="price" placeholder="销售价">
+                                            <input type="hidden" name="lvprice" value="${@string.toJson(obj.productsList[0].lvPriceList),escape}">
                                             <%if(@lvList.size()>0){%>
 
                                             <button class="btn btn-primary" style="float: left;margin-top: 2px;" type="button" data-toggle="modal"
@@ -176,7 +176,7 @@ layout("/layouts/platform.html"){
                                         <label for="priceMarket" class="col-sm-2 control-label">市场价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="priceMarket" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
+                                            <input type="text" id="priceMarket" value="${@string.fenToYuan(obj.productsList[0].priceMarket)}" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
 
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@ layout("/layouts/platform.html"){
                                         <label for="sku" class="col-sm-2 control-label">SKU货号</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="sku" value="" class="form-control" name="sku" placeholder="货号(不填则自动生成)">
+                                            <input type="text" id="sku" value="${obj.productsList[0].sku!}" class="form-control" name="sku" placeholder="货号(不填则自动生成)">
 
                                         </div>
                                     </div>
@@ -192,7 +192,7 @@ layout("/layouts/platform.html"){
                                         <label for="weight" class="col-sm-2 control-label">重量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="weight" class="form-control" style="width: 120px;" name="weight" placeholder="克(g)">
+                                            <input type="text" id="weight" value="${obj.productsList[0].weight!}" class="form-control" style="width: 120px;" name="weight" placeholder="克(g)">
 
                                         </div>
                                     </div>
@@ -200,7 +200,7 @@ layout("/layouts/platform.html"){
                                         <label for="stock" class="col-sm-2 control-label">库存</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="stock" class="form-control" style="width: 120px;" name="stock" placeholder="库存">
+                                            <input type="text" id="stock" value="${obj.productsList[0].stock!}" class="form-control" style="width: 120px;" name="stock" placeholder="库存">
 
                                         </div>
                                     </div>
@@ -208,7 +208,7 @@ layout("/layouts/platform.html"){
                                         <label for="buyMin" class="col-sm-2 control-label">最小购买量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="buyMin" class="form-control" style="width: 120px;" value="1" name="buyMin" placeholder="默认为1">
+                                            <input type="text" id="buyMin" class="form-control" style="width: 120px;" value="${obj.productsList[0].buyMin!}" name="buyMin" placeholder="默认为1">
 
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@ layout("/layouts/platform.html"){
                                         <label for="buyMax" class="col-sm-2 control-label">最大购买量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="buyMax" class="form-control" style="width: 120px;" value="100"  name="buyMax" placeholder="默认为100">
+                                            <input type="text" id="buyMax" class="form-control" style="width: 120px;" value="${obj.productsList[0].buyMax!}"  name="buyMax" placeholder="默认为100">
                                         </div>
                                     </div>
                                     <div class="form-group" id="gg" style="display: none">
@@ -231,7 +231,7 @@ layout("/layouts/platform.html"){
                                     <label for="unit" class="col-sm-2 control-label">计量单位</label>
 
                                     <div class="col-sm-8">
-                                        <input id="unit" type="text" class="form-control" style="width: 120px;" name="unit" placeholder="计量单位">
+                                        <input id="unit" type="text" value="${obj.productsList[0].unit!}" class="form-control" style="width: 120px;" name="unit" placeholder="计量单位">
 
                                     </div>
                                 </div>
@@ -349,31 +349,31 @@ layout("/layouts/platform.html"){
                                         <input id="s${v.id!}" type="checkbox" value="${v.id!}"
                                                title="${v.spec_value!}"><%if(!isEmpty(v.spec_picurl)){%><img src="${v.spec_picurl!}" style="width: 12px;height: 12px;"><%}%>${v.spec_value!}
 
-                                        <a href="javascript:selImg('${v.id!}');" style="color: #428bca">选择图片</a>
-                                        <div id="s_img${v.id!}">
+                                        <%if(o.type==1){%><a href="javascript:selImg('${v.id!}');" style="color: #428bca">选择图片</a><%}%>
+                                        <div style="padding-left: 60px" id="s_img${v.id!}">
 
                                         </div>
-                                        <script language="JavaScript">
-                                            $(function(){
-                                                var spec=JSON.parse(${obj.spec!});
-                                                $.each(spec,function (i,ss) {
-                                                    $.each(ss,function (j,s) {
-                                                        if(s.spec_value_id== v.id&& s.spec_id== o.id&& s.spec_value_imgurl){
-                                                            $("#s_img"+s.spec_value_id).html('<img class="specImg" src="'+s.spec_value_imgurl+'" style="height: 25px;width: 25px;">');
-                                                        }
-                                                        if(s.spec_value_id== v.id&& s.spec_id== o.id){
-                                                            $("#s"+s.spec_value_id).prop('checked',true);
-                                                        }
-                                                    });
-                                                });
 
-                                            });
-                                        </script>
                                     </div>
                                     <% }%>
                                 </div>
                             </div>
                             <% } %>
+                            <script language="JavaScript">
+                                $(function(){
+                                    var spec=${obj.spec!};
+                                    $.each(spec,function (i,ss) {
+                                        $.each(ss,function (j,s) {
+                                            if(s.spec_value_imgurl){
+                                                $("#s_img"+s.spec_value_id).html('<img class="specImg" src="'+s.spec_value_imgurl+'" style="height: 30px;width: 30px;">');
+                                            }
+                                            $("#s"+s.spec_value_id).prop('checked',true);
+
+                                        });
+                                    });
+
+                                });
+                            </script>
                         </div>
                         <div class="col-xs-12" style="padding-top: 5px;height: 45px;">
                             <button id="doProduct" type="button" class="btn btn-primary btn-sm">生成所有货品</button>
@@ -400,7 +400,7 @@ layout("/layouts/platform.html"){
                                 <% for(o in obj.productsList){ %>
                                 <tr><td>${o.spec!}<input name="productId" type="hidden" value="${o.id!}"></td>
                                     <td><input name="sku" type="text" class="form-control" value="${o.sku!}" style="height: 22px;width: 80px;padding: 0 2px;"></td>
-                                    <td><input name="up" type="checkbox" ></td>
+                                    <td><input name="up" type="checkbox" <%if(!o.disabled){%>checked<%}%>></td>
                                     <td><input name="stock" type="text" value="${o.stock}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td><input name="buyMin" type="text" value="${o.buyMin}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td><input name="buyMax" type="text" value="${o.buyMax}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
@@ -433,7 +433,8 @@ layout("/layouts/platform.html"){
                     <h4 class="modal-title">选择商品图片</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row" id="dialogImg_imgs"><div style="margin:2px;float:left;text-align: center;border: 1px solid #dcdcdc;cursor: pointer;" onclick="specSelImg(12,'/open/image/file/2a613b2d5f1e4020b960909e58ecf4cf.jpg?type=s')"><img src="/open/image/file/2a613b2d5f1e4020b960909e58ecf4cf.jpg?type=s" style="width:100px;height: 80px;margin-bottom: 1px;"></div><div style="margin:2px;float:left;text-align: center;border: 1px solid #dcdcdc;cursor: pointer;" onclick="specSelImg(12,'/open/image/file/b6ad2f5ea493403dbe7727ff4c6ece0a.jpg?type=s')"><img src="/open/image/file/b6ad2f5ea493403dbe7727ff4c6ece0a.jpg?type=s" style="width:100px;height: 80px;margin-bottom: 1px;"></div></div>
+                    <div class="row" id="dialogImg_imgs">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
@@ -474,7 +475,7 @@ layout("/layouts/platform.html"){
     </div>
     <script language="JavaScript">
         function specSelImg(id,url){
-            $("#s_img"+id).html("<img class='specImg' width='50' height='50' src='"+url+"' style='height: 50px;width: 50px;'>");
+            $("#s_img"+id).html("<img class='specImg' src='"+url+"' style='height: 30px;width: 30px;'>");
             $("#dialogImg").modal("hide");
         }
         function specDelImg(id){
@@ -601,10 +602,13 @@ layout("/layouts/platform.html"){
                     i++;
                     var str="<tr>";
                     var bn="";
-                    if(pbn!=""){
+                    if(sku!=""){
+                        if(sku.indexOf("-")>0){
+                            sku=sku.substring(0,sku.indexOf("-"));
+                        }
                         bn=sku+"-"+i;
                     }
-                    str+="<td>"+name+"<input name='productId' value='hidden' type='text'></td>";
+                    str+="<td>"+name+"<input name='productId' type='hidden'></td>";
                     str+="<td><input name='sku' type='text' class='form-control'  value='"+bn+"' style='height: 22px;width: 80px;padding: 0 2px;'></td>";
                     str+="<td><input name='up' type='checkbox' checked></td>";
                     str+="<td><input name='stock' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
@@ -691,7 +695,7 @@ layout("/layouts/platform.html"){
                         specs.push({'id':productId,'spec':spec,'sku':sku,'disabled':disabled,'stock':stock,'buyMin':buyMin,'buyMax':buyMax,'price':price,
                             'lvprice':JSON.parse(lvprice),'priceMarket':priceMarket,'priceCost':priceCost,'weight':weight,'isDefault':isDefault});
                     });
-                    $("#is_spec").val("true");
+                    $("#hasSpec").val("1");
                     $("#specs").val(JSON.stringify(specs));
                     $("#sp").hide();
                     $("#sp_new").html('<div class="form-group" id="gg_new">'+
@@ -949,24 +953,36 @@ layout("/layouts/platform.html"){
         });
         <%if(obj.hasSpec){%>
             //start spec
-            //重新格式化会员价格信息
+            //重新格式化会员价格信息（不启用规格）
+            var self0=$("#sp").find("input[name='lvprice']");
+            var lvprice0=self0.val();
+            if(lvprice0!="[]"&&lvprice0!="") {
+                var lvList0 = JSON.parse(lvprice0);
+                var newList0 = [];
+                $.each(lvList0, function (i, o) {
+                    var newObj = {};
+                    newObj.lvId = o.lvId;
+                    newObj.lvPrice = setPrice(o.lvPrice);
+                    newList0.push(newObj);
+                });
+                self0.val(JSON.stringify(newList0));
+            }
+            //重新格式化会员价格信息（启用规格）
             $("#plist tbody").find("tr").each(function(){
-            var self=$(this).find("input[name='lvprice']");console.log(self.val());
-            var lvprice=self.val();
+                var self=$(this).find("input[name='lvprice']");
+                var lvprice=self.val();
                 if(lvprice!="[]"&&lvprice!=""){
-                 var lvList=JSON.parse(lvprice);
-                 var newList=[];
-                $.each(lvList,function(i,o){
-                var newObj={};
-            newObj.lvId=o.lvId;
-            newObj.lvPrice=setPrice(o.lvPrice);
-            newList.push(newObj);
-        }) ;
-            self.val(JSON.stringify(newList));
-                console.log(self.val());
-               }
-
-        });
+                    var lvList=JSON.parse(lvprice);
+                    var newList=[];
+                    $.each(lvList,function(i,o){
+                        var newObj={};
+                        newObj.lvId=o.lvId;
+                        newObj.lvPrice=setPrice(o.lvPrice);
+                        newList.push(newObj);
+                    }) ;
+                    self.val(JSON.stringify(newList));
+                }
+            });
             $("#specEditBtn").unbind("click").on("click",function(){
                 $("#dialogSpec").modal("show");
             });

@@ -221,7 +221,7 @@ public class ShopGoodsController {
             shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
         }
         //组装商品各类关联表数据
-        shopGoodsService.fetchLinks(obj, null);
+        shopGoodsService.fetchLinks(obj, null,Cnd.orderBy().asc("location"));
         List<Shop_goods_products> productsList=obj.getProductsList();
         //取出货品对应的会员价格数据
         for(Shop_goods_products product:productsList){
