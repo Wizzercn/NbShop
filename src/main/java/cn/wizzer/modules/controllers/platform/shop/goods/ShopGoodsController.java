@@ -255,12 +255,11 @@ public class ShopGoodsController {
     @SLog(tag = "修改商品", msg = "商品名称:${args[0].name}")
     @AdaptBy(type = WhaleAdaptor.class)
     //uploadifive上传文件后contentTypy改变,需要用WhaleAdaptor接收参数
-    public Object editDo(@Param("..") Shop_goods shopGoods, HttpServletRequest req) {
+    public Object editDo(@Param("..") Shop_goods shopGoods, @Param("products") String products, @Param("spec_values") String spec_values, @Param("prop_values") String prop_values, @Param("param_values") String param_values,
+                         @Param("images") String images,
+                         HttpServletRequest req) {
         try {
-
-            shopGoods.setOpAt((int) (System.currentTimeMillis() / 1000));
-            shopGoodsService.updateIgnoreNull(shopGoods);
-            return Result.success("system.success");
+            return Result.success("system.success", shopGoodsService.save(shopGoods, products, spec_values, prop_values, param_values, images,Strings.sNull(req.getAttribute("uid"))));
         } catch (Exception e) {
             return Result.error("system.error");
         }
@@ -292,10 +291,10 @@ public class ShopGoodsController {
     public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
         try {
             if (ids != null && ids.length > 0) {
-                shopGoodsService.delete(ids);
+                shopGoodsService.deleteProdcut(ids);
                 req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
             } else {
-                shopGoodsService.delete(id);
+                shopGoodsService.deleteProdcut(id);
                 req.setAttribute("id", id);
             }
             return Result.success("system.success");
