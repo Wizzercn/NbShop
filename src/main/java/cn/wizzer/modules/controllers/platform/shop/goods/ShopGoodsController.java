@@ -60,6 +60,8 @@ public class ShopGoodsController {
     private ShopGoodsImagesService shopGoodsImagesService;
     @Inject
     private ShopGoodsBrandService shopGoodsBrandService;
+    @Inject
+    private ShopGoodsTagService shopGoodsTagService;
 
     @At("")
     @Ok("beetl:/platform/shop/goods/goods/index.html")
@@ -299,8 +301,56 @@ public class ShopGoodsController {
         }
     }
 
+    /**
+     * 显示商品标签
+     * @param ids
+     * @param req
+     * @return
+     */
+    @At("/showTag")
+    @Ok("beetl:/platform/shop/goods/goods/tag.html")
+    @RequiresAuthentication
+    public Object showTag(@Param("ids") String[] ids, HttpServletRequest req) {
+        req.setAttribute("tagLink", shopGoodsTagService.list(Sqls.create("SELECT * FROM shop_goods_tag_link WHERE goodsId in (@ids)").setParam("ids", ids)));
+        return shopGoodsTagService.query(Cnd.orderBy().desc("location"));
+    }
+
+    /**
+     * 保存商品标签
+     * @param goodsIds
+     * @param tagIds
+     * @return
+     */
+    @At("/saveTag")
+    @Ok("json")
+    public Object saveTag(@Param("goodsIds") String[] goodsIds, @Param("tagIds") String[] tagIds) {
+        try {
+            Sql sql = Sqls.create("insert into shop_goods_tag_link(goodsId,tagId) values(@a,@b)");
+            Sql dsql = Sqls.create("delete from shop_goods_tag_link where goodsId in (@ids)").setParam("ids", goodsIds);
+            for (String s : goodsIds) {
+                for (String t : tagIds) {
+                    sql.setParam("a", s).setParam("b", t);
+                    sql.addBatch();
+                }
+            }
+            shopGoodsTagService.dao().execute(dsql);
+            shopGoodsTagService.dao().execute(sql);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    /**
+     * 商品排序
+     * @param pk
+     * @param name
+     * @param value
+     * @return
+     */
     @At("/location")
     @Ok("json")
+    @RequiresAuthentication
     public Object location(@Param("pk") String pk, @Param("name") String name, @Param("value") int value) {
         shopGoodsService.update(Chain.make("location", value), Cnd.where("id", "=", pk));
         NutMap nutMap = new NutMap();

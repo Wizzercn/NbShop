@@ -16,6 +16,7 @@ layout("/layouts/platform.html"){
                 <th>标签名称</th>
                 <th>标签类型</th>
                 <th>前台显示</th>
+                <th>排序</th>
                 <th>操作</th>
         </table>
     </div>
@@ -59,6 +60,7 @@ layout("/layouts/platform.html"){
             },
             "drawCallback": function () {
                 sublime.closeLoadingbar($(".main-content"));
+                $(".location").editable();
             },
             "ajax": {
                 "url": "${base!}/platform/shop/goods/goods/tag/data",
@@ -66,11 +68,12 @@ layout("/layouts/platform.html"){
                 "data": function (d) {
                 }
             },
-            "order": [[0, "desc"]],
+            "order": [[3, "desc"]],
             "columns": [
                 {"data": "name", "bSortable": true},
                 {"data": "imgurl", "bSortable": true},
-                {"data": "onIndex", "bSortable": true}
+                {"data": "onIndex", "bSortable": true},
+                {"data": "location", "bSortable": true}
             ],
             "columnDefs": [
                 {
@@ -93,13 +96,19 @@ layout("/layouts/platform.html"){
                 },
                 {
                     "render": function (data, type, row) {
+                        return  '<a class="location" href="#" id="location'+row.id+'" data-url="${base!}/platform/shop/goods/goods/tag/location" data-type="text" data-pk="'+row.id+'" data-title="填写排序字段" class="editable editable-click" data-original-title="" title="" style="background-color: rgba(0, 0, 0, 0);">'+data+'</a>';
+                    },
+                    "targets": 3
+                },
+                {
+                    "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
                                 '<li><a href="${base!}/platform/shop/goods/goods/tag/edit/' + row.id + '" data-pjax>修改</a></li>' +
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 3
+                    "targets": 4
                 }
             ]
         });

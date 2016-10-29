@@ -8,9 +8,10 @@ layout("/layouts/platform.html"){
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                 批量操作<span class="ti-angle-down"></span></button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="javascript:;" onclick="delCheck()">批量删除</a></li>
+                <li><a href="javascript:;" onclick="delCheck()">删除选中</a></li>
                 <li><a href="javascript:;" onclick="upCheck()">批量上架</a></li>
                 <li><a href="javascript:;" onclick="downCheck()">批量下架</a></li>
+                <li><a href="javascript:;" onclick="tagCheck()">设置标签</a></li>
             </ul>
         </div>
     </div>
@@ -32,9 +33,12 @@ layout("/layouts/platform.html"){
                 <input type="text" id="name" name="name" onclick="this.value=''" class="form-control" placeholder="商品名称">
             </div>
             <div class="form-group">
-                <label for="disabled">上架</label>
-                <input id="disabled" type="radio" name="disabled" value="0">是
-                <input type="radio" name="disabled" value="1" >否
+                <label for="disabled">上架状态</label>
+                <select name="disabled" id="disabled" class="form-control" style="width: 120px;">
+                    <option value="">全部</option>
+                    <option value="0">上架</option>
+                    <option value="1">下架</option>
+                </select>
             </div>
             <button id="searchBtn" type="button" class="btn btn-default">查询</button>
         </div>
@@ -101,6 +105,7 @@ layout("/layouts/platform.html"){
         </div>
     </div>
 </div>
+<div id="tagHtml"></div>
 <script language="JavaScript">
     var datatable;
     function initDatatable() {
@@ -126,7 +131,7 @@ layout("/layouts/platform.html"){
                 "type": "post",
                 "data": function (d) {
                     d.name = $('#name').val();
-                    d.disabled = $('input[name=disabled]:checked').val();
+                    d.disabled = $('#disabled').val();
                 }
             },
             "order": [[7, "desc"]],
@@ -323,13 +328,44 @@ layout("/layouts/platform.html"){
             $.each(datatable.rows('.selected').data(), function (i, n) {
                 ids.push(n.id);
             });
-            $.post("${base!}/platform/shop/goods/goods/down", {ids: ids}, function (data) {
+            $.post("${base!}/platform/shop/goods/goods/down", {ids: ids.toString()}, function (data) {
                 if (data.code == 0) {
                     datatable.ajax.reload(null,false);
                 } else {
                     Toast.error(data.msg);
                 }
             }, "json");
+        } else {
+            Toast.warning("请先选择商品！");
+        }
+    }
+    function tagCheck() {
+        var chks = datatable.rows('.selected').data();
+        if (chks.length > 0) {
+            var ids = [];
+            $.each(datatable.rows('.selected').data(), function (i, n) {
+                ids.push(n.id);
+            });
+            $("#tagHtml").load("${base!}/platform/shop/goods/goods/showTag", {ids: ids.toString()},function (response, status, xhr) {
+                $("#dialogTag").modal("show");
+                $("#dialogTagOK").on("click",function(){
+                    var tagid=[];
+                    $("#dialogTag").find("input[type='checkbox']").each(function(){
+                        if($(this).is(':checked')){
+                            tagid.push($(this).val());
+                        }
+                    });
+                    $.post("${base!}/platform/shop/goods/goods/saveTag", {tagIds: tagid.toString(),goodsIds: ids.toString()}, function (data) {
+                        if (data.code == 0) {
+                            datatable.ajax.reload(null,false);
+                        } else {
+                            Toast.error(data.msg);
+                        }
+                        $("#dialogTag").modal("hide");
+                    }, "json");
+                });
+            });
+
         } else {
             Toast.warning("请先选择商品！");
         }

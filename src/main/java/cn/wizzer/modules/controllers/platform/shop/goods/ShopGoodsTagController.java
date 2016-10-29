@@ -13,6 +13,7 @@ import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.adaptor.WhaleAdaptor;
@@ -108,4 +109,15 @@ public class ShopGoodsTagController {
         }
     }
 
+    @At("/location")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object location(@Param("pk") String pk, @Param("name") String name, @Param("value") int value) {
+        shopGoodsTagService.update(Chain.make("location", value), Cnd.where("id", "=", pk));
+        NutMap nutMap = new NutMap();
+        nutMap.addv("name", name);
+        nutMap.addv("pk", pk);
+        nutMap.addv("value", value);
+        return nutMap;
+    }
 }
