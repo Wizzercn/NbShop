@@ -28,8 +28,7 @@ public class ShopGoodsService extends Service<Shop_goods> {
     private ShopGoodsLvPriceService shopGoodsLvPriceService;
     @Inject
     private ShopGoodsImagesService shopGoodsImagesService;
-    @Inject
-    private ShopGoodsTagLinkService shopGoodsTagLinkService;
+
     private static final Log log = Logs.get();
 
     public ShopGoodsService(Dao dao) {
@@ -237,8 +236,9 @@ public class ShopGoodsService extends Service<Shop_goods> {
         shopGoodsImagesService.clear(Cnd.where("goodsId", "=", id));
         //删除商品货品信息
         shopGoodsProductsService.clear(Cnd.where("goodsId", "=", id));
-        //删除商品标签
-        shopGoodsTagLinkService.clear(Cnd.where("goodsId", "=", id));
+        //清除标签关联表数据
+        this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "=", id));
+        //删除商品
         this.delete(id);
     }
 
@@ -255,8 +255,9 @@ public class ShopGoodsService extends Service<Shop_goods> {
         shopGoodsImagesService.clear(Cnd.where("goodsId", "in", ids));
         //删除商品货品信息
         shopGoodsProductsService.clear(Cnd.where("goodsId", "in", ids));
-        //删除商品标签
-        shopGoodsTagLinkService.clear(Cnd.where("goodsId", "in", ids));
+        //清除标签关联表数据
+        this.dao().clear("shop_goods_tag_link",Cnd.where("goodsId", "in", ids));
+        //删除商品
         this.delete(ids);
     }
 }

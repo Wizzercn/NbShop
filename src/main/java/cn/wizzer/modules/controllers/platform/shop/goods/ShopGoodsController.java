@@ -276,11 +276,11 @@ public class ShopGoodsController {
      * @return
      */
     @At
-    @Ok("json:full")
+    @Ok("json:{locked:'note',ignoreNull:false}")
     @RequiresAuthentication
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
         Cnd cnd = Cnd.NEW();
-        return shopGoodsService.data(length, start, draw, order, columns, cnd, null);
+        return shopGoodsService.data(length, start, draw, order, columns, cnd, "^(tags|goodsClass|goodsType)$");
     }
 
 
