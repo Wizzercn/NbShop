@@ -179,11 +179,13 @@ layout("/layouts/platform.html"){
                 },
                 {
                     "render": function (data, type, row) {
-                        if(data&&data.length>0){
+                        var tags=row.tags;
+                        if(tags&&tags.length>0){
                             var str="";
-                            for(var i=0;i<data.length;i++){
-                                str+="<span style='color: #4e6a80;padding-right: 2px;'>"+data.name+"</span>";
+                            for(var i=0;i<tags.length;i++){
+                                str+="<span style='color: #4e6a80;padding-right: 2px;'>"+tags[i].name+"</span>";
                             }
+                            return str;
                         }
                         return  '';
                     },
@@ -291,7 +293,7 @@ layout("/layouts/platform.html"){
             dialog.find("#ok").bind("click", function (event) {
                 var btn = $(this);
                 btn.button("loading");
-                $.post("${base!}/platform/shop/goods/goods/delete", {ids: ids}, function (data) {
+                $.post("${base!}/platform/shop/goods/goods/delete", {ids: ids.toString()}, function (data) {
                     if (data.code == 0) {
                         datatable.ajax.reload(null,false);
                     } else {
@@ -321,7 +323,7 @@ layout("/layouts/platform.html"){
             $.each(datatable.rows('.selected').data(), function (i, n) {
                 ids.push(n.id);
             });
-            $.post("${base!}/platform/shop/goods/goods/up", {ids: ids}, function (data) {
+            $.post("${base!}/platform/shop/goods/goods/up", {ids: ids.toString()}, function (data) {
                 if (data.code == 0) {
                     datatable.ajax.reload(null,false);
                 } else {
