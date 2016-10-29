@@ -259,10 +259,23 @@ public class ShopGoodsController {
      * @return
      */
     @At
-    @Ok("json:{locked:'note',ignoreNull:false}")
+    @Ok("json:{locked:'note|prop|param|spec',ignoreNull:false}")
     @RequiresAuthentication
-    public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
+    public Object data(@Param("name") String name, @Param("disabled") String disabled, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
         Cnd cnd = Cnd.NEW();
+        if (!Strings.isBlank(name)) {
+            cnd.and("name", "like", "%" + name + "%");
+        }
+        if (!Strings.isBlank(disabled)) {
+            switch (disabled) {
+                case "1":
+                    cnd.and("disabled", "=", true);
+                    break;
+                case "0":
+                    cnd.and("disabled", "=", false);
+                    break;
+            }
+        }
         return shopGoodsService.data(length, start, draw, order, columns, cnd, "^(tags|goodsClass|goodsType)$");
     }
 
@@ -286,5 +299,15 @@ public class ShopGoodsController {
         }
     }
 
+    @At("/location")
+    @Ok("json")
+    public Object location(@Param("pk") String pk, @Param("name") String name, @Param("value") int value) {
+        shopGoodsService.update(Chain.make("location", value), Cnd.where("id", "=", pk));
+        NutMap nutMap = new NutMap();
+        nutMap.addv("name", name);
+        nutMap.addv("pk", pk);
+        nutMap.addv("value", value);
+        return nutMap;
+    }
 
 }
