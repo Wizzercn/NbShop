@@ -147,7 +147,7 @@ layout("/layouts/platform.html"){
                                 </div>
                                 <div id="sp_new" style="display: <%if(obj.hasSpec){%>block<%}else{%>none<%}%>;">
                                     <%if(obj.hasSpec){%>
-                                   
+
                                     <div class="form-group" id="gg_new">
                                         <label for="gg_new" class="col-sm-2 control-label">规格</label>
                                         <div class="col-sm-8">
@@ -336,7 +336,7 @@ layout("/layouts/platform.html"){
                     <div class="tab-pane fade" id="inf">
                         <div class="row mb10">
                             <div class="col-lg-12" style="text-align:left">
-                                <textarea id="note" name="note" style="width:100%;height:200px;"></textarea>
+                                <textarea id="note" name="note" style="width:100%;height:200px;">${obj.note!}</textarea>
                             </div>
                         </div>
                     </div>
@@ -671,6 +671,9 @@ layout("/layouts/platform.html"){
                 $("#plist tbody").html("");
                 var i=0;
                 var sku=$("#sku").val();
+                var buyMin=$("#buyMin").val();
+                var buyMax=$("#buyMax").val();
+                var stock=$("#stock").val();
                 var price=$("#price").val();
                 var priceMarket=$("#priceMarket").val();
                 var priceCost=$("#priceCost").val();
@@ -688,13 +691,13 @@ layout("/layouts/platform.html"){
                     str+="<td>"+name+"<input name='productId' type='hidden'></td>";
                     str+="<td><input name='sku' type='text' class='form-control'  value='"+bn+"' style='height: 22px;width: 80px;padding: 0 2px;'></td>";
                     str+="<td><input name='up' type='checkbox' checked></td>";
-                    str+="<td><input name='stock' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
-                    str+="<td><input name='buyMin' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
-                    str+="<td><input name='buyMax' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
+                    str+="<td><input name='stock' type='text' value='"+stock+"' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
+                    str+="<td><input name='buyMin' type='text' value='"+buyMin+"' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
+                    str+="<td><input name='buyMax' type='text' value='"+buyMax+"' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
                     str+="<td style='text-align: left;width: 150px;'><div style='float: left'><input name='price' type='text' value='"+price+"' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></div><div style='float: left'>" +
                             "<input name='lvprice' type='hidden' value='[]'><a class='member' href='javascript:;' style='color: #428bca'>会员价</a></div></td>";
                     str+="<td><input name='priceMarket' value='"+priceMarket+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
-                    str+="<td style='display: none'><input name='priceCost[]' value='"+priceCost+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
+                    str+="<td style='display: none'><input name='priceCost' value='"+priceCost+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
                     str+="<td><input name='weight' value='"+weight+"' type='text' class='form-control' style='height: 22px;width: 60px;padding: 0 2px;'></td>";
                     str+="<td><input name='isDefault' type='checkbox'></td>";
                     str+="<td><a class='delSpec' href='javascript:;' style='color: #428bca'>删除</a></td>";
@@ -773,7 +776,7 @@ layout("/layouts/platform.html"){
                             'lvprice':JSON.parse(lvprice),'priceMarket':priceMarket,'priceCost':priceCost,'weight':weight,'isDefault':isDefault});
                     });
                     $("#hasSpec").val("1");
-                    $("#specs").val(JSON.stringify(specs));
+                    $("#products").val(JSON.stringify(specs));
                     $("#sp").hide();
                     $("#sp_new").html('<div class="form-group" id="gg_new">'+
                             '<label for="gg_new" class="col-sm-2 control-label">规格</label>'+

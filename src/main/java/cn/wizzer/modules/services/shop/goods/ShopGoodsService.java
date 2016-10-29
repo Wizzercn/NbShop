@@ -72,7 +72,7 @@ public class ShopGoodsService extends Service<Shop_goods> {
                 if (Strings.isBlank(productArr[i].getString("sku"))) {
                     product.setSku(shopGoodsProductsService.getSkuPrefix() + "-" + i);
                 } else {
-                    product.setSku(productArr[i].getString("sku"));
+                    product.setSku(productArr[i].getString("sku").toUpperCase());
                 }
                 //通过规格获取名称
                 if (spec.contains("*") && spec.contains(":")) {
@@ -170,7 +170,7 @@ public class ShopGoodsService extends Service<Shop_goods> {
                 if (Strings.isBlank(productArr[i].getString("sku"))) {
                     product.setSku(shopGoodsProductsService.getSkuPrefix() + "-" + i);
                 } else {
-                    product.setSku(productArr[i].getString("sku"));
+                    product.setSku(productArr[i].getString("sku").toUpperCase());
                 }
                 //通过规格获取名称
                 if (spec.contains("*") && spec.contains(":")) {
