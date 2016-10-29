@@ -105,9 +105,7 @@ public class ShopGoodsController {
     @RequiresAuthentication
     public Object getProps(String id) {
         List<Shop_goods_type_props> list = shopGoodsTypePropsService.query(Cnd.where("typeId", "=", id).asc("location"));
-        for (Shop_goods_type_props props : list) {
-            shopGoodsTypePropsService.fetchLinks(props, "propsValues", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypePropsService.fetchLinks(list, "propsValues", Cnd.orderBy().asc("location"));
         return Result.success("", list);
     }
 
@@ -122,9 +120,7 @@ public class ShopGoodsController {
     @RequiresAuthentication
     public Object getParam(String id) {
         List<Shop_goods_type_paramg> list = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", id).asc("location"));
-        for (Shop_goods_type_paramg paramg : list) {
-            shopGoodsTypeParamgService.fetchLinks(paramg, "params", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypeParamgService.fetchLinks(list, "params", Cnd.orderBy().asc("location"));
         return Result.success("", list);
     }
 
@@ -139,9 +135,7 @@ public class ShopGoodsController {
     @RequiresAuthentication
     public Object getBrand(String id) {
         List<Shop_goods_type_brand> list = shopGoodsTypeBrandService.query(Cnd.where("typeId", "=", id).asc("location"));
-        for (Shop_goods_type_brand brand : list) {
-            shopGoodsTypeBrandService.fetchLinks(brand, "brand", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypeBrandService.fetchLinks(list, "brand", Cnd.orderBy().asc("location"));
         return Result.success("", list);
     }
 
@@ -175,9 +169,7 @@ public class ShopGoodsController {
             ids.add(spec.getSpecId());
         }
         List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
-        for (Shop_goods_spec spec : list) {
-            shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsSpecService.fetchLinks(list, "specValues", Cnd.orderBy().asc("location"));
         if (Strings.isEmpty(Strings.sNull(sku).trim())) {
             sku = shopGoodsProductsService.getSkuPrefix();
         }
@@ -199,26 +191,22 @@ public class ShopGoodsController {
         try {
             return Result.success("system.success", shopGoodsService.add(shopGoods, products, spec_values, prop_values, param_values, images));
         } catch (Exception e) {
-            return Result.error("system.error"+ ":请检查货号是否已被占用");
+            return Result.error("system.error" + ":请检查货号是否已被占用");
         }
     }
 
     @At("/edit/?")
     @Ok("beetl:/platform/shop/goods/goods/edit.html")
     @RequiresAuthentication
-    public Object edit(String id,HttpServletRequest req) {
+    public Object edit(String id, HttpServletRequest req) {
         //获取商品信息
-        Shop_goods obj= shopGoodsService.fetch(id);
+        Shop_goods obj = shopGoodsService.fetch(id);
         //获取商品类型对应的属性信息
         List<Shop_goods_type_props> typePropList = shopGoodsTypePropsService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
-        for (Shop_goods_type_props props : typePropList) {
-            shopGoodsTypePropsService.fetchLinks(props, "propsValues", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypePropsService.fetchLinks(typePropList, "propsValues", Cnd.orderBy().asc("location"));
         //获取商品类型对应的参数信息
         List<Shop_goods_type_paramg> typeParamgList = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
-        for (Shop_goods_type_paramg paramg : typeParamgList) {
-            shopGoodsTypeParamgService.fetchLinks(paramg, "params", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypeParamgService.fetchLinks(typeParamgList, "params", Cnd.orderBy().asc("location"));
         //获取商品类型对应的规格信息
         List<String> ids = new ArrayList<>();
         List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
@@ -227,17 +215,12 @@ public class ShopGoodsController {
         }
         //组装规格的值
         List<Shop_goods_spec> specList = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
-        for (Shop_goods_spec spec : specList) {
-            shopGoodsSpecService.fetchLinks(spec, "specValues", Cnd.orderBy().asc("location"));
-        }
+        shopGoodsSpecService.fetchLinks(specList, "specValues", Cnd.orderBy().asc("location"));
         //组装商品各类关联表数据
-        shopGoodsService.fetchLinks(obj, null,Cnd.orderBy().asc("location"));
-        List<Shop_goods_products> productsList=obj.getProductsList();
+        shopGoodsService.fetchLinks(obj, null, Cnd.orderBy().asc("location"));
+        List<Shop_goods_products> productsList = obj.getProductsList();
         //取出货品对应的会员价格数据
-        for(Shop_goods_products product:productsList){
-            shopGoodsProductsService.fetchLinks(product,"lvPriceList");
-        }
-
+        shopGoodsProductsService.fetchLinks(productsList, "lvPriceList");
         req.setAttribute("specList", specList);
         req.setAttribute("typePropList", typePropList);
         req.setAttribute("typeParamgList", typeParamgList);
@@ -245,7 +228,7 @@ public class ShopGoodsController {
         req.setAttribute("lvList", shopMemberLvService.query());
         req.setAttribute("productNum", productsList.size());
         //在页面上显示商品类型管理的品牌
-        req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId",obj.getTypeId())));
+        req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId", obj.getTypeId())));
         return obj;
     }
 
@@ -259,7 +242,7 @@ public class ShopGoodsController {
                          @Param("images") String images,
                          HttpServletRequest req) {
         try {
-            return Result.success("system.success", shopGoodsService.save(shopGoods, products, spec_values, prop_values, param_values, images,Strings.sNull(req.getAttribute("uid"))));
+            return Result.success("system.success", shopGoodsService.save(shopGoods, products, spec_values, prop_values, param_values, images, Strings.sNull(req.getAttribute("uid"))));
         } catch (Exception e) {
             return Result.error("system.error");
         }

@@ -114,15 +114,9 @@ public class ShopGoodsTypeController {
         req.setAttribute("hasTab", hasTab);
         req.setAttribute("brandList", shopGoodsBrandService.query(Cnd.orderBy().asc("location")));
         shopGoodsTypeService.fetchLinks(obj, null, Cnd.orderBy().asc("location"));
-        for (Shop_goods_type_props o : obj.getPropsList()) {
-            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
-        }
-        for (Shop_goods_type_spec o : obj.getSpecList()) {
-            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
-        }
-        for (Shop_goods_type_paramg o : obj.getParamgList()) {
-            shopGoodsTypeService.dao().fetchLinks(o, null, Cnd.orderBy().asc("location"));
-        }
+        shopGoodsTypeService.fetchLinks(obj.getPropsList(), null, Cnd.orderBy().asc("location"));
+        shopGoodsTypeService.fetchLinks(obj.getSpecList(), null, Cnd.orderBy().asc("location"));
+        shopGoodsTypeService.fetchLinks(obj.getParamgList(), null, Cnd.orderBy().asc("location"));
         return obj;
     }
 
