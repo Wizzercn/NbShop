@@ -51,6 +51,9 @@ public class ShopGoodsService extends Service<Shop_goods> {
         shopGoods.setParam(param_values);
         shopGoods.setSpec(spec_values);
         shopGoods.setProp(prop_values);
+        if (!shopGoods.isDisabled()) {//上架时间
+            shopGoods.setUpAt((int) (System.currentTimeMillis() / 1000));
+        }
         this.insert(shopGoods);
         //商品货品
         NutMap[] productArr = Json.fromJsonAsArray(NutMap.class, products);
@@ -87,6 +90,9 @@ public class ShopGoodsService extends Service<Shop_goods> {
                 product.setName(name);
                 product.setIsDefault(productArr[i].getBoolean("isDefault"));
                 product.setDisabled(productArr[i].getBoolean("disabled"));
+                if (!product.isDisabled()) {//上架时间
+                    product.setUpAt((int) (System.currentTimeMillis() / 1000));
+                }
                 product.setStock(NumberUtils.toInt(productArr[i].getString("stock"), 0));
                 product.setBuyMin(NumberUtils.toInt(productArr[i].getString("buyMin"), 0));
                 product.setBuyMax(NumberUtils.toInt(productArr[i].getString("buyMax"), 0));
@@ -256,7 +262,7 @@ public class ShopGoodsService extends Service<Shop_goods> {
         //删除商品货品信息
         shopGoodsProductsService.clear(Cnd.where("goodsId", "in", ids));
         //清除标签关联表数据
-        this.dao().clear("shop_goods_tag_link",Cnd.where("goodsId", "in", ids));
+        this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "in", ids));
         //删除商品
         this.delete(ids);
     }
