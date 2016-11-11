@@ -303,6 +303,7 @@ public class ShopGoodsController {
 
     /**
      * 显示商品标签
+     *
      * @param ids
      * @param req
      * @return
@@ -317,6 +318,7 @@ public class ShopGoodsController {
 
     /**
      * 保存商品标签
+     *
      * @param goodsIds
      * @param tagIds
      * @return
@@ -343,6 +345,7 @@ public class ShopGoodsController {
 
     /**
      * 商品排序
+     *
      * @param pk
      * @param name
      * @param value
@@ -358,6 +361,79 @@ public class ShopGoodsController {
         nutMap.addv("pk", pk);
         nutMap.addv("value", value);
         return nutMap;
+    }
+
+    /**
+     * 显示货品列表，上下架操作
+     *
+     * @param goodsId
+     * @param req
+     * @return
+     */
+    @At("/updown/?")
+    @Ok("beetl:/platform/shop/goods/goods/updown.html")
+    @RequiresAuthentication
+    public Object updown(String goodsId, HttpServletRequest req) {
+        req.setAttribute("goodsId", goodsId);
+        return shopGoodsProductsService.query(Cnd.where("goodsId", "=", goodsId).desc("location"));
+    }
+
+    /**
+     * 上下架
+     *
+     * @param goodsId
+     * @param ids
+     * @param req
+     * @return
+     */
+    @At("/updownDo")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object updownDo(@Param("goodsId") String goodsId, @Param("ids") String ids, HttpServletRequest req) {
+        try {
+            shopGoodsService.updown(goodsId, ids, Strings.sNull(req.getAttribute("uid")));
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    /**
+     * 批量上架
+     *
+     * @param ids
+     * @param req
+     * @return
+     */
+    @At("/up")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object up(@Param("ids") String[] ids, HttpServletRequest req) {
+        try {
+            shopGoodsService.updowns(ids, false, Strings.sNull(req.getAttribute("uid")));
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    /**
+     * 批量下架
+     *
+     * @param ids
+     * @param req
+     * @return
+     */
+    @At("/down")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object down(@Param("ids") String[] ids, HttpServletRequest req) {
+        try {
+            shopGoodsService.updowns(ids, true, Strings.sNull(req.getAttribute("uid")));
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 
 }

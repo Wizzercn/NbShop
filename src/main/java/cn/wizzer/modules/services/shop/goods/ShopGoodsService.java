@@ -18,6 +18,8 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import java.util.List;
+
 @IocBean(args = {"refer:dao"})
 public class ShopGoodsService extends Service<Shop_goods> {
     @Inject
@@ -265,6 +267,50 @@ public class ShopGoodsService extends Service<Shop_goods> {
         this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "in", ids));
         //删除商品
         this.delete(ids);
+    }
+
+    /**
+     * 上下架货品
+     *
+     * @param goodsId
+     * @param ids
+     * @param uid
+     */
+    @Aop(TransAop.READ_COMMITTED)
+    public void updown(String goodsId, String ids, String uid) {
+        List<Shop_goods_products> list = shopGoodsProductsService.query(Cnd.where("goodsId", "=", goodsId).desc("location"));
+        for (Shop_goods_products product : list) {
+            if (!product.isDisabled() && !ids.contains(product.getId())) {
+                //下架
+                shopGoodsProductsService.update(Chain.make("disabled", true).add("downAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", product.getId()));
+            } else if (product.isDisabled() && ids.contains(product.getId())) {
+                //上架
+                shopGoodsProductsService.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", product.getId()));
+            }
+        }
+        int upNum = shopGoodsProductsService.count(Cnd.where("goodsId", "=", goodsId).and("disabled", "=", false));
+        if (upNum == 0) {
+            this.update(Chain.make("disabled", true).add("downAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", goodsId));
+        } else {
+            this.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", goodsId));
+        }
+    }
+
+    /**
+     * 批量上下架
+     * @param goodsIds
+     * @param disabled
+     * @param uid
+     */
+    @Aop(TransAop.READ_COMMITTED)
+    public void updowns(String[] goodsIds, boolean disabled, String uid) {
+        if (disabled) {
+            this.update(Chain.make("disabled", true).add("downAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "in", goodsIds));
+            shopGoodsProductsService.update(Chain.make("disabled", true).add("downAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("goodsId", "in", goodsIds));
+        } else {
+            this.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "in", goodsIds));
+            shopGoodsProductsService.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("goodsId", "in", goodsIds));
+        }
     }
 }
 
