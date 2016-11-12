@@ -129,10 +129,13 @@ layout("/layouts/platform.html"){
 
                                         </div>
                                         <div id="img">
-                                            <%if(!isEmpty(obj.imagesList)){
+                                            <%
+                                            var imgNum=0;
+                                            if(!isEmpty(obj.imagesList)){
                                             var i=0;
                                             for(o in obj.imagesList){
                                             i++;
+                                            imgNum++;
                                             var c="divImg";
                                             if(o.imgurl==obj.imgurl){
                                             c="divImgD";
@@ -799,7 +802,7 @@ layout("/layouts/platform.html"){
     <%}%>
 </div>
 <script language="JavaScript">
-    var imgId=0;
+    var imgId=${imgNum!0};
     var ue;
     function initTreeView() {
         $("#jsTreeClass").jstree({
