@@ -139,6 +139,9 @@ public class Shop_goods extends Model implements Serializable {
     @Many(target = Shop_goods_products.class, field = "goodsId")
     private List<Shop_goods_products> productsList;
 
+    @ManyMany(from = "goodsId", relation = "shop_goods_tag_link", target = Shop_goods_tag.class, to = "tagId")
+    private List<Shop_goods_tag> tags;
+
     public String getId() {
         return id;
     }
@@ -345,5 +348,13 @@ public class Shop_goods extends Model implements Serializable {
 
     public void setProductsList(List<Shop_goods_products> productsList) {
         this.productsList = productsList;
+    }
+
+    public List<Shop_goods_tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Shop_goods_tag> tags) {
+        this.tags = tags;
     }
 }

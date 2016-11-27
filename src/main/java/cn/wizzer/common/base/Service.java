@@ -53,12 +53,16 @@ public class Service<T> extends EntityService<T> {
         return this.dao().fetch(this.getEntityClass(), name);
     }
 
-    public int delete(String name) {
-        return this.dao().delete(this.getEntityClass(), name);
+    public <T> T fetchLinks(T t, String name) {
+        return this.dao().fetchLinks(t, name);
     }
 
-    public T fetchLinks(T t, String name) {
-        return this.dao().fetchLinks(t, name);
+    public <T> T fetchLinks(T t, String name, Condition cnd) {
+        return this.dao().fetchLinks(t, name, cnd);
+    }
+
+    public int delete(String name) {
+        return this.dao().delete(this.getEntityClass(), name);
     }
 
     public T insert(T t) {
@@ -85,10 +89,6 @@ public class Service<T> extends EntityService<T> {
      */
     public int updateIgnoreNull(Object obj) {
         return this.dao().updateIgnoreNull(obj);
-    }
-
-    public T fetchLinks(T t, String name, Condition cnd) {
-        return this.dao().fetchLinks(t, name, cnd);
     }
 
     public int delete(long id) {

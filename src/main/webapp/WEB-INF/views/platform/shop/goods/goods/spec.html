@@ -17,8 +17,8 @@
                                     <input id="s${v.id!}" type="checkbox" value="${v.id!}"
                                            title="${v.spec_value!}"><%if(!isEmpty(v.spec_picurl)){%><img src="${v.spec_picurl!}" style="width: 12px;height: 12px;"><%}%>${v.spec_value!}
 
-                                    <a href="javascript:selImg('${v.id!}');" style="color: #428bca">选择图片</a>
-                                    <div id="s_img${v.id!}"></div>
+                                    <%if(o.type==1){%><a href="javascript:selImg('${v.id!}');" style="color: #428bca">选择图片</a><%}%>
+                                    <div style="padding-left: 60px" id="s_img${v.id!}"></div>
                                 </div>
                                 <% } %>
                             </div>
@@ -117,7 +117,7 @@
         lv_show="";
     <%}%>
     function specSelImg(id,url){
-        $("#s_img"+id).html("<img class='specImg' width='50' height='50' src='"+url+"' style='height: 50px;width: 50px;'>");
+        $("#s_img"+id).html("<img class='specImg' src='"+url+"' style='height: 30px;width: 30px;'>");
         $("#dialogImg").modal("hide");
     }
     function specDelImg(id){

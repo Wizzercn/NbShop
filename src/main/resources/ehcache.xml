@@ -9,8 +9,8 @@
            eternal="true"
            timeToLiveSeconds="0"
            timeToIdleSeconds="0"
-           diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="0"/>
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600"/>
 
     <defaultCache maxElementsInMemory="10000" eternal="false"
                   timeToIdleSeconds="86400" timeToLiveSeconds="86400" overflowToDisk="false"

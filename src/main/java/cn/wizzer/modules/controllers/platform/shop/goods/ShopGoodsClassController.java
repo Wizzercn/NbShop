@@ -42,9 +42,7 @@ public class ShopGoodsClassController {
     @RequiresAuthentication
     public Object index(HttpServletRequest req) {
         List<Shop_goods_class> list = shopGoodsClassService.query(Cnd.where("parentId", "=", "").or("parentId", "is", null).asc("location").asc("path"));
-        for (Shop_goods_class goodsClass : list) {
-            shopGoodsClassService.fetchLinks(goodsClass, "goodsType");
-        }
+        shopGoodsClassService.fetchLinks(list, "goodsType");
         return list;
     }
 
@@ -169,7 +167,7 @@ public class ShopGoodsClassController {
     @Ok("beetl:/platform/shop/goods/class/child.html")
     @RequiresAuthentication
     public Object child(String id) {
-        List<Shop_goods_class> list=shopGoodsClassService.query(Cnd.where("parentId", "=", id).asc("location").asc("path"));
+        List<Shop_goods_class> list = shopGoodsClassService.query(Cnd.where("parentId", "=", id).asc("location").asc("path"));
         for (Shop_goods_class goodsClass : list) {
             shopGoodsClassService.fetchLinks(goodsClass, "goodsType");
         }
