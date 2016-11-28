@@ -156,6 +156,21 @@ public class Setup implements org.nutz.mvc.Setup {
             conf.setConfigValue("/upload");
             conf.setNote("文件上传文件夹");
             dao.insert(conf);
+            conf = new Sys_config();
+            conf.setConfigKey("ShopRedisOn");
+            conf.setConfigValue("true");
+            conf.setNote("启用redis");
+            dao.insert(conf);
+            conf = new Sys_config();
+            conf.setConfigKey("ShopElasticsearchOn");
+            conf.setConfigValue("true");
+            conf.setNote("若启用es则redis必须启用");
+            dao.insert(conf);
+            conf = new Sys_config();
+            conf.setConfigKey("ShopFastdfsOn");
+            conf.setConfigValue("true");
+            conf.setNote("启用文件服务器");
+            dao.insert(conf);
             //初始化单位
             Sys_unit unit = new Sys_unit();
             unit.setPath("0001");

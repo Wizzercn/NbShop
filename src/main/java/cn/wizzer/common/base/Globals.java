@@ -25,6 +25,12 @@ public class Globals {
     public static String AppDomain = "127.0.0.1";
     //文件上传路径
     public static String AppUploadPath = "/upload";
+    //启用redis缓存服务
+    public static boolean ShopRedisOn = true;
+    //若启用搜索引擎服务,ShopRedisOn必须为true
+    public static boolean ShopElasticsearchOn = true;
+    //启用文件服务器服务
+    public static boolean ShopFastdfsOn = true;
     //系统自定义参数
     public static Map<String, String> MyConfig;
     //自定义路由
@@ -48,6 +54,15 @@ public class Globals {
                     break;
                 case "AppUploadPath":
                     Globals.AppUploadPath = sysConfig.getConfigValue();
+                    break;
+                case "ShopRedisOn":
+                    Globals.ShopRedisOn = "true".equals(sysConfig.getConfigValue().toLowerCase());
+                    break;
+                case "ShopElasticsearchOn":
+                    Globals.ShopElasticsearchOn = "true".equals(sysConfig.getConfigValue().toLowerCase());
+                    break;
+                case "ShopFastdfsOn":
+                    Globals.ShopFastdfsOn = "true".equals(sysConfig.getConfigValue().toLowerCase());
                     break;
                 default:
                     Globals.MyConfig.put(sysConfig.getConfigKey(), sysConfig.getConfigValue());

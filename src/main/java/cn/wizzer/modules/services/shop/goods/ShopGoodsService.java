@@ -1,6 +1,10 @@
 package cn.wizzer.modules.services.shop.goods;
 
+import cn.wizzer.common.base.Globals;
 import cn.wizzer.common.base.Service;
+import cn.wizzer.common.services.pubsub.PubSub;
+import cn.wizzer.common.services.pubsub.PubSubService;
+import cn.wizzer.common.services.redis.RedisKey;
 import cn.wizzer.common.util.StringUtil;
 import cn.wizzer.modules.models.shop.*;
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +24,10 @@ import org.nutz.log.Logs;
 
 import java.util.List;
 
-@IocBean(args = {"refer:dao"})
-public class ShopGoodsService extends Service<Shop_goods> {
+import static cn.wizzer.common.services.redis.RedisInterceptor.jedis;
+
+@IocBean(args = {"refer:dao"}, create = "init")
+public class ShopGoodsService extends Service<Shop_goods> implements RedisKey, PubSub {
     @Inject
     private ShopGoodsProductsService shopGoodsProductsService;
     @Inject
@@ -30,6 +36,8 @@ public class ShopGoodsService extends Service<Shop_goods> {
     private ShopGoodsLvPriceService shopGoodsLvPriceService;
     @Inject
     private ShopGoodsImagesService shopGoodsImagesService;
+    @Inject
+    private PubSubService pubSubService;
 
     private static final Log log = Logs.get();
 
@@ -228,6 +236,11 @@ public class ShopGoodsService extends Service<Shop_goods> {
             }
             this.update(Chain.make("imgurl", defaultImge), Cnd.where("id", "=", shopGoods.getId()));
         }
+        //从redis删除缓存
+        if (Globals.ShopRedisOn) {
+            jedis().del(RDKEY_SHOP_GOODS + shopGoods.getId());
+            jedis().del(RDKEY_SHOP_PRODUCT + shopGoods.getId());
+        }
         return shopGoods.getId();
     }
 
@@ -246,6 +259,11 @@ public class ShopGoodsService extends Service<Shop_goods> {
         shopGoodsProductsService.clear(Cnd.where("goodsId", "=", id));
         //清除标签关联表数据
         this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "=", id));
+        //从redis删除缓存
+        if (Globals.ShopRedisOn) {
+            jedis().del(RDKEY_SHOP_GOODS + id);
+            jedis().del(RDKEY_SHOP_PRODUCT + id);
+        }
         //删除商品
         this.delete(id);
     }
@@ -265,6 +283,14 @@ public class ShopGoodsService extends Service<Shop_goods> {
         shopGoodsProductsService.clear(Cnd.where("goodsId", "in", ids));
         //清除标签关联表数据
         this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "in", ids));
+        //删除缓存
+        if (Globals.ShopRedisOn) {
+            for (String id : ids) {
+                //从redis删除缓存
+                jedis().del(RDKEY_SHOP_GOODS + id);
+                jedis().del(RDKEY_SHOP_PRODUCT + id);
+            }
+        }
         //删除商品
         this.delete(ids);
     }
@@ -298,6 +324,7 @@ public class ShopGoodsService extends Service<Shop_goods> {
 
     /**
      * 批量上下架
+     *
      * @param goodsIds
      * @param disabled
      * @param uid
@@ -310,6 +337,74 @@ public class ShopGoodsService extends Service<Shop_goods> {
         } else {
             this.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "in", goodsIds));
             shopGoodsProductsService.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("goodsId", "in", goodsIds));
+        }
+    }
+
+    /*
+   从redis里获取商品信息
+    */
+    @Aop("redis")
+    public Shop_goods getGoodsById(String id) {
+        if (Globals.ShopRedisOn) {
+            if (jedis().exists(RDKEY_SHOP_GOODS + id)) {
+                return Json.fromJson(Shop_goods.class, jedis().get(RDKEY_SHOP_GOODS + id));
+            } else {
+                Shop_goods goods = this.fetch(id);
+                this.fetchLinks(goods, null, Cnd.orderBy().asc("location"));
+                jedis().set(RDKEY_SHOP_GOODS + id, Json.toJson(goods));
+                return goods;
+            }
+        } else {
+            Shop_goods goods = this.fetch(id);
+            this.fetchLinks(goods, null, Cnd.orderBy().asc("location"));
+            return goods;
+        }
+    }
+
+    /*
+    从redis里获取缺省货品信息
+     */
+    @Aop("redis")
+    public Shop_goods_products getDefaultProductById(String id) {
+        if (Globals.ShopRedisOn) {
+            if (jedis().exists(RDKEY_SHOP_PRODUCT + id)) {
+                return Json.fromJson(Shop_goods_products.class, jedis().get(RDKEY_SHOP_PRODUCT + id));
+            } else {
+                Shop_goods_products product = shopGoodsProductsService.fetch(Cnd.where("goodsId", "=", id).and("isDefault", "=", true));
+                jedis().set(RDKEY_SHOP_PRODUCT + id, Json.toJson(product));
+                return product;
+            }
+        } else {
+            return shopGoodsProductsService.fetch(Cnd.where("goodsId", "=", id).and("isDefault", "=", true));
+        }
+    }
+
+    /**
+     * 初始化注册事件
+     */
+    private void init() {
+        pubSubService.reg("ps:goods:*", this);
+    }
+
+    /**
+     * 监听事件
+     *
+     * @param channel
+     * @param message
+     */
+    @Override
+    public void onMessage(String channel, String message) {
+        log.debugf("channel=%s, msg=%s", channel, message);
+        switch (channel) {
+            // TODO 数据库集群的delay会导致
+            case "ps:goods:add":
+
+                break;
+            case "ps:goods:update":
+
+                break;
+            default:
+                break;
         }
     }
 }
