@@ -382,7 +382,7 @@ public class ShopGoodsService extends Service<Shop_goods> implements RedisKey, P
     /**
      * 初始化注册事件
      */
-    private void init() {
+    public void init() {
         pubSubService.reg("ps:goods:*", this);
     }
 
