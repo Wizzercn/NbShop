@@ -1,0 +1,30 @@
+<div id="dialogTag" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">选择标签</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <%for(o in obj){%>
+                        <input type="checkbox" name="tag" value="${o.id!}"><span>${o.name!}</span>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="dialogTagOK" type="button" class="btn btn-primary" data-loading-text="确定...">确 定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+       <%for(o in tagLink){%>
+        $("input[value='${o.tagId!}']").attr("checked",true);
+        <%}%>
+    });
+</script>
