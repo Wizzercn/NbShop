@@ -13,8 +13,13 @@
     <dependencies>
         <dependency>
             <groupId>cn.wizzer</groupId>
+            <artifactId>wk-framework</artifactId>
+            <version>${code-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.wizzer</groupId>
             <artifactId>wk-code-generator</artifactId>
-            <version>4.0.1-SNAPSHOT</version>
+            <version>${code-version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

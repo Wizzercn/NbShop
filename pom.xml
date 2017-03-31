@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty-version>9.4.2.v20170220</jetty-version>
         <nutz-version>1.r.61-SNAPSHOT</nutz-version>
+        <code-version>4.0.1-SNAPSHOT</code-version>
     </properties>
     <developers>
         <developer>
@@ -341,7 +342,7 @@
         <dependency>
             <groupId>cn.wizzer</groupId>
             <artifactId>wk-code-generator</artifactId>
-            <version>4.0.1-SNAPSHOT</version>
+            <version>${code-version}</version>
         </dependency>
     </dependencies>
     <build>
