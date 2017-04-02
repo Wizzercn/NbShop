@@ -166,7 +166,7 @@ layout("/layouts/platform.html"){
                                         <label for="price" class="col-sm-2 control-label">销售价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="price" class="form-control" value="${@string.fenToYuan(obj.productsList[0].price)}" style="width: 120px;" name="price" placeholder="销售价">
+                                            <input type="text" id="price" class="form-control" value="${@money.fenToYuan(obj.productsList[0].price)}" style="width: 120px;" name="price" placeholder="销售价">
                                             <input type="hidden" name="lvprice" value="${@string.toJson(obj.productsList[0].lvPriceList),escape}">
                                             <%if(@lvList.size()>0){%>
 
@@ -179,7 +179,7 @@ layout("/layouts/platform.html"){
                                         <label for="priceMarket" class="col-sm-2 control-label">市场价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="priceMarket" value="${@string.fenToYuan(obj.productsList[0].priceMarket)}" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
+                                            <input type="text" id="priceMarket" value="${@money.fenToYuan(obj.productsList[0].priceMarket)}" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
 
                                         </div>
                                     </div>
@@ -474,10 +474,10 @@ layout("/layouts/platform.html"){
                                     <td><input name="buyMin" type="text" value="${o.buyMin}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td><input name="buyMax" type="text" value="${o.buyMax}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td style="text-align: left;width: 150px;">
-                                        <div style="float: left"><input name="price" type="text" value="${@string.fenToYuan(o.price)}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></div>
+                                        <div style="float: left"><input name="price" type="text" value="${@money.fenToYuan(o.price)}" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></div>
                                         <div style="float: left"><input name="lvprice" type="hidden" value='${@string.toJson(o.lvPriceList),escape}'>
                                             <a class="member" href="javascript:;" style="color: #428bca">会员价</a></div></td>
-                                    <td><input name="priceMarket" value="${@string.fenToYuan(o.priceMarket)}"  type="text" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
+                                    <td><input name="priceMarket" value="${@money.fenToYuan(o.priceMarket)}"  type="text" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td style="display: none"><input name="priceCost" value="" type="text" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td><input name="weight" value="${o.weight}"  type="text" class="form-control" style="height: 22px;width: 60px;padding: 0 2px;"></td>
                                     <td><input name="isDefault" type="checkbox" <%if(o.isDefault){%>checked<%}%>></td>

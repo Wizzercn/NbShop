@@ -40,6 +40,11 @@ public class Cms_article extends BaseModel implements Serializable {
     private String author;
 
     @Column
+    @Comment("链接地址")
+    @ColDefine(type = ColType.VARCHAR, width = 255)
+    private String url;
+
+    @Column
     @Comment("标题图")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String picurl;
@@ -112,6 +117,14 @@ public class Cms_article extends BaseModel implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getPicurl() {
