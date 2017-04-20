@@ -160,18 +160,13 @@ public class ShopGoodsController {
     @Ok("beetl:/platform/shop/goods/goods/spec.html")
     @RequiresAuthentication
     public void spec(String id, String sku, HttpServletRequest req) {
-        List<String> ids = new ArrayList<>();
         List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", id).asc("location"));
-        for (Shop_goods_type_spec spec : typeSpecList) {
-            ids.add(spec.getSpecId());
-        }
-        List<Shop_goods_spec> list = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
-        shopGoodsSpecService.fetchLinks(list, "specValues", Cnd.orderBy().asc("location"));
+        shopGoodsTypeSpecService.fetchLinks(typeSpecList, null, Cnd.orderBy().asc("location"));
         if (Strings.isEmpty(Strings.sNull(sku).trim())) {
             sku = shopGoodsProductsService.getSkuPrefix();
         }
         req.setAttribute("sku", sku.toUpperCase());
-        req.setAttribute("specList", list);
+        req.setAttribute("specList", typeSpecList);
         req.setAttribute("lvList", shopMemberLvService.query());
     }
 
@@ -205,20 +200,14 @@ public class ShopGoodsController {
         List<Shop_goods_type_paramg> typeParamgList = shopGoodsTypeParamgService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
         shopGoodsTypeParamgService.fetchLinks(typeParamgList, "params", Cnd.orderBy().asc("location"));
         //获取商品类型对应的规格信息
-        List<String> ids = new ArrayList<>();
         List<Shop_goods_type_spec> typeSpecList = shopGoodsTypeSpecService.query(Cnd.where("typeId", "=", obj.getTypeId()).asc("location"));
-        for (Shop_goods_type_spec spec : typeSpecList) {
-            ids.add(spec.getSpecId());
-        }
-        //组装规格的值
-        List<Shop_goods_spec> specList = shopGoodsSpecService.query(Cnd.where("id", "in", ids).asc("location"));
-        shopGoodsSpecService.fetchLinks(specList, "specValues", Cnd.orderBy().asc("location"));
+        shopGoodsTypeSpecService.fetchLinks(typeSpecList, null, Cnd.orderBy().asc("location"));
         //组装商品各类关联表数据
         shopGoodsService.fetchLinks(obj, null, Cnd.orderBy().asc("location"));
         List<Shop_goods_products> productsList = obj.getProductsList();
         //取出货品对应的会员价格数据
         shopGoodsProductsService.fetchLinks(productsList, "lvPriceList");
-        req.setAttribute("specList", specList);
+        req.setAttribute("specList", typeSpecList);
         req.setAttribute("typePropList", typePropList);
         req.setAttribute("typeParamgList", typeParamgList);
         req.setAttribute("typeList", shopGoodsTypeService.query());

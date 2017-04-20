@@ -45,7 +45,7 @@
                 if(data.code==0){
                     var str="";
                     $.each(data.data,function(idx,o){
-                        str+='<button type="button" class="btn btn-default btn-sm"  data-id="'+o.id+'">'+ o.spec_value+'</button> ';
+                        str+='<button type="button" class="btn btn-default btn-sm"  data-id="'+o.id+'" data-url="'+o.spec_picurl+'">'+ o.spec_value+'</button> ';
                     });
                     $("#specList").html(str);
                 }else{

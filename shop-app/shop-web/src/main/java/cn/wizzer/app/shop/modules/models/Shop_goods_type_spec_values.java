@@ -41,6 +41,11 @@ public class Shop_goods_type_spec_values extends BaseModel implements Serializab
     private String specValText;
 
     @Column
+    @Comment("规格值图片")
+    @ColDefine(type = ColType.VARCHAR, width = 255)
+    private String specValUrl;
+
+    @Column
     @Comment("类型规格ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String typeSpecId;
@@ -94,6 +99,14 @@ public class Shop_goods_type_spec_values extends BaseModel implements Serializab
 
     public void setSpecValText(String specValText) {
         this.specValText = specValText;
+    }
+
+    public String getSpecValUrl() {
+        return specValUrl;
+    }
+
+    public void setSpecValUrl(String specValUrl) {
+        this.specValUrl = specValUrl;
     }
 
     public String getTypeSpecId() {

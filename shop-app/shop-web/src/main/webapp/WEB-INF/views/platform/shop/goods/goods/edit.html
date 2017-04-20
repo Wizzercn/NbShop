@@ -425,16 +425,16 @@ layout("/layouts/platform.html"){
                     <div class="row">
                         <div class="col-xs-12" style="float: left">
                             <% for(o in specList){ %>
-                            <div class="spec" style="float: left;padding-right: 10px;" data-spec-name="${o.name!}" data-spec-type="${o.type!}" data-spec-id="${o.id!}">
-                                <span class="h5 mb10" style="float: left"><input class="specChkAll" type="checkbox"><strong>${o.name!}:</strong></span>
+                            <div class="spec" style="float: left;padding-right: 10px;" data-spec-name="${o.spec.name!}" data-spec-type="${o.spec.type!}" data-spec-id="${o.spec.id!}">
+                                <span class="h5 mb10" style="float: left"><input class="specChkAll" type="checkbox"><strong>${o.spec.name!}:</strong></span>
                                 <div style="float: left;padding-left: 20px;">
-                                    <% for(v in o.specValues){ %>
+                                    <% for(v in o.specValList){ %>
                                     <div class="vl" >
-                                        <input id="s${v.id!}" type="checkbox" value="${v.id!}"
-                                               title="${v.spec_value!}"><%if(!isEmpty(v.spec_picurl)){%><img src="${v.spec_picurl!}" style="width: 12px;height: 12px;"><%}%>${v.spec_value!}
+                                        <input id="s${v.specValueId!}" type="checkbox" value="${v.specValueId!}"
+                                               title="${v.specValText!}"><%if(!isEmpty(v.specValUrl)){%><img src="${v.specValUrl!}" style="width: 12px;height: 12px;"><%}%>${v.specValText!}
 
-                                        <%if(o.type==1){%><a href="javascript:selImg('${v.id!}');" style="color: #428bca">选择图片</a><%}%>
-                                        <div style="padding-left: 60px" id="s_img${v.id!}">
+                                        <%if(o.spec.type==1){%><a href="javascript:selImg('${v.specValueId!}');" style="color: #428bca">选择图片</a><%}%>
+                                        <div style="padding-left: 60px" id="s_img${v.specValueId!}">
 
                                         </div>
 
