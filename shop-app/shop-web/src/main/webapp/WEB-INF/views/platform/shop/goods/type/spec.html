@@ -1,3 +1,8 @@
+<style>
+    .btn-select{
+        background-color: #0b97c4;
+    }
+</style>
 <div id="dialogSpec" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -26,12 +31,21 @@
 </div>
 <script language="JavaScript">
     $(document).ready(function () {
+        $("#specList ").unbind("click").on("click","button",function(){
+            if($(this).hasClass("btn-default")){
+                $(this).removeClass("btn-default");
+                $(this).addClass("btn-select")
+            }else if($(this).hasClass("btn-select")){
+                $(this).removeClass("btn-select");
+                $(this).addClass("btn-default")
+            }
+        });
         $("#dialogSpec input[type=radio]").on("click",function(){
             $.post("${base!}/platform/shop/goods/type/spec_val/" + $(this).val(), {}, function (data) {
                 if(data.code==0){
                     var str="";
                     $.each(data.data,function(idx,o){
-                        str+='<button type="button" class="btn btn-default btn-sm">'+ o.spec_value+'</button> ';
+                        str+='<button type="button" class="btn btn-default btn-sm"  data-id="'+o.id+'">'+ o.spec_value+'</button> ';
                     });
                     $("#specList").html(str);
                 }else{

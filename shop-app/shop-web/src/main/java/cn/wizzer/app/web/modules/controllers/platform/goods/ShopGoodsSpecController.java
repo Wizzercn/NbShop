@@ -1,8 +1,11 @@
 package cn.wizzer.app.web.modules.controllers.platform.goods;
 
 import cn.wizzer.app.shop.modules.models.Shop_goods_spec;
+import cn.wizzer.app.shop.modules.models.Shop_goods_type_spec;
 import cn.wizzer.app.shop.modules.services.ShopGoodsSpecService;
 import cn.wizzer.app.shop.modules.services.ShopGoodsSpecValuesService;
+import cn.wizzer.app.shop.modules.services.ShopGoodsTypeService;
+import cn.wizzer.app.shop.modules.services.ShopGoodsTypeSpecService;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
@@ -28,13 +31,17 @@ public class ShopGoodsSpecController {
     private ShopGoodsSpecService shopGoodsSpecService;
     @Inject
     private ShopGoodsSpecValuesService shopGoodsSpecValuesService;
+    @Inject
+    private ShopGoodsTypeSpecService shopGoodsTypeSpecService;
+    @Inject
+    private ShopGoodsTypeService shopGoodsTypeService;
 
     @At("/image")
     @Ok("beetl:/platform/shop/goods/spec/image.html")
     @RequiresAuthentication
     public void index(@Param("w") int w, @Param("h") int h, HttpServletRequest req) {
         req.setAttribute("w", w);
-        req.setAttribute("h",h);
+        req.setAttribute("h", h);
     }
 
     @At("")
@@ -65,7 +72,7 @@ public class ShopGoodsSpecController {
     @SLog(tag = "新建商品规格", msg = "规格名称:${args[0].name}")
     public Object addDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
         try {
-            shopGoodsSpecService.add(shopGoodsSpec, spec_value,spec_picurl);
+            shopGoodsSpecService.add(shopGoodsSpec, spec_value, spec_picurl);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -76,16 +83,16 @@ public class ShopGoodsSpecController {
     @Ok("beetl:/platform/shop/goods/spec/edit.html")
     @RequiresAuthentication
     public Object edit(String id) {
-        return shopGoodsSpecService.fetchLinks(shopGoodsSpecService.fetch(id), "specValues",Cnd.orderBy().asc("location"));
+        return shopGoodsSpecService.fetchLinks(shopGoodsSpecService.fetch(id), "specValues", Cnd.orderBy().asc("location"));
     }
 
     @At
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.spec.edit")
     @SLog(tag = "修改商品规格", msg = "规格名称:${args[0].name}")
-    public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl,@Param("spec_value_id") String[] spec_value_id, HttpServletRequest req) {
+    public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, @Param("spec_value_id") String[] spec_value_id, HttpServletRequest req) {
         try {
-            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl,spec_value_id, Strings.sNull(req.getAttribute("uid")));
+            shopGoodsSpecService.update(shopGoodsSpec, spec_value, spec_picurl, spec_value_id, Strings.sNull(req.getAttribute("uid")));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -93,19 +100,22 @@ public class ShopGoodsSpecController {
     }
 
 
-    @At({"/delete", "/delete/?"})
+    @At({"/delete/?"})
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.spec.delete")
     @SLog(tag = "删除商品规格", msg = "ID:${args[2].getAttribute('id')}")
-    public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
+    public Object delete(String id, HttpServletRequest req) {
         try {
-            if (ids != null && ids.length > 0) {
-                shopGoodsSpecService.deleteSpec(ids);
-                req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
-            } else {
-                shopGoodsSpecService.deleteSpec(id);
-                req.setAttribute("id", id);
+            List<Shop_goods_type_spec> templist = shopGoodsTypeSpecService.query(Cnd.where("specId", "=", id));
+            if (templist.size() > 0) {
+                StringBuilder errMsg = new StringBuilder();
+                for (Shop_goods_type_spec goodsSpecTemp : templist) {
+                    errMsg.append(" " + shopGoodsTypeService.fetch(goodsSpecTemp.getTypeId()).getName());
+                }
+                return Result.error("在" + errMsg.toString() + " 类型中已使用，不允许删除");
             }
+            shopGoodsSpecService.deleteSpec(id);
+            req.setAttribute("id", id);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

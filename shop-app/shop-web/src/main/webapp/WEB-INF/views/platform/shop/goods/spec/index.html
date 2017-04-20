@@ -4,7 +4,6 @@ layout("/layouts/platform.html"){
 <header class="header navbar bg-white shadow">
     <div class="btn-group tool-button">
         <a class="btn btn-primary navbar-btn" href="${base!}/platform/shop/goods/spec/add" data-pjax><i class="ti-plus"></i> 添加规格</a>
-        <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
     </div>
 </header>
 <div class=panel-body style="padding-top: 50px;">
@@ -117,33 +116,6 @@ layout("/layouts/platform.html"){
                 dialog.modal("hide");
             }, "json");
         });
-    }
-    function delCheck() {
-        var chks = datatable.rows('.selected').data();
-        if (chks.length > 0) {
-            var ids = [];
-            $.each(datatable.rows('.selected').data(), function (i, n) {
-                ids.push(n.id);
-            });
-            var dialog = $("#dialogDelete");
-            dialog.modal("show");
-            dialog.find("#ok").unbind("click");
-            dialog.find("#ok").bind("click", function (event) {
-                var btn = $(this);
-                btn.button("loading");
-                $.post("${base!}/platform/shop/goods/spec/delete", {ids: ids.toString()}, function (data) {
-                    if (data.code == 0) {
-                        datatable.ajax.reload(null,false);
-                    } else {
-                        Toast.error(data.msg);
-                    }
-                    btn.button("reset");
-                    dialog.modal("hide");
-                }, "json");
-            });
-        } else {
-            Toast.warning("请先选择要删除的项！");
-        }
     }
     $(function () {
         initDatatable();

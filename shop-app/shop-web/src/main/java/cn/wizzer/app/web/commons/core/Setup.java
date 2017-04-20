@@ -163,12 +163,12 @@ public class Setup implements org.nutz.mvc.Setup {
             //初始化配置表
             Sys_config conf = new Sys_config();
             conf.setConfigKey("AppName");
-            conf.setConfigValue("NutzWk 开发框架");
+            conf.setConfigValue("NutzShop商城系统");
             conf.setNote("系统名称");
             dao.insert(conf);
             conf = new Sys_config();
             conf.setConfigKey("AppShrotName");
-            conf.setConfigValue("NutzWk");
+            conf.setConfigValue("NutzShop");
             conf.setNote("系统短名称");
             dao.insert(conf);
             conf = new Sys_config();

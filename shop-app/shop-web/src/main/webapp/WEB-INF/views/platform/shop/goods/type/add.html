@@ -116,6 +116,7 @@ layout("/layouts/platform.html"){
                                     <thead>
                                     <tr align="center">
                                         <td>规格名称</td>
+                                        <td>规格值</td>
                                         <td width="2"></td>
                                         <td>操作</td>
                                     </tr>
@@ -591,6 +592,10 @@ layout("/layouts/platform.html"){
                     var spec=$("#dialogSpec input[type=radio]:checked").val();
                     var text=$("#dialogSpec input[type=radio]:checked + span").text();
                     if(spec){
+                        if($("#specList").find(".btn-select").length<1){
+                            Toast.warning("请选择一个规格值");
+                            return false;
+                        }
                         var ok=true;
                         $("#specTab").find("input[name='specId']").each(function(){
                             if(spec==$(this).val()){
@@ -599,8 +604,17 @@ layout("/layouts/platform.html"){
                             }
                         });
                         if(ok){
+                            var specValIds = "";
+                            var specValText = "";
+                            $("#specList").find("button").each(function () {
+                                if ($(this).hasClass("btn-select")) {
+                                    specValIds += $(this).attr("data-id") + ",";
+                                    specValText += $(this).text() + ",";
+                                }
+                            });
                             $("#specTab tbody").append('<tr align="center"><td height="45">' +
                                     '<input type="hidden" name="specId" class="form-control" value="'+spec+'"><div class="specName">'+text+'</div></td>' +
+                                    '<td><input type="hidden" name="specValIds" class="form-control" value="'+specValIds+'"><input name="specValText" class="form-control" style="width: 80px;" readonly value="'+specValText+'"></td>' +
                                     '<td width="2"></td>' +
                                     '<td><i class="up fa fa-arrow-up" style="cursor:pointer;padding: 5px;" title="向上移动"></i>' +
                                     '<i class="down fa fa-arrow-down" style="cursor:pointer;padding: 5px;" title="向下移动"></i>' +

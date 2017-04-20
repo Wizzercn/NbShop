@@ -35,6 +35,8 @@ public class ShopGoodsTypeServiceImpl extends BaseServiceImpl<Shop_goods_type> i
     private ShopGoodsTypeSpecService shopGoodsTypeSpecService;
     @Inject
     private ShopGoodsTypeTabService shopGoodsTypeTabService;
+    @Inject
+    private ShopGoodsTypeSpecValuesService shopGoodsTypeSpecValuesService;
 
     /**
      * 添加类型
@@ -53,6 +55,7 @@ public class ShopGoodsTypeServiceImpl extends BaseServiceImpl<Shop_goods_type> i
     @Aop(TransAop.READ_COMMITTED)
     public void add(Shop_goods_type shopGoodsType, String[] brand, String[] props_name, String[] props_type,
                     String[] props_values, String[] specId,
+                    String[] specValIds, String[] specValText,
                     String[] group_name, String[] group_params,
                     String[] tab_name, String[] tab_note) {
         this.insert(shopGoodsType);
@@ -90,6 +93,22 @@ public class ShopGoodsTypeServiceImpl extends BaseServiceImpl<Shop_goods_type> i
                 spec.setSpecId(Strings.sNull(specId[i]));
                 spec.setLocation(i);
                 shopGoodsTypeSpecService.insert(spec);
+                //保存规格值
+                String[] specValIdsTemp = StringUtils.split(Strings.sNull(specValIds[i]), ",");
+                String[] specValTextTemp = StringUtils.split(Strings.sNull(specValText[i]), ",");
+                for (int j = 0; j < specValIdsTemp.length; j++) {
+                    if (!Strings.isBlank(specValIdsTemp[j])) {
+                        Shop_goods_type_spec_values spec_values = new Shop_goods_type_spec_values();
+                        spec_values.setSpecId(specId[i]);
+                        spec_values.setSpecValueId(specValIdsTemp[j]);
+                        spec_values.setTypeId(shopGoodsType.getId());
+                        spec_values.setTypeSpecId(spec.getId());
+                        spec_values.setSpecValText(specValTextTemp[j]);
+                        spec_values.setLocation(j);
+                        shopGoodsTypeSpecValuesService.insert(spec_values);
+                    }
+
+                }
             }
         }
         if (group_name != null && shopGoodsType.isHasParam()) {
@@ -140,6 +159,7 @@ public class ShopGoodsTypeServiceImpl extends BaseServiceImpl<Shop_goods_type> i
     @Aop(TransAop.READ_COMMITTED)
     public void update(Shop_goods_type shopGoodsType, String[] brand, String[] props_name, String[] props_type,
                        String[] props_values, String[] specId,
+                       String[] specValIds, String[] specValText,
                        String[] group_name, String[] group_params,
                        String[] tab_name, String[] tab_note, String uid) {
         shopGoodsType.setOpAt((int) (System.currentTimeMillis() / 1000));
@@ -177,12 +197,29 @@ public class ShopGoodsTypeServiceImpl extends BaseServiceImpl<Shop_goods_type> i
         }
         shopGoodsTypeSpecService.clear(Cnd.where("typeId", "=", shopGoodsType.getId()));
         if (specId != null && shopGoodsType.isHasSpec()) {
+            shopGoodsTypeSpecValuesService.clear(Cnd.where("typeId","=",shopGoodsType.getId()));
             for (int i = 0; i < specId.length; i++) {
                 Shop_goods_type_spec spec = new Shop_goods_type_spec();
                 spec.setTypeId(shopGoodsType.getId());
                 spec.setSpecId(Strings.sNull(specId[i]));
                 spec.setLocation(i);
                 shopGoodsTypeSpecService.insert(spec);
+                //保存规格值
+                String[] specValIdsTemp =StringUtils.split(Strings.sNull( specValIds[i]), ",");
+                String[] specValTextTemp =StringUtils.split(Strings.sNull( specValText[i]), ",");
+                for (int j = 0; j < specValIdsTemp.length; j++) {
+                    if (!Strings.isBlank(specValIdsTemp[j])) {
+                        Shop_goods_type_spec_values spec_values = new Shop_goods_type_spec_values();
+                        spec_values.setSpecId(specId[i]);
+                        spec_values.setSpecValueId(specValIdsTemp[j]);
+                        spec_values.setTypeId(shopGoodsType.getId());
+                        spec_values.setTypeSpecId(spec.getId());
+                        spec_values.setSpecValText(specValTextTemp[j]);
+                        spec_values.setLocation(j);
+                        shopGoodsTypeSpecValuesService.insert(spec_values);
+                    }
+
+                }
             }
         }
         shopGoodsTypeParamsService.clear(Cnd.where("typeId", "=", shopGoodsType.getId()));

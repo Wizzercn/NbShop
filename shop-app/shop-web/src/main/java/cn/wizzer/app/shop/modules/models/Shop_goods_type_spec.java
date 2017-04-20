@@ -5,6 +5,7 @@ import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 商品类型-规格表
@@ -30,9 +31,6 @@ public class Shop_goods_type_spec extends BaseModel implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String specId;
 
-    @One(target = Shop_goods_spec.class, field = "specId")
-    private Shop_goods_spec spec;
-
     @Column
     @Comment("排序字段")
     @Prev({
@@ -40,6 +38,12 @@ public class Shop_goods_type_spec extends BaseModel implements Serializable {
             @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_spec")
     })
     private Integer location;
+
+    @Many(target = Shop_goods_type_spec_values.class, field = "typeSpecId")
+    private List<Shop_goods_type_spec_values> specValList;
+
+    @One(target = Shop_goods_spec.class, field = "specId")
+    private Shop_goods_spec spec;
 
     public String getId() {
         return id;
@@ -79,5 +83,13 @@ public class Shop_goods_type_spec extends BaseModel implements Serializable {
 
     public void setLocation(Integer location) {
         this.location = location;
+    }
+
+    public List<Shop_goods_type_spec_values> getSpecValList() {
+        return specValList;
+    }
+
+    public void setSpecValList(List<Shop_goods_type_spec_values> specValList) {
+        this.specValList = specValList;
     }
 }

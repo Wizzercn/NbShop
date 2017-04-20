@@ -3,7 +3,7 @@
 
 (因工作及成本问题,目前只完成了商品规格、商品类型、商品类别、商品分类、商品发布功能……）
 
-# elasticsearch
+# elasticsearch（暂未用到）
 1、搜索引擎服务  https://www.elastic.co/downloads/elasticsearch    v5.0.1
 
 2、中文分词插件  https://github.com/NLPchina/elasticsearch-analysis-ansj
