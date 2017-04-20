@@ -57,6 +57,7 @@ layout("/layouts/platform.html"){
                                     <TBODY>                  　
                                     <%for(o in obj.specValues){%>
                                     <tr align="center"><td height="45">
+                                        <input type="hidden" name="spec_value_id" value="${o.id!}"  />
                                         <input type="text" name="spec_value" value="${o.spec_value!}" class="form-control" data-parsley-required="true"></td>
                                         <td width="2"></td><td  style="display: none"><input type="text" name="spec_alias" value="" class="form-control"></td><td width="2"></td>
                                         <td <%if(obj.type==0){%>style="display: none"<%}%>><button type="button" class="btn btn-default btn-sm mr5">
@@ -146,6 +147,7 @@ layout("/layouts/platform.html"){
                 str='style="display: none"';
             }
             $("#tab tbody").append('<tr align="center"><td height="45">' +
+                    '<input type="hidden" name="spec_value_id" />' +
                     '<input type="text" name="spec_value" class="form-control" data-parsley-required="true"></td>' +
                     '<td width="2"></td><td  style="display: none"><input type="text" name="spec_alias" class="form-control"></td><td width="2"></td>' +
                     '<td '+str+'><button type="button" class="btn btn-default btn-sm mr5"> ' +

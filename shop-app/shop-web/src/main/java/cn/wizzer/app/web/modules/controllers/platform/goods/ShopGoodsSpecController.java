@@ -76,16 +76,16 @@ public class ShopGoodsSpecController {
     @Ok("beetl:/platform/shop/goods/spec/edit.html")
     @RequiresAuthentication
     public Object edit(String id) {
-        return shopGoodsSpecService.fetchLinks(shopGoodsSpecService.fetch(id), "specValues");
+        return shopGoodsSpecService.fetchLinks(shopGoodsSpecService.fetch(id), "specValues",Cnd.orderBy().asc("location"));
     }
 
     @At
     @Ok("json")
     @RequiresPermissions("shop.goods.conf.spec.edit")
     @SLog(tag = "修改商品规格", msg = "规格名称:${args[0].name}")
-    public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl, HttpServletRequest req) {
+    public Object editDo(@Param("..") Shop_goods_spec shopGoodsSpec, @Param("spec_value") String[] spec_value, @Param("spec_picurl") String[] spec_picurl,@Param("spec_value_id") String[] spec_value_id, HttpServletRequest req) {
         try {
-            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl, Strings.sNull(req.getAttribute("uid")));
+            shopGoodsSpecService.update(shopGoodsSpec, spec_value,spec_picurl,spec_value_id, Strings.sNull(req.getAttribute("uid")));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

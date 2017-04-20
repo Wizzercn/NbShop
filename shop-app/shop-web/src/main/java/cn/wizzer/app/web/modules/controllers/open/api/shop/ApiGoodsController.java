@@ -68,7 +68,7 @@ public class ApiGoodsController {
         try {
             String id = params.getString("id", "");
             Shop_goods goods = shopGoodsService.fetch(id);
-            shopGoodsService.fetchLinks(goods, "^imagesList|productsList*", Cnd.orderBy().asc("location"));
+            shopGoodsService.fetchLinks(goods, "^imagesList|productsList|tags*", Cnd.orderBy().asc("location"));
             return Result.success("ok", goods);
         } catch (Exception e) {
             e.printStackTrace();
