@@ -1,5 +1,6 @@
 package cn.wizzer.app.web.modules.controllers.platform.goods;
 
+import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.shop.modules.models.*;
 import cn.wizzer.app.shop.modules.services.*;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
@@ -48,7 +49,7 @@ public class ShopGoodsController {
     @Inject
     private ShopGoodsProductsService shopGoodsProductsService;
     @Inject
-    private ShopMemberLvService shopMemberLvService;
+    private MemberLevelService memberLevelService;
     @Inject
     private ShopGoodsLvPriceService shopGoodsLvPriceService;
     @Inject
@@ -146,7 +147,7 @@ public class ShopGoodsController {
     @RequiresAuthentication
     public void add(HttpServletRequest req) {
         req.setAttribute("typeList", shopGoodsTypeService.query());
-        req.setAttribute("lvList", shopMemberLvService.query());
+        req.setAttribute("lvList", memberLevelService.query(Cnd.orderBy().asc("point")));
     }
 
     /**
@@ -167,7 +168,7 @@ public class ShopGoodsController {
         }
         req.setAttribute("sku", sku.toUpperCase());
         req.setAttribute("specList", typeSpecList);
-        req.setAttribute("lvList", shopMemberLvService.query());
+        req.setAttribute("lvList", memberLevelService.query(Cnd.orderBy().asc("point")));
     }
 
 
@@ -211,7 +212,7 @@ public class ShopGoodsController {
         req.setAttribute("typePropList", typePropList);
         req.setAttribute("typeParamgList", typeParamgList);
         req.setAttribute("typeList", shopGoodsTypeService.query());
-        req.setAttribute("lvList", shopMemberLvService.query());
+        req.setAttribute("lvList", memberLevelService.query(Cnd.orderBy().asc("point")));
         req.setAttribute("productNum", productsList.size());
         //在页面上显示商品类型管理的品牌
         req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId", obj.getTypeId())));

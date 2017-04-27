@@ -1,4 +1,4 @@
-package cn.wizzer.app.shop.modules.models;
+package cn.wizzer.app.member.modules.models;
 
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
@@ -9,8 +9,8 @@ import java.io.Serializable;
  * 会员等级表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_member_lv")
-public class Shop_member_lv extends BaseModel implements Serializable {
+@Table("member_level")
+public class Member_level extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
     @Name
@@ -25,14 +25,14 @@ public class Shop_member_lv extends BaseModel implements Serializable {
     private String name;
 
     @Column
-    @Comment("等级类型")
-    @ColDefine(type = ColType.VARCHAR, width = 20)
-    private String lv_type;//'member', 'wholesale','dealer'
+    @Comment("会员类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String typeId;
 
     @Column
     @Comment("等级图标")
     @ColDefine(type = ColType.VARCHAR, width = 255)
-    private String lv_logo;
+    private String logo;
 
     @Column
     @Comment("折扣率")
@@ -45,11 +45,6 @@ public class Shop_member_lv extends BaseModel implements Serializable {
     private int point;
 
     @Column
-    @Comment("积分类型")
-    @ColDefine(type = ColType.INT)
-    private int point_type;//0 总积分 1 消费积分  2 行为积分
-
-    @Column
     @Comment("是否禁用")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean disabled;
@@ -57,7 +52,7 @@ public class Shop_member_lv extends BaseModel implements Serializable {
     @Column
     @Comment("是否默认")
     @ColDefine(type = ColType.BOOLEAN)
-    private boolean isDefault;
+    private boolean defaultValue;
 
     public String getId() {
         return id;
@@ -75,20 +70,20 @@ public class Shop_member_lv extends BaseModel implements Serializable {
         this.name = name;
     }
 
-    public String getLv_type() {
-        return lv_type;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setLv_type(String lv_type) {
-        this.lv_type = lv_type;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
-    public String getLv_logo() {
-        return lv_logo;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setLv_logo(String lv_logo) {
-        this.lv_logo = lv_logo;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public int getDis_count() {
@@ -107,14 +102,6 @@ public class Shop_member_lv extends BaseModel implements Serializable {
         this.point = point;
     }
 
-    public int getPoint_type() {
-        return point_type;
-    }
-
-    public void setPoint_type(int point_type) {
-        this.point_type = point_type;
-    }
-
     public boolean isDisabled() {
         return disabled;
     }
@@ -123,11 +110,11 @@ public class Shop_member_lv extends BaseModel implements Serializable {
         this.disabled = disabled;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public boolean isDefaultValue() {
+        return defaultValue;
     }
 
-    public void setIsDefault(boolean isDefault) {
-        this.isDefault = isDefault;
+    public void setDefaultValue(boolean defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

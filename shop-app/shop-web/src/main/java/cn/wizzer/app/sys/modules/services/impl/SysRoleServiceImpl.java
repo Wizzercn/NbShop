@@ -28,8 +28,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<Sys_role> implements Sys
 
     public List<Sys_menu> getMenusAndButtons(String roleId) {
         Sql sql = Sqls.create("select distinct a.* from sys_menu a,sys_role_menu b where a.id=b.menuId and" +
-                " b.roleId=@roleId and a.disabled=0 order by a.location ASC,a.path asc");
+                " b.roleId=@roleId and a.disabled=@f order by a.location ASC,a.path asc");
         sql.params().set("roleId", roleId);
+        sql.params().set("f",false);
         Entity<Sys_menu> entity = dao().getEntity(Sys_menu.class);
         sql.setEntity(entity);
         sql.setCallback(Sqls.callback.entities());
@@ -39,8 +40,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<Sys_role> implements Sys
 
     public List<Sys_menu> getDatas(String roleId) {
         Sql sql = Sqls.create("select distinct a.* from sys_menu a,sys_role_menu b where a.id=b.menuId and" +
-                " b.roleId=@roleId and a.type='data' and a.disabled=0 order by a.location ASC,a.path asc");
+                " b.roleId=@roleId and a.type='data' and a.disabled=@f order by a.location ASC,a.path asc");
         sql.params().set("roleId", roleId);
+        sql.params().set("f",false);
         Entity<Sys_menu> entity = dao().getEntity(Sys_menu.class);
         sql.setEntity(entity);
         sql.setCallback(Sqls.callback.entities());
@@ -67,7 +69,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<Sys_role> implements Sys
         dao().fetchLinks(role, "menus");
         List<String> list = new ArrayList<String>();
         for (Sys_menu menu : role.getMenus()) {
-            if (!Strings.isEmpty(menu.getPermission())) {
+            if (!Strings.isEmpty(menu.getPermission()) && !menu.isDisabled()) {
                 list.add(menu.getPermission());
             }
         }

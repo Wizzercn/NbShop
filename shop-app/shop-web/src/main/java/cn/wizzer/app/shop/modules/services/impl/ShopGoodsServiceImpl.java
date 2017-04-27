@@ -1,5 +1,6 @@
 package cn.wizzer.app.shop.modules.services.impl;
 
+import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.shop.modules.commons.util.MoneyUtil;
 import cn.wizzer.app.shop.modules.models.Shop_goods_images;
 import cn.wizzer.app.shop.modules.models.Shop_goods_lv_price;
@@ -36,7 +37,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<Shop_goods> implements
     @Inject
     private ShopGoodsProductsService shopGoodsProductsService;
     @Inject
-    private ShopMemberLvService shopMemberLvService;
+    private MemberLevelService memberLevelService;
     @Inject
     private ShopGoodsLvPriceService shopGoodsLvPriceService;
     @Inject
