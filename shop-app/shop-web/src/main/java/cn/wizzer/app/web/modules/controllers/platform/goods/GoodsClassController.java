@@ -200,7 +200,7 @@ public class GoodsClassController {
         try {
             String[] menuIds = StringUtils.split(ids, ",");
             int i = 0;
-            shopGoodsClassService.dao().execute(Sqls.create("update shop_goods_class set location=0"));
+            shopGoodsClassService.dao().execute(Sqls.create("update goods_class set location=0"));
             for (String s : menuIds) {
                 if (!Strings.isBlank(s)) {
                     shopGoodsClassService.update(org.nutz.dao.Chain.make("location", i), Cnd.where("id", "=", s));

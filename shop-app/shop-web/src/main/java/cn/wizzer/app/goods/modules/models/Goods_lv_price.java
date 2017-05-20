@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 商品会员价表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_lv_price")
+@Table("goods_lv_price")
 public class Goods_lv_price extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column

@@ -31,7 +31,7 @@ public class GoodsClassServiceImpl extends BaseServiceImpl<Goods_class> implemen
             Goods_class pp = this.fetch(pid);
             path = pp.getPath();
         } else pid = "";
-        goodsClass.setPath(getSubPath("shop_goods_class", "path", path));
+        goodsClass.setPath(getSubPath("goods_class", "path", path));
         goodsClass.setParentId(pid);
         dao().insert(goodsClass);
         if (!Strings.isEmpty(pid)) {

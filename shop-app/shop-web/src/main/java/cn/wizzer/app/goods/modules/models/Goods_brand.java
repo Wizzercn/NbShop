@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 商品品牌表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_brand")
+@Table("goods_brand")
 public class Goods_brand extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -43,8 +43,8 @@ public class Goods_brand extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_brand"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_brand")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_brand"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_brand")
     })
     private Integer location;
 

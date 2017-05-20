@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 商品类型-属性-值表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_type_props_values")
+@Table("goods_type_props_values")
 public class Goods_type_props_values extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -41,8 +41,8 @@ public class Goods_type_props_values extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_props_values"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_props_values")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_type_props_values"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_type_props_values")
     })
     private Integer location;
 

@@ -1,5 +1,6 @@
 package cn.wizzer.app.web.modules.controllers.platform.member;
 
+import cn.wizzer.app.member.modules.services.MemberTypeService;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
@@ -20,80 +21,82 @@ import java.util.List;
 
 @IocBean
 @At("/platform/member/level")
-public class MemberLevelController{
+public class MemberLevelController {
     @Inject
-	private MemberLevelService memberLevelService;
+    private MemberLevelService memberLevelService;
+    @Inject
+    private MemberTypeService memberTypeService;
 
     @At("")
-	@Ok("beetl:/platform/member/level/index.html")
-    @RequiresPermissions("shop.member.config.level")
-	public void index() {
+    @Ok("beetl:/platform/member/level/index.html")
+    @RequiresPermissions("member.config.level")
+    public void index() {
 
-	}
+    }
 
-	@At("/data")
+    @At("/data")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.level")
+    @RequiresPermissions("member.config.level")
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
-		Cnd cnd = Cnd.NEW();
-    	return memberLevelService.data(length, start, draw, order, columns, cnd, null);
+        Cnd cnd = Cnd.NEW();
+        return memberLevelService.data(length, start, draw, order, columns, cnd, null);
     }
 
     @At("/add")
     @Ok("beetl:/platform/member/level/add.html")
-    @RequiresPermissions("shop.member.config.level")
-    public void add() {
-
+    @RequiresPermissions("member.config.level")
+    public void add(HttpServletRequest req) {
+        req.setAttribute("typeList", memberTypeService.query());
     }
 
     @At("/addDo")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.level.add")
+    @RequiresPermissions("member.config.level.add")
     @SLog(tag = "Member_level", msg = "${args[0].id}")
-    public Object addDo(@Param("..")Member_level memberLevel, HttpServletRequest req) {
-		try {
-			memberLevelService.insert(memberLevel);
-			return Result.success("system.success");
-		} catch (Exception e) {
-			return Result.error("system.error");
-		}
+    public Object addDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
+        try {
+            memberLevelService.insert(memberLevel);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 
     @At("/edit/?")
     @Ok("beetl:/platform/member/level/edit.html")
-    @RequiresPermissions("shop.member.config.level")
-    public void edit(String id,HttpServletRequest req) {
-		req.setAttribute("obj", memberLevelService.fetch(id));
+    @RequiresPermissions("member.config.level")
+    public void edit(String id, HttpServletRequest req) {
+        req.setAttribute("obj", memberLevelService.fetch(id));
     }
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.level.edit")
+    @RequiresPermissions("member.config.level.edit")
     @SLog(tag = "Member_level", msg = "${args[0].id}")
-    public Object editDo(@Param("..")Member_level memberLevel, HttpServletRequest req) {
-		try {
+    public Object editDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
+        try {
             memberLevel.setOpBy(StringUtil.getUid());
-			memberLevel.setOpAt((int) (System.currentTimeMillis() / 1000));
-			memberLevelService.updateIgnoreNull(memberLevel);
-			return Result.success("system.success");
-		} catch (Exception e) {
-			return Result.error("system.error");
-		}
+            memberLevel.setOpAt((int) (System.currentTimeMillis() / 1000));
+            memberLevelService.updateIgnoreNull(memberLevel);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 
     @At({"/delete/?", "/delete"})
     @Ok("json")
-    @RequiresPermissions("shop.member.config.level.delete")
+    @RequiresPermissions("member.config.level.delete")
     @SLog(tag = "Member_level", msg = "${req.getAttribute('id')}")
-    public Object delete(String id, @Param("ids")  String[] ids, HttpServletRequest req) {
-		try {
-			if(ids!=null&&ids.length>0){
-				memberLevelService.delete(ids);
-    			req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
-			}else{
-				memberLevelService.delete(id);
-    			req.setAttribute("id", id);
-			}
+    public Object delete(String id, @Param("ids") String[] ids, HttpServletRequest req) {
+        try {
+            if (ids != null && ids.length > 0) {
+                memberLevelService.delete(ids);
+                req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
+            } else {
+                memberLevelService.delete(id);
+                req.setAttribute("id", id);
+            }
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -102,11 +105,11 @@ public class MemberLevelController{
 
     @At("/detail/?")
     @Ok("beetl:/platform/member/level/detail.html")
-    @RequiresPermissions("shop.member.config.level")
-	public void detail(String id, HttpServletRequest req) {
-		if (!Strings.isBlank(id)) {
+    @RequiresPermissions("member.config.level")
+    public void detail(String id, HttpServletRequest req) {
+        if (!Strings.isBlank(id)) {
             req.setAttribute("obj", memberLevelService.fetch(id));
-		}else{
+        } else {
             req.setAttribute("obj", null);
         }
     }

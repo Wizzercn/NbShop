@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 商品类型-参数表
  * Created by wizzer on 2016/10/19.
  */
-@Table("shop_goods_type_params")
+@Table("goods_type_params")
 public class Goods_type_params extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -38,8 +38,8 @@ public class Goods_type_params extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_params"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_params")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_type_params"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_type_params")
     })
     private Integer location;
 

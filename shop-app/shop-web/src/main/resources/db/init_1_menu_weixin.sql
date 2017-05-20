@@ -92,4 +92,3 @@ insert into sys_menu (id, parentId, path, name, aliasName, type, href, target, i
 insert into sys_menu (id, parentId, path, name, aliasName, type, href, target, icon, isShow, disabled, permission, note, location, hasChildren, opBy, opAt, delFlag) values('a11163584dfe456cbfd6fb2d4b74391b','cabbe834a7474675b899e8442b5c2604','0002000500020001','获取列表','Get','data','','','','0','0','wx.tpl.list.get',NULL,'56','0','','1470407390','0')
 /* insertSysMenu46 */
 insert into sys_menu (id, parentId, path, name, aliasName, type, href, target, icon, isShow, disabled, permission, note, location, hasChildren, opBy, opAt, delFlag) values('c76a84f871d047db955dd1465c845ac1','6afc5075913d4df4b44a6476080e35a0','000200050003','发送记录','Log','menu','/platform/wx/tpl/log','data-pjax','','1','0','wx.tpl.log',NULL,'53','0','','1470406926','0')
-

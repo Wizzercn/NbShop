@@ -11,7 +11,7 @@ import java.util.List;
  * 商品表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods")
+@Table("goods_goods")
 public class Goods_goods extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -119,8 +119,8 @@ public class Goods_goods extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_goods"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_goods")
     })
     private Integer location;
 
@@ -139,7 +139,7 @@ public class Goods_goods extends BaseModel implements Serializable {
     @Many(target = Goods_products.class, field = "goodsId")
     private List<Goods_products> productsList;
 
-    @ManyMany(from = "goodsId", relation = "shop_goods_tag_link", target = Goods_tag.class, to = "tagId")
+    @ManyMany(from = "goodsId", relation = "goods_tag_link", target = Goods_tag.class, to = "tagId")
     private List<Goods_tag> tags;
 
     public String getId() {

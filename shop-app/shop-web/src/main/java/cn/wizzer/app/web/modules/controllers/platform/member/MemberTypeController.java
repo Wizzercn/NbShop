@@ -26,14 +26,14 @@ public class MemberTypeController{
 
     @At("")
 	@Ok("beetl:/platform/member/type/index.html")
-    @RequiresPermissions("shop.member.config.type")
+    @RequiresPermissions("member.config.type")
 	public void index() {
 
 	}
 
 	@At("/data")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.type")
+    @RequiresPermissions("member.config.type")
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
 		Cnd cnd = Cnd.NEW();
     	return memberTypeService.data(length, start, draw, order, columns, cnd, null);
@@ -41,14 +41,14 @@ public class MemberTypeController{
 
     @At("/add")
     @Ok("beetl:/platform/member/type/add.html")
-    @RequiresPermissions("shop.member.config.type")
+    @RequiresPermissions("member.config.type")
     public void add() {
 
     }
 
     @At("/addDo")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.type.add")
+    @RequiresPermissions("member.config.type.add")
     @SLog(tag = "Member_type", msg = "${args[0].id}")
     public Object addDo(@Param("..")Member_type memberType, HttpServletRequest req) {
 		try {
@@ -61,14 +61,14 @@ public class MemberTypeController{
 
     @At("/edit/?")
     @Ok("beetl:/platform/member/type/edit.html")
-    @RequiresPermissions("shop.member.config.type")
+    @RequiresPermissions("member.config.type")
     public void edit(String id,HttpServletRequest req) {
 		req.setAttribute("obj", memberTypeService.fetch(id));
     }
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("shop.member.config.type.edit")
+    @RequiresPermissions("member.config.type.edit")
     @SLog(tag = "Member_type", msg = "${args[0].id}")
     public Object editDo(@Param("..")Member_type memberType, HttpServletRequest req) {
 		try {
@@ -83,7 +83,7 @@ public class MemberTypeController{
 
     @At({"/delete/?", "/delete"})
     @Ok("json")
-    @RequiresPermissions("shop.member.config.type.delete")
+    @RequiresPermissions("member.config.type.delete")
     @SLog(tag = "Member_type", msg = "${req.getAttribute('id')}")
     public Object delete(String id, @Param("ids")  String[] ids, HttpServletRequest req) {
 		try {
@@ -102,7 +102,7 @@ public class MemberTypeController{
 
     @At("/detail/?")
     @Ok("beetl:/platform/member/type/detail.html")
-    @RequiresPermissions("shop.member.config.type")
+    @RequiresPermissions("member.config.type")
 	public void detail(String id, HttpServletRequest req) {
 		if (!Strings.isBlank(id)) {
             req.setAttribute("obj", memberTypeService.fetch(id));

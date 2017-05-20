@@ -11,8 +11,8 @@ import java.util.List;
  * 货品表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_products")
-@TableIndexes({@Index(name = "INDEX_SHOP_GOODS_PRODUCT", fields = {"sku"}, unique = true)})
+@Table("goods_products")
+@TableIndexes({@Index(name = "INDEX_goods_PRODUCT", fields = {"sku"}, unique = true)})
 public class Goods_products extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -105,8 +105,8 @@ public class Goods_products extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_products"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_products")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_products"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_products")
     })
     private Integer location;
 

@@ -11,7 +11,7 @@ import java.util.List;
  * 商品类型-属性表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_type_props")
+@Table("goods_type_props")
 public class Goods_type_props extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -39,8 +39,8 @@ public class Goods_type_props extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_props"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_props")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_type_props"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_type_props")
     })
     private Integer location;
 

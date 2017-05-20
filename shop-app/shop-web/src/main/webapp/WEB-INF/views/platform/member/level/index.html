@@ -4,8 +4,8 @@ layout("/layouts/platform.html"){
 <section class="content-wrap bg-white">
     <header class="header navbar bg-white shadow">
         <div class="btn-group tool-button">
-            <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/member/level/add" data-pjax><i class="ti-plus"></i> ${msg['globals.button.add']}Member_level</a>
-            <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> ${msg['globals.button.delete.more']}</button>
+            <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/member/level/add" data-pjax><i class="ti-plus"></i> 新增</a>
+            <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
         </div>
     </header>
     <div class=panel-body style="padding-top: 50px;">
@@ -13,14 +13,14 @@ layout("/layouts/platform.html"){
             <table class="table table-bordered table-striped mg-t datatable">
                 <thead>
                     <tr>
-                            <th>${msg['member.level.column.name']}</th>
-                            <th>${msg['member.level.column.typeId']}</th>
-                            <th>${msg['member.level.column.logo']}</th>
-                            <th>${msg['member.level.column.dis_count']}</th>
-                            <th>${msg['member.level.column.point']}</th>
-                            <th>${msg['member.level.column.disabled']}</th>
-                            <th>${msg['member.level.column.defaultValue']}</th>
-                            <th>${msg['globals.table.column.operation']}</th>
+                            <th>等级名称</th>
+                            <th>会员类型</th>
+                            <th>等级图标</th>
+                            <th>折扣率</th>
+                            <th>所需积分</th>
+                            <th>是否禁用</th>
+                            <th>是否默认</th>
+                            <th>操作</th>
                     </tr>
                 </thead>
             </table>
@@ -32,18 +32,19 @@ layout("/layouts/platform.html"){
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">${msg['globals.button.delete']}</h4>
+                <h4 class="modal-title">删除</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        ${msg['globals.button.delete.notice']}
+                        删除后无法恢复。<br/>
+                        <br/>确定删除吗？
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">${msg['globals.button.cancel']}</button>
-                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="${msg['globals.button.delete.tip']}">${msg['globals.button.confirm']}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button id="okDel" type="button" class="btn btn-primary" data-loading-text="正在删除...">确  定</button>
             </div>
         </div>
     </div>
@@ -95,10 +96,10 @@ layout("/layouts/platform.html"){
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base}/platform/member/level/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">${msg["globals.button.detail"]}</a></li>' +
-                                '<li><a href="${base}/platform/member/level/edit/' + row.id + '" data-pjax>${msg["globals.button.update"]}</a></li>' +
+                                '<li><a href="${base}/platform/member/level/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
+                                '<li><a href="${base}/platform/member/level/edit/' + row.id + '" data-pjax>修改</a></li>' +
                                 '<li class="divider"></li>' +
-                                '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">${msg["globals.button.delete"]}</a></li>' +
+                                '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
                     "targets": 7
@@ -154,7 +155,7 @@ layout("/layouts/platform.html"){
                 }, "json");
             });
         } else {
-            Toast.warning("${msg['globals.button.delete.select']}");
+            Toast.warning("请先选择要删除的项！");
         }
     }
     $(function () {

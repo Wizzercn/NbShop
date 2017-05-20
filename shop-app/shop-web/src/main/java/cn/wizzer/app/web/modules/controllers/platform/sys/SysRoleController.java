@@ -138,14 +138,13 @@ public class SysRoleController {
     @RequiresPermissions("sys.manager.role")
     public Object editMenu(String roleId, HttpServletRequest req) {
         StringBuilder roleMenuIds = new StringBuilder();
-        List<Sys_menu> list = menuService.query(Cnd.orderBy().asc("location").asc("path"));
+        List<Sys_menu> list = menuService.query(Cnd.where("disabled","=",false).asc("location").asc("path"));
         List<Sys_menu> datas = roleService.getDatas();
         List<Sys_menu> roleMenu = roleService.getMenusAndButtons(roleId);
         for (Sys_menu m : roleMenu) {
             roleMenuIds.append(m.getId() + "#");
         }
         String roleMenuId = roleMenuIds.toString();
-        log.debug(roleMenuId);
         List<NutMap> menus = new ArrayList<>();
         for (Sys_menu menu : list) {
             NutMap map = new NutMap();

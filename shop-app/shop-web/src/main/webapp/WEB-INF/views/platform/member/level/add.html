@@ -15,45 +15,50 @@ layout("/layouts/platform.html"){
                 <div class="row mb10">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">${msg['member.level.column.name']}</label>
+                            <label for="name" class="col-sm-2 control-label">等级名称</label>
                             <div class="col-sm-8">
-                            <input type="text" id="name" class="form-control" name="name" data-parsley-required="true" placeholder="${msg['member.level.column.name']}">
+                            <input type="text" id="name" class="form-control" name="name" data-parsley-required="true" placeholder="等级名称">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="typeId" class="col-sm-2 control-label">${msg['member.level.column.typeId']}</label>
+                            <label for="typeId" class="col-sm-2 control-label">会员类型</label>
                             <div class="col-sm-8">
-                            <input type="text" id="typeId" class="form-control" name="typeId" data-parsley-required="true" placeholder="${msg['member.level.column.typeId']}">
+                                <select>
+                                    <%for(o in typeList){%>
+                                    <option value="">${o.name}</option>
+                                    <%}%>
+                                </select>
+                            <input type="text" id="typeId" class="form-control" name="typeId" data-parsley-required="true" placeholder="会员类型">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="logo" class="col-sm-2 control-label">${msg['member.level.column.logo']}</label>
+                            <label for="logo" class="col-sm-2 control-label">等级图标</label>
                             <div class="col-sm-8">
-                            <input type="text" id="logo" class="form-control" name="logo" data-parsley-required="true" placeholder="${msg['member.level.column.logo']}">
+                            <input type="text" id="logo" class="form-control" name="logo" data-parsley-required="true" placeholder="等级图标">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="dis_count" class="col-sm-2 control-label">${msg['member.level.column.dis_count']}</label>
+                            <label for="dis_count" class="col-sm-2 control-label">折扣率</label>
                             <div class="col-sm-8">
-                            <input type="text" id="dis_count" class="form-control" name="dis_count" data-parsley-required="true" placeholder="${msg['member.level.column.dis_count']}">
+                            <input type="text" id="dis_count" class="form-control" name="dis_count" data-parsley-required="true" placeholder="折扣率">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="point" class="col-sm-2 control-label">${msg['member.level.column.point']}</label>
+                            <label for="point" class="col-sm-2 control-label">所需积分</label>
                             <div class="col-sm-8">
-                            <input type="text" id="point" class="form-control" name="point" data-parsley-required="true" placeholder="${msg['member.level.column.point']}">
+                            <input type="text" id="point" class="form-control" name="point" data-parsley-required="true" placeholder="所需积分">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="disabled" class="col-sm-2 control-label">${msg['member.level.column.disabled']}</label>
+                            <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
                             <div class="col-sm-8">
-                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="${msg['member.level.column.disabled']}">
+                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="是否禁用">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="defaultValue" class="col-sm-2 control-label">${msg['member.level.column.defaultValue']}</label>
+                            <label for="defaultValue" class="col-sm-2 control-label">是否默认</label>
                             <div class="col-sm-8">
-                            <input type="text" id="defaultValue" class="form-control" name="defaultValue" data-parsley-required="true" placeholder="${msg['member.level.column.defaultValue']}">
+                            <input type="text" id="defaultValue" class="form-control" name="defaultValue" data-parsley-required="true" placeholder="是否默认">
                             </div>
                         </div>
                     </div>
@@ -64,7 +69,7 @@ layout("/layouts/platform.html"){
                         <label></label>
 
                         <div>
-                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="${msg['globals.button.submit.tip']}">${msg['globals.button.submit']}</button>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
                         </div>
                     </div>
                 </div>

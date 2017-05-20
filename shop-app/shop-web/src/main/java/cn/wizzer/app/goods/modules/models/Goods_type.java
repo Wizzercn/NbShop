@@ -10,7 +10,7 @@ import java.util.List;
  * 商品类型表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_type")
+@Table("goods_type")
 public class Goods_type extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column

@@ -25,7 +25,7 @@ var ioc = {
 			type : "org.nutz.plugins.cache.dao.CachedNutDaoExecutor",
 			fields : {
 				cacheProvider : {refer:"cacheProvider"},
-				cachedTableNames : ["sys_user", "sys_role", "sys_menu"]
+				cachedTableNames : ["sys_user", "sys_role"]
 			}
 		},
 		/*

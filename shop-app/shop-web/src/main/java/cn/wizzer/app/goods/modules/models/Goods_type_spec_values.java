@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 商品类型-规格表-规格值表
  * Created by wizzer on 2016/9/27.
  */
-@Table("shop_goods_type_spec_values")
+@Table("goods_type_spec_values")
 public class Goods_type_spec_values extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -53,8 +53,8 @@ public class Goods_type_spec_values extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM shop_goods_type_spec_values"),
-            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM shop_goods_type_spec_values")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM goods_type_spec_values"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM goods_type_spec_values")
     })
     private Integer location;
 
