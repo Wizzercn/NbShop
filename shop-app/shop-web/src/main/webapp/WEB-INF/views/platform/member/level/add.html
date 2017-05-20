@@ -23,42 +23,52 @@ layout("/layouts/platform.html"){
                         <div class="form-group">
                             <label for="typeId" class="col-sm-2 control-label">会员类型</label>
                             <div class="col-sm-8">
-                                <select>
+                                <select id="typeId" name="typeId" class="form-control">
                                     <%for(o in typeList){%>
-                                    <option value="">${o.name}</option>
+                                    <option value="${o.id}">${o.name}</option>
                                     <%}%>
                                 </select>
-                            <input type="text" id="typeId" class="form-control" name="typeId" data-parsley-required="true" placeholder="会员类型">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="logo" class="col-sm-2 control-label">等级图标</label>
+                            <label for="dis_count" class="col-sm-2 control-label">折扣率(单位:%)</label>
                             <div class="col-sm-8">
-                            <input type="text" id="logo" class="form-control" name="logo" data-parsley-required="true" placeholder="等级图标">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="dis_count" class="col-sm-2 control-label">折扣率</label>
-                            <div class="col-sm-8">
-                            <input type="text" id="dis_count" class="form-control" name="dis_count" data-parsley-required="true" placeholder="折扣率">
+                            <input type="text" id="dis_count" class="form-control" name="dis_count" data-parsley-type="integer" data-parsley-required="true" placeholder="折扣率">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="point" class="col-sm-2 control-label">所需积分</label>
                             <div class="col-sm-8">
-                            <input type="text" id="point" class="form-control" name="point" data-parsley-required="true" placeholder="所需积分">
+                            <input type="text" id="point" class="form-control" name="point"  data-parsley-type="integer" data-parsley-required="true" placeholder="所需积分">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logo" class="col-sm-2 control-label">等级图标</label>
+                            <div class="col-sm-8">
+                                <div id="queue"></div>
+                                <div>
+                                    <input id="file_upload" name="file_upload" type="file" multiple="false">
+                                </div>
+                                <div id="img" style="padding: 5px;">
+                                </div>
+                                <input type="hidden" id="logo" name="logo" value="" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
-                            <div class="col-sm-8">
-                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="是否禁用">
+                            <div class="col-sm-8 switcha">
+                                <div class="mr15">
+                                    <input type="checkbox" id="disabled" name="disabled" class="form-control js-switch-blue" value="true">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="defaultValue" class="col-sm-2 control-label">是否默认</label>
-                            <div class="col-sm-8">
-                            <input type="text" id="defaultValue" class="form-control" name="defaultValue" data-parsley-required="true" placeholder="是否默认">
+                            <div class="col-sm-8 switcha">
+                                <div class="mr15">
+                                    <input type="checkbox" id="defaultValue" name="defaultValue" class="form-control js-switch-blue" value="true">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,7 +88,46 @@ layout("/layouts/platform.html"){
     </div>
 </div>
 <script language="JavaScript">
+    function clearFile() {
+        $("#img").html("");
+        $("#queue").html("");
+        $("#logo").val("");
+    }
     $(document).ready(function () {
+        myForm.init();
+        $('#file_upload').uploadifive({
+            'auto': true,
+            'multi': false,
+            'width': '100%',
+            'height': '35',
+            'buttonText': '请选择图片',
+            'fileType': 'image/jpg,image/jpeg,image/png',
+            'fileSizeLimit': 1024,
+            'queueSizeLimit': 1,
+            'formData': {},
+            'queueID': 'queue',
+            'uploadScript': '${base}/open/file/upload/image',
+            'onUploadComplete': function (file, data) {
+                data = JSON.parse(data);
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    $("#img").html("<img src='" + data.data + "' style='width:150px;'>");
+                    $("#logo").val(data.data);
+                } else {
+                    clearFile();
+                    Toast.error(data.msg);
+                }
+            },
+            'onDrop': function (file, fileDropCount) {
+                clearFile();
+            },
+            'onClearQueue': function (queue) {
+                clearFile();
+            },
+            'onCancel': function () {
+                clearFile();
+            }
+        });
         $('#addForm').ajaxForm({
             dataType: 'json',
             beforeSubmit: function (arr, form, options) {

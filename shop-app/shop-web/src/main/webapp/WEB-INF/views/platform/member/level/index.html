@@ -5,7 +5,6 @@ layout("/layouts/platform.html"){
     <header class="header navbar bg-white shadow">
         <div class="btn-group tool-button">
             <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/member/level/add" data-pjax><i class="ti-plus"></i> 新增</a>
-            <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
         </div>
     </header>
     <div class=panel-body style="padding-top: 50px;">
@@ -15,7 +14,6 @@ layout("/layouts/platform.html"){
                     <tr>
                             <th>等级名称</th>
                             <th>会员类型</th>
-                            <th>等级图标</th>
                             <th>折扣率</th>
                             <th>所需积分</th>
                             <th>是否禁用</th>
@@ -85,7 +83,6 @@ layout("/layouts/platform.html"){
             "columns": [
                     {"data": "name", "bSortable": true},
                     {"data": "typeId", "bSortable": true},
-                    {"data": "logo", "bSortable": true},
                     {"data": "dis_count", "bSortable": true},
                     {"data": "point", "bSortable": true},
                     {"data": "disabled", "bSortable": true},
@@ -94,15 +91,31 @@ layout("/layouts/platform.html"){
             "columnDefs": [
                 {
                     "render": function (data, type, row) {
+                        if(data){
+                            return '启用';
+                        }
+                        return '禁用';
+                    },
+                    "targets": 4
+                },
+                {
+                    "render": function (data, type, row) {
+                        if(data){
+                            return '默认';
+                        }
+                        return '';
+                    },
+                    "targets": 5
+                },
+                {
+                    "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base}/platform/member/level/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
                                 '<li><a href="${base}/platform/member/level/edit/' + row.id + '" data-pjax>修改</a></li>' +
-                                '<li class="divider"></li>' +
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 7
+                    "targets": 6
                 }
             ]
         });
@@ -160,9 +173,6 @@ layout("/layouts/platform.html"){
     }
     $(function () {
         initDatatable();
-        $("#dialogDetail").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
-        });
     });
 </script>
 <%}%>

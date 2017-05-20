@@ -14,6 +14,7 @@ import org.nutz.dao.Cnd;
 import org.nutz.lang.Strings;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.mvc.adaptor.WhaleAdaptor;
 import org.nutz.mvc.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,9 +54,10 @@ public class MemberLevelController {
     @Ok("json")
     @RequiresPermissions("member.config.level.add")
     @SLog(tag = "Member_level", msg = "${args[0].id}")
+    @AdaptBy(type = WhaleAdaptor.class)
     public Object addDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
         try {
-            memberLevelService.insert(memberLevel);
+            memberLevelService.add(memberLevel);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -73,11 +75,10 @@ public class MemberLevelController {
     @Ok("json")
     @RequiresPermissions("member.config.level.edit")
     @SLog(tag = "Member_level", msg = "${args[0].id}")
+    @AdaptBy(type = WhaleAdaptor.class)
     public Object editDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
         try {
-            memberLevel.setOpBy(StringUtil.getUid());
-            memberLevel.setOpAt((int) (System.currentTimeMillis() / 1000));
-            memberLevelService.updateIgnoreNull(memberLevel);
+            memberLevelService.edit(memberLevel);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

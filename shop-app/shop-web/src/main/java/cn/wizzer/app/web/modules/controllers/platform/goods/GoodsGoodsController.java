@@ -183,7 +183,7 @@ public class GoodsGoodsController {
         try {
             return Result.success("system.success", shopGoodsService.add(shopGoods, products, spec_values, prop_values, param_values, images));
         } catch (Exception e) {
-            return Result.error("system.error" + ":请检查货号是否已被占用");
+            return Result.error("system.error");
         }
     }
 

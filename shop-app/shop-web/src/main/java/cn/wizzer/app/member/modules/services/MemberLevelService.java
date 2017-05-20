@@ -7,4 +7,6 @@ import cn.wizzer.framework.base.service.BaseService;
  * Created by wizzer on 2017/4/20.
  */
 public interface MemberLevelService extends BaseService<Member_level> {
+    void add(Member_level level);
+    void edit(Member_level level);
 }
