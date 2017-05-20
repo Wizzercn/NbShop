@@ -214,7 +214,7 @@ public class GoodsGoodsController {
         req.setAttribute("lvList", memberLevelService.query(Cnd.orderBy().asc("point")));
         req.setAttribute("productNum", productsList.size());
         //在页面上显示商品类型管理的品牌
-        req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM shop_goods_brand a,shop_goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId", obj.getTypeId())));
+        req.setAttribute("brandList", shopGoodsBrandService.list(Sqls.create("SELECT a.id,a.name FROM goods_brand a,goods_type_brand b WHERE a.id=b.brandId AND b.typeId=@typeId").setParam("typeId", obj.getTypeId())));
         return obj;
     }
 
@@ -296,7 +296,7 @@ public class GoodsGoodsController {
     @Ok("beetl:/platform/goods/goods/tag.html")
     @RequiresAuthentication
     public Object showTag(@Param("ids") String[] ids, HttpServletRequest req) {
-        req.setAttribute("tagLink", shopGoodsTagService.list(Sqls.create("SELECT * FROM shop_goods_tag_link WHERE goodsId in (@ids)").setParam("ids", ids)));
+        req.setAttribute("tagLink", shopGoodsTagService.list(Sqls.create("SELECT * FROM goods_tag_link WHERE goodsId in (@ids)").setParam("ids", ids)));
         return shopGoodsTagService.query(Cnd.orderBy().desc("location"));
     }
 
@@ -311,8 +311,8 @@ public class GoodsGoodsController {
     @Ok("json")
     public Object saveTag(@Param("goodsIds") String[] goodsIds, @Param("tagIds") String[] tagIds) {
         try {
-            Sql sql = Sqls.create("insert into shop_goods_tag_link(goodsId,tagId) values(@a,@b)");
-            Sql dsql = Sqls.create("delete from shop_goods_tag_link where goodsId in (@ids)").setParam("ids", goodsIds);
+            Sql sql = Sqls.create("insert into goods_tag_link(goodsId,tagId) values(@a,@b)");
+            Sql dsql = Sqls.create("delete from goods_tag_link where goodsId in (@ids)").setParam("ids", goodsIds);
             for (String s : goodsIds) {
                 for (String t : tagIds) {
                     sql.setParam("a", s).setParam("b", t);

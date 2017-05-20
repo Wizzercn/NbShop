@@ -255,7 +255,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         //删除商品货品信息
         shopGoodsProductsService.clear(Cnd.where("goodsId", "=", id));
         //清除标签关联表数据
-        this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "=", id));
+        this.dao().clear("goods_tag_link", Cnd.where("goodsId", "=", id));
         //删除商品
         this.delete(id);
     }
@@ -274,7 +274,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         //删除商品货品信息
         shopGoodsProductsService.clear(Cnd.where("goodsId", "in", ids));
         //清除标签关联表数据
-        this.dao().clear("shop_goods_tag_link", Cnd.where("goodsId", "in", ids));
+        this.dao().clear("goods_tag_link", Cnd.where("goodsId", "in", ids));
 
         //删除商品
         this.delete(ids);

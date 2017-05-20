@@ -46,11 +46,11 @@ public class GoodsClassServiceImpl extends BaseServiceImpl<Goods_class> implemen
      */
     @Aop(TransAop.READ_COMMITTED)
     public void deleteAndChild(Goods_class goodsClass) {
-        dao().execute(Sqls.create("delete from shop_goods_class where path like @path").setParam("path", goodsClass.getPath() + "%"));
+        dao().execute(Sqls.create("delete from goods_class where path like @path").setParam("path", goodsClass.getPath() + "%"));
         if (!Strings.isEmpty(goodsClass.getParentId())) {
             int count = count(Cnd.where("parentId", "=", goodsClass.getParentId()));
             if (count < 1) {
-                dao().execute(Sqls.create("update shop_goods_class set hasChildren=0 where id=@pid").setParam("pid", goodsClass.getParentId()));
+                dao().execute(Sqls.create("update goods_class set hasChildren=0 where id=@pid").setParam("pid", goodsClass.getParentId()));
             }
         }
     }
