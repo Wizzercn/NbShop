@@ -1,6 +1,6 @@
 package cn.wizzer.app.web.commons.processor;
 
-import cn.wizzer.app.shop.modules.commons.util.MoneyUtil;
+import cn.wizzer.app.goods.modules.commons.util.MoneyUtil;
 import cn.wizzer.app.web.commons.base.Globals;
 import cn.wizzer.framework.util.DateUtil;
 import cn.wizzer.framework.util.ShiroUtil;

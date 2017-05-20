@@ -4,6 +4,8 @@ import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.web.commons.base.Globals;
 import cn.wizzer.app.web.commons.plugin.IPlugin;
 import cn.wizzer.app.web.commons.plugin.PluginMaster;
+import cn.wizzer.framework.ig.RedisIdGenerator;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -11,12 +13,17 @@ import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
+import org.nutz.dao.entity.Record;
 import org.nutz.dao.impl.FileSqlManager;
+import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
 import org.nutz.dao.util.Daos;
+import org.nutz.el.opt.custom.CustomMake;
+import org.nutz.integration.jedis.JedisAgent;
 import org.nutz.integration.quartz.QuartzJob;
 import org.nutz.integration.quartz.QuartzManager;
 import org.nutz.ioc.Ioc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Encoding;
 import org.nutz.lang.Files;
 import org.nutz.lang.Strings;
@@ -24,11 +31,13 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.NutConfig;
 import org.quartz.Scheduler;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by wizzer on 2016/6/21.
@@ -44,6 +53,8 @@ public class Setup implements org.nutz.mvc.Setup {
             }
             Ioc ioc = config.getIoc();
             Dao dao = ioc.get(Dao.class);
+            // 初始化redis实现的id生成器
+            CustomMake.me().register("ig", ioc.get(RedisIdGenerator.class));
             // 初始化数据表
             initSysData(config, dao);
             // 初始化系统变量
@@ -54,6 +65,8 @@ public class Setup implements org.nutz.mvc.Setup {
             initSysRoute(config, dao);
             // 初始化热插拔插件
             initSysPlugin(config, dao);
+            // 初始化ig缓存
+            initRedisIg(ioc.get(JedisAgent.class), ioc.get(PropertiesProxy.class, "conf"), dao);
             log.info("\n _  _ _   _ _____ ______      ___  __\n" +
                     "| \\| | | | |_   _|_  /\\ \\    / / |/ /\n" +
                     "| .` | |_| | | |  / /  \\ \\/\\/ /| ' < \n" +
@@ -61,6 +74,40 @@ public class Setup implements org.nutz.mvc.Setup {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 当项目启动的时候把表主键加载到redis缓存中
+     */
+    private void initRedisIg(JedisAgent jedisAgent, PropertiesProxy conf, Dao dao) {
+        long a = System.currentTimeMillis();
+        try (Jedis jedis = jedisAgent.getResource()) {
+            Sql sql;
+            if ("mysql".equalsIgnoreCase(dao.getJdbcExpert().getDatabaseType())) {
+                sql = Sqls.create("SELECT table_name FROM information_schema.columns WHERE table_schema='" + conf.get("db.name", "") + "' AND column_name='id'");
+            } else {
+                //oracle mssql该怎么写呢,等你来添加...
+                log.info("wait for you ...");
+                return;
+            }
+            sql.setCallback(Sqls.callback.strs());
+            dao.execute(sql);
+            List<String> tableNameList = sql.getList(String.class);
+            for (String tableName : tableNameList) {
+                List<Record> list = dao.query(tableName, Cnd.NEW().desc("id"), new Pager().setPageSize(1).setPageNumber(1));
+                if (list.size() > 0) {
+                    String id = list.get(0).getString("id");
+                    if (Strings.isMatch(Pattern.compile("^.*[\\d]{16}$"), id)) {
+                        String ym = id.substring(id.length() - 16, id.length() - 10);
+                        if (Strings.isBlank(jedis.get("ig:" + tableName.toUpperCase() + ym))) {
+                            jedis.set("ig:" + tableName.toUpperCase() + ym, String.valueOf(NumberUtils.toLong(id.substring(id.length() - 10, id.length()), 1)));
+                        }
+                    }
+                }
+            }
+        }
+        long b = System.currentTimeMillis();
+        log.info("init redis ig time::" + (b - a) + "ms");
     }
 
     /**
@@ -163,7 +210,7 @@ public class Setup implements org.nutz.mvc.Setup {
             //初始化配置表
             Sys_config conf = new Sys_config();
             conf.setConfigKey("AppName");
-            conf.setConfigValue("NutzShop商城系统");
+            conf.setConfigValue("NutzShop");
             conf.setNote("系统名称");
             dao.insert(conf);
             conf = new Sys_config();

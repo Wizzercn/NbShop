@@ -1,31 +1,23 @@
 package cn.wizzer.app.web.modules.controllers.open.api.shop;
 
-import cn.wizzer.app.shop.modules.models.Shop_goods;
-import cn.wizzer.app.shop.modules.services.ShopGoodsProductsService;
-import cn.wizzer.app.shop.modules.services.ShopGoodsService;
-import cn.wizzer.app.sys.modules.models.Sys_api;
-import cn.wizzer.app.sys.modules.services.SysApiService;
+import cn.wizzer.app.goods.modules.models.Goods_goods;
+import cn.wizzer.app.goods.modules.services.GoodsProductsService;
+import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.web.commons.filter.TokenFilter;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.framework.page.OffsetPager;
-import cn.wizzer.framework.page.Pagination;
-import cn.wizzer.framework.util.DateUtil;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.json.Json;
-import org.nutz.lang.Lang;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,9 +29,9 @@ import java.util.List;
 public class ApiGoodsController {
     private static final Log log = Logs.get();
     @Inject
-    private ShopGoodsProductsService shopGoodsProductsService;
+    private GoodsProductsService shopGoodsProductsService;
     @Inject
-    private ShopGoodsService shopGoodsService;
+    private GoodsGoodsService shopGoodsService;
 
     @At("/list")
     @Ok("json")
@@ -67,7 +59,7 @@ public class ApiGoodsController {
     public Object one(@Param("..") NutMap params) {
         try {
             String id = params.getString("id", "");
-            Shop_goods goods = shopGoodsService.fetch(id);
+            Goods_goods goods = shopGoodsService.fetch(id);
             shopGoodsService.fetchLinks(goods, "^imagesList|productsList|tags*", Cnd.orderBy().asc("location"));
             return Result.success("ok", goods);
         } catch (Exception e) {
