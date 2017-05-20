@@ -155,7 +155,7 @@ layout("/layouts/platform.html"){
                                         <label for="gg_new" class="col-sm-2 control-label">规格</label>
                                         <div class="col-sm-8">
                                             <button id="specEditBtn" class="btn btn-primary" style="float: left;" type="button">编辑规格</button>
-                                            <div style="float: left;text-align: left;">已设置${productNum!0}个规格货品[<%for(o in obj.productsList){%>${o.spec};<%}%>]</div>
+                                            <div style="float: left;text-align: left;">已设置${productNum!0}个规格货品[<%for(o in obj.productList){%>${o.spec};<%}%>]</div>
                                         </div>
                                     </div>
                                     <%}%>
@@ -166,8 +166,8 @@ layout("/layouts/platform.html"){
                                         <label for="price" class="col-sm-2 control-label">销售价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="price" class="form-control" value="${@money.fenToYuan(obj.productsList[0].price)}" style="width: 120px;" name="price" placeholder="销售价">
-                                            <input type="hidden" name="lvprice" value="${@string.toJson(obj.productsList[0].lvPriceList),escape}">
+                                            <input type="text" id="price" class="form-control" value="${@money.fenToYuan(obj.productList[0].price)}" style="width: 120px;" name="price" placeholder="销售价">
+                                            <input type="hidden" name="lvprice" value="${@string.toJson(obj.productList[0].lvPriceList),escape}">
                                             <%if(@lvList.size()>0){%>
 
                                             <button class="btn btn-primary" style="float: left;margin-top: 2px;" type="button" data-toggle="modal"
@@ -179,7 +179,7 @@ layout("/layouts/platform.html"){
                                         <label for="priceMarket" class="col-sm-2 control-label">市场价</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="priceMarket" value="${@money.fenToYuan(obj.productsList[0].priceMarket)}" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
+                                            <input type="text" id="priceMarket" value="${@money.fenToYuan(obj.productList[0].priceMarket)}" class="form-control" style="width: 120px;" name="priceMarket" placeholder="市场价">
 
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@ layout("/layouts/platform.html"){
                                         <label for="sku" class="col-sm-2 control-label">SKU货号</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="sku" value="${obj.productsList[0].sku!}" class="form-control" name="sku" placeholder="货号(不填则自动生成)">
+                                            <input type="text" id="sku" value="${obj.productList[0].sku!}" class="form-control" name="sku" placeholder="货号(不填则自动生成)">
 
                                         </div>
                                     </div>
@@ -195,7 +195,7 @@ layout("/layouts/platform.html"){
                                         <label for="weight" class="col-sm-2 control-label">重量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="weight" value="${obj.productsList[0].weight!}" class="form-control" style="width: 120px;" name="weight" placeholder="克(g)">
+                                            <input type="text" id="weight" value="${obj.productList[0].weight!}" class="form-control" style="width: 120px;" name="weight" placeholder="克(g)">
 
                                         </div>
                                     </div>
@@ -203,7 +203,7 @@ layout("/layouts/platform.html"){
                                         <label for="stock" class="col-sm-2 control-label">库存</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="stock" value="${obj.productsList[0].stock!}" class="form-control" style="width: 120px;" name="stock" placeholder="库存">
+                                            <input type="text" id="stock" value="${obj.productList[0].stock!}" class="form-control" style="width: 120px;" name="stock" placeholder="库存">
 
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@ layout("/layouts/platform.html"){
                                         <label for="buyMin" class="col-sm-2 control-label">最小购买量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="buyMin" class="form-control" style="width: 120px;" value="${obj.productsList[0].buyMin!}" name="buyMin" placeholder="默认为1">
+                                            <input type="text" id="buyMin" class="form-control" style="width: 120px;" value="${obj.productList[0].buyMin!}" name="buyMin" placeholder="默认为1">
 
                                         </div>
                                     </div>
@@ -219,7 +219,7 @@ layout("/layouts/platform.html"){
                                         <label for="buyMax" class="col-sm-2 control-label">最大购买量</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" id="buyMax" class="form-control" style="width: 120px;" value="${obj.productsList[0].buyMax!}"  name="buyMax" placeholder="默认为100">
+                                            <input type="text" id="buyMax" class="form-control" style="width: 120px;" value="${obj.productList[0].buyMax!}"  name="buyMax" placeholder="默认为100">
                                         </div>
                                     </div>
                                     <div class="form-group" id="gg" style="display: none">
@@ -234,7 +234,7 @@ layout("/layouts/platform.html"){
                                     <label for="unit" class="col-sm-2 control-label">计量单位</label>
 
                                     <div class="col-sm-8">
-                                        <input id="unit" type="text" value="${obj.productsList[0].unit!}" class="form-control" style="width: 120px;" name="unit" placeholder="计量单位">
+                                        <input id="unit" type="text" value="${obj.productList[0].unit!}" class="form-control" style="width: 120px;" name="unit" placeholder="计量单位">
 
                                     </div>
                                 </div>
@@ -466,7 +466,7 @@ layout("/layouts/platform.html"){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% for(o in obj.productsList){ %>
+                                <% for(o in obj.productList){ %>
                                 <tr><td>${o.spec!}<input name="productId" type="hidden" value="${o.id!}"></td>
                                     <td><input name="sku" type="text" class="form-control" value="${o.sku!}" style="height: 22px;width: 80px;padding: 0 2px;"></td>
                                     <td><input name="up" type="checkbox" <%if(!o.disabled){%>checked<%}%>></td>

@@ -9,7 +9,7 @@ import cn.wizzer.app.goods.modules.services.GoodsLvPriceService;
 import cn.wizzer.app.goods.modules.services.GoodsProductsService;
 import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.member.modules.services.MemberLevelService;
-import cn.wizzer.app.goods.modules.models.Goods_products;
+import cn.wizzer.app.goods.modules.models.Goods_product;
 import cn.wizzer.framework.base.service.BaseServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -77,7 +77,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
             for (int i = 0; i < productArr.length; i++) {
                 String name = "";
                 String spec = Strings.sNull(productArr[i].getString("spec"));
-                Goods_products product = new Goods_products();
+                Goods_product product = new Goods_product();
                 product.setGoodsId(shopGoods.getId());
                 product.setLocation(i);
                 product.setSpec(spec);
@@ -178,7 +178,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
             for (int i = 0; i < productArr.length; i++) {
                 String name = "";
                 String spec = Strings.sNull(productArr[i].getString("spec"));
-                Goods_products product = new Goods_products();
+                Goods_product product = new Goods_product();
                 product.setGoodsId(shopGoods.getId());
                 product.setLocation(i);
                 product.setSpec(spec);
@@ -289,8 +289,8 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
      */
     @Aop(TransAop.READ_COMMITTED)
     public void updown(String goodsId, String ids, String uid) {
-        List<Goods_products> list = shopGoodsProductsService.query(Cnd.where("goodsId", "=", goodsId).desc("location"));
-        for (Goods_products product : list) {
+        List<Goods_product> list = shopGoodsProductsService.query(Cnd.where("goodsId", "=", goodsId).desc("location"));
+        for (Goods_product product : list) {
             if (!product.isDisabled() && !ids.contains(product.getId())) {
                 //下架
                 shopGoodsProductsService.update(Chain.make("disabled", true).add("downAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", product.getId()));
@@ -338,7 +338,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
     /*
     从redis里获取缺省货品信息
      */
-    public Goods_products getDefaultProductById(String id) {
+    public Goods_product getDefaultProductById(String id) {
 
         return shopGoodsProductsService.fetch(Cnd.where("goodsId", "=", id).and("isDefault", "=", true));
 

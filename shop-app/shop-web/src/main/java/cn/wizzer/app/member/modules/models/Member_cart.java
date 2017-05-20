@@ -1,7 +1,7 @@
 package cn.wizzer.app.member.modules.models;
 
 import cn.wizzer.app.goods.modules.models.Goods_goods;
-import cn.wizzer.app.goods.modules.models.Goods_products;
+import cn.wizzer.app.goods.modules.models.Goods_product;
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
 
@@ -59,8 +59,8 @@ public class Member_cart extends BaseModel implements Serializable {
     @One(target = Goods_goods.class, field = "goodsId")
     private Goods_goods goodsGoods;
 
-    @One(target = Goods_products.class, field = "productId")
-    private Goods_products goodsProduct;
+    @One(target = Goods_product.class, field = "productId")
+    private Goods_product goodsProduct;
 
     public String getId() {
         return id;
@@ -134,11 +134,11 @@ public class Member_cart extends BaseModel implements Serializable {
         this.goodsGoods = goodsGoods;
     }
 
-    public Goods_products getGoodsProduct() {
+    public Goods_product getGoodsProduct() {
         return goodsProduct;
     }
 
-    public void setGoodsProduct(Goods_products goodsProduct) {
+    public void setGoodsProduct(Goods_product goodsProduct) {
         this.goodsProduct = goodsProduct;
     }
 }

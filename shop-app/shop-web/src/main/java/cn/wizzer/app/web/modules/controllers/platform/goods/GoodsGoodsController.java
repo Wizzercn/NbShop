@@ -204,7 +204,7 @@ public class GoodsGoodsController {
         shopGoodsTypeSpecService.fetchLinks(typeSpecList, null, Cnd.orderBy().asc("location"));
         //组装商品各类关联表数据
         shopGoodsService.fetchLinks(obj, null, Cnd.orderBy().asc("location"));
-        List<Goods_products> productsList = obj.getProductsList();
+        List<Goods_product> productsList = obj.getProductList();
         //取出货品对应的会员价格数据
         shopGoodsProductsService.fetchLinks(productsList, "lvPriceList");
         req.setAttribute("specList", typeSpecList);

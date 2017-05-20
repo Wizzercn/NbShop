@@ -1,7 +1,7 @@
 package cn.wizzer.app.goods.modules.services.impl;
 
 import cn.wizzer.framework.base.service.BaseServiceImpl;
-import cn.wizzer.app.goods.modules.models.Goods_products;
+import cn.wizzer.app.goods.modules.models.Goods_product;
 import cn.wizzer.app.goods.modules.services.GoodsProductsService;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -9,7 +9,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.random.R;
 
 @IocBean(args = {"refer:dao"})
-public class GoodsProductsServiceImpl extends BaseServiceImpl<Goods_products> implements GoodsProductsService {
+public class GoodsProductsServiceImpl extends BaseServiceImpl<Goods_product> implements GoodsProductsService {
     public GoodsProductsServiceImpl(Dao dao) {
         super(dao);
     }

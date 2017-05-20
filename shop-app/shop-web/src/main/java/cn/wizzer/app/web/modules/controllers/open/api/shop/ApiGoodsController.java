@@ -41,7 +41,7 @@ public class ApiGoodsController {
         try {
             int pageSize = params.getInt("pageSize", 5);
             int pageNum = params.getInt("pageNum", 1);
-            Sql sql = Sqls.create("SELECT a.id,a.name,a.title,a.classID,a.typeId,a.imgurl,b.* FROM shop_goods a,shop_goods_products b " +
+            Sql sql = Sqls.create("SELECT a.id,a.name,a.title,a.classID,a.typeId,a.imgurl,b.* FROM shop_goods a,goods_product b " +
                     " WHERE a.id=b.goodsId AND b.isDefault=TRUE AND a.disabled=FALSE AND b.disabled=FALSE ORDER BY a.location desc");
             Pager pager = new OffsetPager((pageNum - 1) * pageSize, pageSize);
             sql.setPager(pager);

@@ -136,8 +136,8 @@ public class Goods_goods extends BaseModel implements Serializable {
     @Many(target = Goods_images.class, field = "goodsId")
     private List<Goods_images> imagesList;
 
-    @Many(target = Goods_products.class, field = "goodsId")
-    private List<Goods_products> productsList;
+    @Many(target = Goods_product.class, field = "goodsId")
+    private List<Goods_product> productList;
 
     @ManyMany(from = "goodsId", relation = "goods_tag_link", target = Goods_tag.class, to = "tagId")
     private List<Goods_tag> tags;
@@ -342,12 +342,12 @@ public class Goods_goods extends BaseModel implements Serializable {
         this.imagesList = imagesList;
     }
 
-    public List<Goods_products> getProductsList() {
-        return productsList;
+    public List<Goods_product> getProductList() {
+        return productList;
     }
 
-    public void setProductsList(List<Goods_products> productsList) {
-        this.productsList = productsList;
+    public void setProductList(List<Goods_product> productList) {
+        this.productList = productList;
     }
 
     public List<Goods_tag> getTags() {
