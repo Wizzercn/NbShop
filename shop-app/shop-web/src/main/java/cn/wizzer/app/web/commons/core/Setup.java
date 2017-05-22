@@ -2,6 +2,10 @@ package cn.wizzer.app.web.commons.core;
 
 import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.web.commons.base.Globals;
+import cn.wizzer.app.web.commons.beetl.tag.CmsArticleListTag;
+import cn.wizzer.app.web.commons.beetl.tag.CmsArticleTag;
+import cn.wizzer.app.web.commons.beetl.tag.CmsChannelListTag;
+import cn.wizzer.app.web.commons.beetl.tag.CmsChannelTag;
 import cn.wizzer.app.web.commons.plugin.IPlugin;
 import cn.wizzer.app.web.commons.plugin.PluginMaster;
 import cn.wizzer.framework.ig.RedisIdGenerator;
@@ -9,6 +13,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.beetl.ext.nutz.BeetlViewMaker;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -30,6 +35,7 @@ import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.NutConfig;
+import org.nutz.mvc.ViewMaker;
 import org.quartz.Scheduler;
 import redis.clients.jedis.Jedis;
 
@@ -67,6 +73,14 @@ public class Setup implements org.nutz.mvc.Setup {
             initSysPlugin(config, dao);
             // 初始化ig缓存
             initRedisIg(ioc.get(JedisAgent.class), ioc.get(PropertiesProxy.class, "conf"), dao);
+            for (ViewMaker vm : config.getViewMakers()) {
+                if (vm instanceof BeetlViewMaker) {
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_channel_list", ()->ioc.get(CmsChannelListTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_channel", ()->ioc.get(CmsChannelTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article_list", ()->ioc.get(CmsArticleListTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article", ()->ioc.get(CmsArticleTag.class));
+                }
+            }
             log.info("\n _  _ _   _ _____ ______      ___  __\n" +
                     "| \\| | | | |_   _|_  /\\ \\    / / |/ /\n" +
                     "| .` | |_| | | |  / /  \\ \\/\\/ /| ' < \n" +
