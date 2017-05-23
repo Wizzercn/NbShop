@@ -171,28 +171,6 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <!--通知位置-->
-            <li class="language-dropdown dropdown hidden-xs">
-                <a href="javascript:;" data-toggle="dropdown" id="language">
-                    <%if(lang==null||lang=="zh_CN"){%>
-                    <img src="${base!}/assets/img/flags/cn.png" class="flag">
-                    <%}else{%>
-                    <img src="${base!}/assets/img/flags/us.png" class="flag">
-                    <%}%>
-                    <ul class="dropdown-menu dropdown-menu-right animated fadeInUp">
-                        <li>
-                            <a href="javascript:sublime.changeLang('en_US');">
-                                <img src="${base!}/assets/img/flags/us.png" class="flag">
-                                <span class="language">English</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:sublime.changeLang('zh_CN');">
-                                <img src="${base!}/assets/img/flags/cn.png" class="flag">
-                                <span class="language">中文</span>
-                            </a>
-                        </li>
-                    </ul>
-            </li>
             <li class="off-right">
                 <a href="javascript:;" data-toggle="dropdown">
                     <span class="hidden-xs ml10">${@shiro.getPrincipalProperty('username')}</span>

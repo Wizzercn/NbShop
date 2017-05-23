@@ -2,11 +2,13 @@ package cn.wizzer.app.web.modules.controllers.platform.dec;
 
 import cn.wizzer.app.sys.modules.models.Sys_unit;
 import cn.wizzer.app.web.commons.base.Globals;
+import cn.wizzer.framework.base.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.Files;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
@@ -28,7 +30,7 @@ public class DecTplController {
     private static final Log log = Logs.get();
 
     @At("")
-    @Ok("beetl:/platform/dec/index.html")
+    @Ok("beetl:/platform/dec/tpl/index.html")
     @RequiresPermissions("dec.manger.tpl")
     public void index() {
 
@@ -44,7 +46,7 @@ public class DecTplController {
             if (Strings.isNotBlank(path)) {
                 f = new File(Globals.AppRoot + path);
             } else {
-                f = new File(Globals.AppRoot + "/WEB-INF/views/public/shop/pc");
+                f = new File(Globals.AppRoot + "/WEB-INF/views/public/");
             }
             File[] files = Files.lsAll(f, null);
             Map<String, Object> obj;
@@ -68,5 +70,36 @@ public class DecTplController {
             log.error(e);
         }
         return tree;
+    }
+
+    @At("/load")
+    @Ok("json")
+    @RequiresPermissions("dec.manger.tpl")
+    public Object load(@Param("path") String path) {
+        try {
+            String p = Globals.AppRoot.replaceAll("\\\\", "/") + path;
+            File f = new File(p);
+            NutMap map = NutMap.NEW();
+            map.addv("filepath", path);
+            map.addv("filename", f.getName());
+            map.addv("filedata", Files.read(f));
+            return Result.success("system.success", map);
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    @At("/save")
+    @Ok("json")
+    @RequiresPermissions("dec.manger.tpl")
+    public Object save(@Param("filepath") String filepath, @Param("filedata") String filedata) {
+        try {
+            String p = Globals.AppRoot.replaceAll("\\\\", "/") + filepath;
+            File f = new File(p);
+            Files.write(f, filedata);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 }
