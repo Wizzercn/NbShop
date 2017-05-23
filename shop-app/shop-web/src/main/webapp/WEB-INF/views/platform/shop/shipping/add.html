@@ -1,0 +1,120 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/shop/shipping" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/shop/shipping/addDo" method="post">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">配送方式</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="name" class="form-control" name="name" data-parsley-required="true" placeholder="配送方式">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="method" class="col-sm-2 control-label">计价方式</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="method" class="form-control" name="method" data-parsley-required="true" placeholder="计价方式">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="flatprice" class="col-sm-2 control-label">统一价格</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="flatprice" class="form-control" name="flatprice" data-parsley-required="true" placeholder="统一价格">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lv1_number" class="col-sm-2 control-label">首重量/首件数</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="lv1_number" class="form-control" name="lv1_number" data-parsley-required="true" placeholder="首重量/首件数">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lv1_price" class="col-sm-2 control-label">首重价/首件价</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="lv1_price" class="form-control" name="lv1_price" data-parsley-required="true" placeholder="首重价/首件价">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lv2_number" class="col-sm-2 control-label">续重量/续件数</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="lv2_number" class="form-control" name="lv2_number" data-parsley-required="true" placeholder="续重量/续件数">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lv2_price" class="col-sm-2 control-label">续重价/续件价</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="lv2_price" class="form-control" name="lv2_price" data-parsley-required="true" placeholder="续重价/续件价">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="是否禁用">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="defaultValue" class="col-sm-2 control-label">是否默认</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="defaultValue" class="form-control" name="defaultValue" data-parsley-required="true" placeholder="是否默认">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note" class="col-sm-2 control-label">描述</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="note" class="form-control" name="note" data-parsley-required="true" placeholder="描述">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location" class="col-sm-2 control-label">排序字段</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="location" class="form-control" name="location" data-parsley-required="true" placeholder="排序字段">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#addForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                form.find("button:submit").button("loading");
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    form.resetForm();
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+</script>
+<%}%>
+
+

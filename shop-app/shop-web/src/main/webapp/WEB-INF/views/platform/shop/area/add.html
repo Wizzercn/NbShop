@@ -1,0 +1,102 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/shop/area" id="goBack" data-pjax><i class="ti-angle-left"></i>${msg['globals.button.back']}</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/shop/area/addDo" method="post">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="parentId" class="col-sm-2 control-label">父级ID</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="parentId" class="form-control" name="parentId" data-parsley-required="true" placeholder="父级ID">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="path" class="col-sm-2 control-label">树路径</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="path" class="form-control" name="path" data-parsley-required="true" placeholder="树路径">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="name" class="form-control" name="name" data-parsley-required="true" placeholder="名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="code" class="col-sm-2 control-label">编码</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="code" class="form-control" name="code" data-parsley-required="true" placeholder="编码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="isCash" class="col-sm-2 control-label">货到付款</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="isCash" class="form-control" name="isCash" data-parsley-required="true" placeholder="货到付款">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="是否禁用">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location" class="col-sm-2 control-label">排序字段</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="location" class="form-control" name="location" data-parsley-required="true" placeholder="排序字段">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hasChildren" class="col-sm-2 control-label">有子节点</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="hasChildren" class="form-control" name="hasChildren" data-parsley-required="true" placeholder="有子节点">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#addForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                form.find("button:submit").button("loading");
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    form.resetForm();
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+</script>
+<%}%>
+
+

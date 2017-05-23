@@ -1,4 +1,4 @@
-package cn.wizzer.app.shop.modules.model;
+package cn.wizzer.app.shop.modules.models;
 
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.DB;
