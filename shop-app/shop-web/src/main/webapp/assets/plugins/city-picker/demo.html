@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>city-picker</title>
+    <link rel="stylesheet" href="../../../platform/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="css/picker.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<!-- Content -->
+<div class="container">
+    <h1 class="page-header" id="getting-started">Getting started</h1>
+
+    <h2>Installation</h2>
+
+    <h5>Include files:</h5>
+    <pre class="prettyprint">&lt;script src=&quot;/path/to/jquery.js&quot;&gt;&lt;/script&gt;&lt;!-- jQuery is required --&gt;
+&lt;script src=&quot;/path/to/data.86.all.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/path/to/picker.86.js&quot;&gt;&lt;/script&gt;</pre>
+
+    <h5>Create HTML elements:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text"&gt;
+&lt;/div&gt;</pre>
+
+    <h2 class="page-header">Initialize with <code>data-toggle="city-picker"</code> attribute</h2>
+
+    <h3>Basic</h3>
+
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div data-toggle="city-picker"&gt;
+   &lt;input readonly type="text" data-toggle="city-picker" &gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-toggle="city-picker">
+        </div>
+    </form>
+
+    <h3>Level</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text" data-toggle="city-picker" placeholder="请选择省/市" data-level="city" &gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-toggle="city-picker" data-level="city"
+                   placeholder="请选择省/市">
+        </div>
+    </form>
+
+    <h3>Custom placeholders</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text" data-toggle="city-picker" placeholder="点击从下拉面板中选择省/市/区"&gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-toggle="city-picker" placeholder="点击从下拉面板中选择省/市/区">
+        </div>
+    </form>
+
+    <h3>Simple Address</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text" data-toggle="city-picker" data-simple="true" &gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-toggle="city-picker" data-simple="true">
+        </div>
+    </form>
+
+    <h3>Responsive Width</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text" data-toggle="city-picker" style="width:50%;"&gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-responsive="true" data-toggle="city-picker"
+                   style="width:50%;">
+        </div>
+    </form>
+
+    <h3>Custom Province / City / District</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input readonly type="text" data-toggle="city-picker" value="北京市/北京市/海淀区"&gt;
+&lt;/div&gt;</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input class="form-control" readonly type="text" data-toggle="city-picker" value="北京市/北京市/海淀区">
+        </div>
+    </form>
+    <br>
+
+    <p class="alert alert-warning"><i class="glyphicon glyphicon-exclamation-sign"></i> The districts must be existed in
+        the <strong class="text-primary">data.86.all.js</strong> file!</p>
+
+
+    <h2 class="page-header">Initialize with <code>$.fn.citypicker</code> method</h2>
+
+    <h3>Basic</h3>
+
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input id="city-picker1" readonly type="text"&gt;
+&lt;/div&gt;</pre>
+
+    <h5>JavaScript:</h5>
+    <pre class="prettyprint">$(&quot;#city-picker1&quot;).citypicker();</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input id="city-picker1" class="form-control" readonly type="text">
+        </div>
+    </form>
+
+    <h3>Custom Province / City / District</h3>
+    <h5>HTML:</h5>
+    <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
+  &lt;input id="city-picker2" readonly type="text"&gt;
+&lt;/div&gt;</pre>
+
+    <h5>JavaScript:</h5>
+    <pre class="prettyprint">$(&quot;#city-picker2&quot;).citypicker({
+  province: &quot;江苏省&quot;,
+  city: &quot;常州市&quot;,
+  district: &quot;溧阳市&quot;
+});</pre>
+
+    <h5>Demo:</h5>
+
+    <form class="form-inline">
+        <div style="position: relative;">
+            <input id="city-picker2" class="form-control" readonly type="text">
+        </div>
+    </form>
+    <br>
+
+    <p class="alert alert-warning"><i class="glyphicon glyphicon-exclamation-sign"></i> The districts must be existed in
+        the <strong class="text-primary">data.86.all.js</strong> file!</p>
+
+    <h2 class="page-header">Methods</h2>
+
+    <div class="docs-methods">
+        <form class="form-inline">
+            <div id="distpicker">
+                <div class="form-group">
+                    <div style="position: relative;">
+                        <input id="city-picker3" class="form-control" readonly type="text" value="江苏省/常州市/溧阳市"
+                               data-toggle="city-picker">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-warning" id="reset" type="button">reset</button>
+                    <button class="btn btn-danger" id="destroy" type="button">destroy</button>
+
+                    <div class="dropup">
+                        <button id="code-count" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="text">Full Code</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" data-count="">Full Code</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);" data-count="province">Province Code</a></li>
+                            <li><a href="javascript:void(0);" data-count="city">City Code</a></li>
+                            <li><a href="javascript:void(0);" data-count="county">County Code</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-success" id="get-code" type="button">getCode<span class="code"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="docs-footer">
+    <div class="container">
+        <span class="hearts"></span>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="../../../platform/vendor/jquery/jquery.min.js"></script>
+<script src="../../../platform/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/data.86.all.js"></script>
+<script src="js/picker.86.js"></script>
+<script src="js/demo.js"></script>
+</body>
+</html>

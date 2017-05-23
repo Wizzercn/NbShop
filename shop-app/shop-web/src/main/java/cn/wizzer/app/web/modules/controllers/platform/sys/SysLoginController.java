@@ -9,6 +9,7 @@ import cn.wizzer.app.web.commons.slog.SLogService;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.framework.shiro.exception.CaptchaEmptyException;
 import cn.wizzer.framework.shiro.exception.CaptchaIncorrectException;
+import cn.wizzer.framework.util.RSAUtil;
 import cn.wizzer.framework.util.StringUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
@@ -32,6 +33,9 @@ import org.nutz.mvc.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.HashMap;
 
 /**
  * Created by wizzer on 2016/6/22.
@@ -49,12 +53,28 @@ public class SysLoginController {
     @At("")
     @Ok("re")
     @Filters
-    public String login(HttpServletRequest req) {
+    public String login(HttpServletRequest req, HttpSession session) {
         log.debug("");
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             return "redirect:/platform/home";
         } else {
+            try {
+                HashMap<String, Object> map = RSAUtil.getKeys();
+                //生成公钥和私钥
+                RSAPublicKey publicKey = (RSAPublicKey) map.get("public");
+                RSAPrivateKey privateKey = (RSAPrivateKey) map.get("private");
+                //模
+                String publicKeyModulus = publicKey.getModulus().toString(16);
+                //公钥指数
+                String publicKeyExponent = publicKey.getPublicExponent().toString(16);
+                //私钥指数
+                req.setAttribute("publicKeyExponent", publicKeyExponent);
+                req.setAttribute("publicKeyModulus", publicKeyModulus);
+                session.setAttribute("platformPrivateKey", privateKey);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return "beetl:/platform/sys/login.html";
         }
     }
@@ -129,7 +149,7 @@ public class SysLoginController {
         int errCount = 0;
         try {
             //输错三次显示验证码窗口
-            errCount = NumberUtils.toInt(Strings.sNull(SecurityUtils.getSubject().getSession(true).getAttribute("errCount")));
+            errCount = NumberUtils.toInt(Strings.sNull(SecurityUtils.getSubject().getSession(true).getAttribute("platformErrCount")));
             Subject subject = SecurityUtils.getSubject();
             ThreadContext.bind(subject);
             subject.login(token);
@@ -159,15 +179,15 @@ public class SysLoginController {
             return Result.error(3, "login.error.locked");
         } catch (UnknownAccountException e) {
             errCount++;
-            SecurityUtils.getSubject().getSession(true).setAttribute("errCount", errCount);
+            SecurityUtils.getSubject().getSession(true).setAttribute("platformErrCount", errCount);
             return Result.error(4, "login.error.user");
         } catch (AuthenticationException e) {
             errCount++;
-            SecurityUtils.getSubject().getSession(true).setAttribute("errCount", errCount);
+            SecurityUtils.getSubject().getSession(true).setAttribute("platformErrCount", errCount);
             return Result.error(5, "login.error.user");
         } catch (Exception e) {
             errCount++;
-            SecurityUtils.getSubject().getSession(true).setAttribute("errCount", errCount);
+            SecurityUtils.getSubject().getSession(true).setAttribute("platformErrCount", errCount);
             return Result.error(6, "login.error.system");
         }
     }
