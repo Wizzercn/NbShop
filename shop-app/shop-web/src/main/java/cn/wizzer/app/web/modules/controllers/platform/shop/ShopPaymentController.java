@@ -29,13 +29,13 @@ public class ShopPaymentController{
 
     @At("")
     @Ok("beetl:/platform/shop/payment/index.html")
-    @RequiresPermissions("platform.shop.payment")
+    @RequiresPermissions("shop.payment.method")
     public void index() {
     }
 
     @At("/data")
     @Ok("json")
-    @RequiresPermissions("platform.shop.payment")
+    @RequiresPermissions("shop.payment.method")
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
 		Cnd cnd = Cnd.NEW();
     	return shopPaymentService.data(length, start, draw, order, columns, cnd, null);
@@ -43,14 +43,14 @@ public class ShopPaymentController{
 
     @At("/add")
     @Ok("beetl:/platform/shop/payment/add.html")
-    @RequiresPermissions("platform.shop.payment")
+    @RequiresPermissions("shop.payment.method")
     public void add() {
 
     }
 
     @At("/addDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.payment.add")
+    @RequiresPermissions("shop.payment.method.add")
     @SLog(tag = "Shop_payment", msg = "${args[0].id}")
     public Object addDo(@Param("..")Shop_payment shopPayment, HttpServletRequest req) {
 		try {
@@ -63,14 +63,14 @@ public class ShopPaymentController{
 
     @At("/edit/?")
     @Ok("beetl:/platform/shop/payment/edit.html")
-    @RequiresPermissions("platform.shop.payment")
+    @RequiresPermissions("shop.payment.method")
     public void edit(String id,HttpServletRequest req) {
 		req.setAttribute("obj", shopPaymentService.fetch(id));
     }
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.payment.edit")
+    @RequiresPermissions("shop.payment.method.edit")
     @SLog(tag = "Shop_payment", msg = "${args[0].id}")
     public Object editDo(@Param("..")Shop_payment shopPayment, HttpServletRequest req) {
 		try {
@@ -85,7 +85,7 @@ public class ShopPaymentController{
 
     @At({"/delete/?", "/delete"})
     @Ok("json")
-    @RequiresPermissions("platform.shop.payment.delete")
+    @RequiresPermissions("shop.payment.method.delete")
     @SLog(tag = "Shop_payment", msg = "${req.getAttribute('id')}")
     public Object delete(String id, @Param("ids")  String[] ids, HttpServletRequest req) {
 		try {
@@ -104,7 +104,7 @@ public class ShopPaymentController{
 
     @At("/detail/?")
     @Ok("beetl:/platform/shop/payment/detail.html")
-    @RequiresPermissions("platform.shop.payment")
+    @RequiresPermissions("shop.payment.method")
 	public void detail(String id, HttpServletRequest req) {
 		if (!Strings.isBlank(id)) {
             req.setAttribute("obj", shopPaymentService.fetch(id));

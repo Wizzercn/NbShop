@@ -29,13 +29,13 @@ public class ShopExpressController{
 
     @At("")
     @Ok("beetl:/platform/shop/express/index.html")
-    @RequiresPermissions("platform.shop.express")
+    @RequiresPermissions("shop.logistics.express")
     public void index() {
     }
 
     @At("/data")
     @Ok("json")
-    @RequiresPermissions("platform.shop.express")
+    @RequiresPermissions("shop.logistics.express")
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
 		Cnd cnd = Cnd.NEW();
     	return shopExpressService.data(length, start, draw, order, columns, cnd, null);
@@ -43,14 +43,14 @@ public class ShopExpressController{
 
     @At("/add")
     @Ok("beetl:/platform/shop/express/add.html")
-    @RequiresPermissions("platform.shop.express")
+    @RequiresPermissions("shop.logistics.express")
     public void add() {
 
     }
 
     @At("/addDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.express.add")
+    @RequiresPermissions("shop.logistics.express.add")
     @SLog(tag = "Shop_express", msg = "${args[0].id}")
     public Object addDo(@Param("..")Shop_express shopExpress, HttpServletRequest req) {
 		try {
@@ -63,14 +63,14 @@ public class ShopExpressController{
 
     @At("/edit/?")
     @Ok("beetl:/platform/shop/express/edit.html")
-    @RequiresPermissions("platform.shop.express")
+    @RequiresPermissions("shop.logistics.express")
     public void edit(String id,HttpServletRequest req) {
 		req.setAttribute("obj", shopExpressService.fetch(id));
     }
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.express.edit")
+    @RequiresPermissions("shop.logistics.express.edit")
     @SLog(tag = "Shop_express", msg = "${args[0].id}")
     public Object editDo(@Param("..")Shop_express shopExpress, HttpServletRequest req) {
 		try {
@@ -85,7 +85,7 @@ public class ShopExpressController{
 
     @At({"/delete/?", "/delete"})
     @Ok("json")
-    @RequiresPermissions("platform.shop.express.delete")
+    @RequiresPermissions("shop.logistics.express.delete")
     @SLog(tag = "Shop_express", msg = "${req.getAttribute('id')}")
     public Object delete(String id, @Param("ids")  String[] ids, HttpServletRequest req) {
 		try {
@@ -102,14 +102,29 @@ public class ShopExpressController{
         }
     }
 
-    @At("/detail/?")
-    @Ok("beetl:/platform/shop/express/detail.html")
-    @RequiresPermissions("platform.shop.express")
-	public void detail(String id, HttpServletRequest req) {
-		if (!Strings.isBlank(id)) {
-            req.setAttribute("obj", shopExpressService.fetch(id));
-		}else{
-            req.setAttribute("obj", null);
+    @At("/enable/?")
+    @Ok("json")
+    @RequiresPermissions("shop.logistics.express.delete")
+    public Object enable(String id, HttpServletRequest req) {
+        try {
+            shopExpressService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
+
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    @At("/disable/?")
+    @Ok("json")
+    @RequiresPermissions("shop.logistics.express.delete")
+    public Object disable(String id, HttpServletRequest req) {
+        try {
+            shopExpressService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));
+
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
         }
     }
 

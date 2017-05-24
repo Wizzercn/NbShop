@@ -29,13 +29,13 @@ public class ShopShippingController{
 
     @At("")
     @Ok("beetl:/platform/shop/shipping/index.html")
-    @RequiresPermissions("platform.shop.shipping")
+    @RequiresPermissions("shop.logistics.shipping")
     public void index() {
     }
 
     @At("/data")
     @Ok("json")
-    @RequiresPermissions("platform.shop.shipping")
+    @RequiresPermissions("shop.logistics.shipping")
     public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
 		Cnd cnd = Cnd.NEW();
     	return shopShippingService.data(length, start, draw, order, columns, cnd, null);
@@ -43,14 +43,14 @@ public class ShopShippingController{
 
     @At("/add")
     @Ok("beetl:/platform/shop/shipping/add.html")
-    @RequiresPermissions("platform.shop.shipping")
+    @RequiresPermissions("shop.logistics.shipping")
     public void add() {
 
     }
 
     @At("/addDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.shipping.add")
+    @RequiresPermissions("shop.logistics.shipping.add")
     @SLog(tag = "Shop_shipping", msg = "${args[0].id}")
     public Object addDo(@Param("..")Shop_shipping shopShipping, HttpServletRequest req) {
 		try {
@@ -63,14 +63,14 @@ public class ShopShippingController{
 
     @At("/edit/?")
     @Ok("beetl:/platform/shop/shipping/edit.html")
-    @RequiresPermissions("platform.shop.shipping")
+    @RequiresPermissions("shop.logistics.shipping")
     public void edit(String id,HttpServletRequest req) {
 		req.setAttribute("obj", shopShippingService.fetch(id));
     }
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("platform.shop.shipping.edit")
+    @RequiresPermissions("shop.logistics.shipping.edit")
     @SLog(tag = "Shop_shipping", msg = "${args[0].id}")
     public Object editDo(@Param("..")Shop_shipping shopShipping, HttpServletRequest req) {
 		try {
@@ -85,7 +85,7 @@ public class ShopShippingController{
 
     @At({"/delete/?", "/delete"})
     @Ok("json")
-    @RequiresPermissions("platform.shop.shipping.delete")
+    @RequiresPermissions("shop.logistics.shipping.delete")
     @SLog(tag = "Shop_shipping", msg = "${req.getAttribute('id')}")
     public Object delete(String id, @Param("ids")  String[] ids, HttpServletRequest req) {
 		try {
@@ -104,7 +104,7 @@ public class ShopShippingController{
 
     @At("/detail/?")
     @Ok("beetl:/platform/shop/shipping/detail.html")
-    @RequiresPermissions("platform.shop.shipping")
+    @RequiresPermissions("shop.logistics.shipping")
 	public void detail(String id, HttpServletRequest req) {
 		if (!Strings.isBlank(id)) {
             req.setAttribute("obj", shopShippingService.fetch(id));

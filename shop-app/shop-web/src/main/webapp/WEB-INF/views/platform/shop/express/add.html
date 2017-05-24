@@ -33,15 +33,9 @@ layout("/layouts/platform.html"){
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
-                            <div class="col-sm-8">
-                            <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true" placeholder="是否禁用">
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="location" class="col-sm-2 control-label">排序字段</label>
                             <div class="col-sm-8">
-                            <input type="text" id="location" class="form-control" name="location" data-parsley-required="true" placeholder="排序字段">
+                            <input type="text" id="location" data-parsley-type="integer" value="1" class="form-control" name="location" data-parsley-required="true" placeholder="排序字段">
                             </div>
                         </div>
                     </div>
@@ -62,6 +56,7 @@ layout("/layouts/platform.html"){
 </div>
 <script language="JavaScript">
     $(document).ready(function () {
+        myForm.init();
         $('#addForm').ajaxForm({
             dataType: 'json',
             beforeSubmit: function (arr, form, options) {
