@@ -18,78 +18,69 @@ layout("/layouts/platform.html"){
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">配送方式</label>
                             <div class="col-sm-8">
-                                <input type="text" id="name" class="form-control" name="name" data-parsley-required="true"
-                                       placeholder="配送方式" value="${obj.name}" >
+                                <input type="text" id="name" class="form-control" name="name" value="${obj.name!}" data-parsley-required="true" placeholder="配送方式">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="method" class="col-sm-2 control-label">计价方式</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="method" class="form-control" name="method" data-parsley-required="true"
-                                       placeholder="计价方式" value="${obj.method}" >
+                            <div class="col-sm-8" id="method">
+                                <input name="method" type="radio" value="flatprice" <%if("flatprice"==obj.method){%>checked<%}%>>统一价格
+                                <input name="method" type="radio" value="weight" <%if("weight"==obj.method){%>checked<%}%>>按重量
+                                <input name="method" type="radio" value="number" <%if("number"==obj.method){%>checked<%}%>>按件数
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div id="div1" class="form-group">
                             <label for="flatprice" class="col-sm-2 control-label">统一价格</label>
                             <div class="col-sm-8">
-                                <input type="text" id="flatprice" class="form-control" name="flatprice" data-parsley-required="true"
-                                       placeholder="统一价格" value="${obj.flatprice}" >
+                                <input type="text" id="flatprice" class="form-control" name="flatprice_s" value="${@money.fenToYuan(obj.flatprice)}" data-parsley-required="true" data-parsley-price="true" placeholder="统一价格">
+                            </div>
+                        </div>
+                        <div id="div2" style="display: none">
+                            <div class="form-group">
+                                <label for="lv1_number" class="col-sm-2 control-label" id="div21"></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="lv1_number" class="form-control" name="lv1_number" value="${obj.lv1_number!}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lv1_price" class="col-sm-2 control-label" id="div22"></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="lv1_price" class="form-control" value="${@money.fenToYuan(obj.lv1_price)}" name="lv1_price_s">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lv2_number" class="col-sm-2 control-label" id="div23"></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="lv2_number" class="form-control" name="lv2_number" value="${obj.lv2_number!}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lv2_price" class="col-sm-2 control-label" id="div24"></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="lv2_price" class="form-control" value="${@money.fenToYuan(obj.lv2_price)}" name="lv2_price_s">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lv1_number" class="col-sm-2 control-label">首重量/首件数</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="lv1_number" class="form-control" name="lv1_number" data-parsley-required="true"
-                                       placeholder="首重量/首件数" value="${obj.lv1_number}" >
+                            <label for="disabled" class="col-sm-2 control-label">禁用</label>
+                            <div class="col-sm-8 switcha">
+                                <div class="mr15">
+                                    <input type="checkbox" id="disabled" name="disabled" <%if(obj.disabled){%>checked<%}%> class="js-switch-blue" value="true">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lv1_price" class="col-sm-2 control-label">首重价/首件价</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="lv1_price" class="form-control" name="lv1_price" data-parsley-required="true"
-                                       placeholder="首重价/首件价" value="${obj.lv1_price}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lv2_number" class="col-sm-2 control-label">续重量/续件数</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="lv2_number" class="form-control" name="lv2_number" data-parsley-required="true"
-                                       placeholder="续重量/续件数" value="${obj.lv2_number}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lv2_price" class="col-sm-2 control-label">续重价/续件价</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="lv2_price" class="form-control" name="lv2_price" data-parsley-required="true"
-                                       placeholder="续重价/续件价" value="${obj.lv2_price}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="disabled" class="col-sm-2 control-label">是否禁用</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="disabled" class="form-control" name="disabled" data-parsley-required="true"
-                                       placeholder="是否禁用" value="${obj.disabled}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="defaultValue" class="col-sm-2 control-label">是否默认</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="defaultValue" class="form-control" name="defaultValue" data-parsley-required="true"
-                                       placeholder="是否默认" value="${obj.defaultValue}" >
+                            <label for="defaultValue" class="col-sm-2 control-label">默认</label>
+                            <div class="col-sm-8 switcha">
+                                <div class="mr15">
+                                    <input type="checkbox" id="defaultValue" name="defaultValue" <%if(obj.defaultValue){%>checked<%}%> class="js-switch-blue" value="true">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="note" class="col-sm-2 control-label">描述</label>
                             <div class="col-sm-8">
-                                <input type="text" id="note" class="form-control" name="note" data-parsley-required="true"
-                                       placeholder="描述" value="${obj.note}" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="location" class="col-sm-2 control-label">排序字段</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="location" class="form-control" name="location" data-parsley-required="true"
-                                       placeholder="排序字段" value="${obj.location}" >
+                                <input type="text" id="note" class="form-control" name="note" value="${obj.note!}" placeholder="描述">
                             </div>
                         </div>
                     </div>
@@ -111,6 +102,46 @@ layout("/layouts/platform.html"){
 </div>
 <script language="JavaScript">
     $(document).ready(function () {
+        myForm.init();
+        $("input[name=method]").on("click",function () {
+            var value=$(this).val();
+            if("flatprice"==value){
+                $("#div1").show();
+                $("#div2").hide();
+                $("#lv1_number").removeAttr("data-parsley-required");
+                $("#lv1_price").removeAttr("data-parsley-required");
+                $("#lv2_number").removeAttr("data-parsley-required");
+                $("#lv2_price").removeAttr("data-parsley-required");
+                $("#flatprice").attr("data-parsley-required","true").attr("data-parsley-price","true");
+            }
+            if("weight"==value){
+                $("#div1").hide();
+                $("#div2").show();
+                $("#div21").html("首重量(单位:G)");
+                $("#div22").html("首重价(单位:元)");
+                $("#div23").html("续重量(单位:G)");
+                $("#div24").html("续重价(单位:元)");
+                $("#flatprice").removeAttr("data-parsley-required");
+                $("#lv1_number").attr("data-parsley-required","true").attr("data-parsley-type","integer");
+                $("#lv1_price").attr("data-parsley-required","true").attr("data-parsley-price","true");
+                $("#lv2_number").attr("data-parsley-required","true").attr("data-parsley-type","integer");
+                $("#lv2_price").attr("data-parsley-required","true").attr("data-parsley-price","true");
+            }
+            if("number"==value){
+                $("#div1").hide();
+                $("#div2").show();
+                $("#div21").html("首件数");
+                $("#div22").html("首件价(单位:元)");
+                $("#div23").html("续件数");
+                $("#div24").html("续件价(单位:元)");
+                $("#flatprice").removeAttr("data-parsley-required");
+                $("#lv1_number").attr("data-parsley-required","true").attr("data-parsley-type","integer");
+                $("#lv1_price").attr("data-parsley-required","true").attr("data-parsley-price","true");
+                $("#lv2_number").attr("data-parsley-required","true").attr("data-parsley-type","integer");
+                $("#lv2_price").attr("data-parsley-required","true").attr("data-parsley-price","true");
+            }
+        });
+        $("input[name=method][value=${obj.method!}]").trigger("click");
         $('#editForm').ajaxForm({
             dataType: 'json',
             beforeSubmit: function (arr, form, options) {

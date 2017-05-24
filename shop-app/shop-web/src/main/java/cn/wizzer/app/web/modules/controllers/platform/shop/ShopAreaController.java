@@ -9,6 +9,7 @@ import cn.wizzer.app.shop.modules.services.ShopAreaService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.*;
+import org.nutz.dao.Chain;
 import org.nutz.lang.Files;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
@@ -83,7 +84,7 @@ public class ShopAreaController {
             shoparea.setOpBy(StringUtil.getUid());
             shoparea.setOpAt((int) (System.currentTimeMillis() / 1000));
             shopAreaService.updateIgnoreNull(shoparea);
-
+            shopAreaService.update(Chain.make("isCash",shoparea.isCash()),Cnd.where("path","like",shoparea.getPath()+"%"));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

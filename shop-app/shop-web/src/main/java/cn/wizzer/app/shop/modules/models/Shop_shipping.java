@@ -18,6 +18,7 @@ public class Shop_shipping extends BaseModel implements Serializable {
     @Name
     @Comment("ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
+    @Prev(els = {@EL("uuid()")})
     private String id;
 
     @Column

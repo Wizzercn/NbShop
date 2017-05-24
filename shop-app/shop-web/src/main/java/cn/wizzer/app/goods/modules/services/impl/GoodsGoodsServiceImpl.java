@@ -1,6 +1,5 @@
 package cn.wizzer.app.goods.modules.services.impl;
 
-import cn.wizzer.app.goods.modules.commons.util.MoneyUtil;
 import cn.wizzer.app.goods.modules.models.Goods_goods;
 import cn.wizzer.app.goods.modules.models.Goods_images;
 import cn.wizzer.app.goods.modules.models.Goods_lv_price;
@@ -10,6 +9,7 @@ import cn.wizzer.app.goods.modules.services.GoodsProductsService;
 import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.goods.modules.models.Goods_product;
+import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.base.service.BaseServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

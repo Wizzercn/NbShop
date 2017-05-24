@@ -105,7 +105,7 @@ public class ShopExpressController{
 
     @At("/enable/?")
     @Ok("json")
-    @RequiresPermissions("shop.logistics.express.delete")
+    @RequiresPermissions("shop.logistics.express")
     public Object enable(String id, HttpServletRequest req) {
         try {
             shopExpressService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
@@ -117,7 +117,7 @@ public class ShopExpressController{
 
     @At("/disable/?")
     @Ok("json")
-    @RequiresPermissions("shop.logistics.express.delete")
+    @RequiresPermissions("shop.logistics.express")
     public Object disable(String id, HttpServletRequest req) {
         try {
             shopExpressService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));

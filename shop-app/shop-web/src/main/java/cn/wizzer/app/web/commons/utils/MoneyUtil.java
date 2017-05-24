@@ -1,4 +1,4 @@
-package cn.wizzer.app.goods.modules.commons.util;
+package cn.wizzer.app.web.commons.utils;
 
 import org.nutz.ioc.loader.annotation.IocBean;
 
