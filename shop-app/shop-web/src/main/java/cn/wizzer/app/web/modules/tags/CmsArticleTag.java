@@ -1,8 +1,6 @@
-package cn.wizzer.app.web.commons.beetl.tag;
+package cn.wizzer.app.web.modules.tags;
 
 import cn.wizzer.app.cms.modules.services.CmsArticleService;
-import cn.wizzer.framework.page.Pagination;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.beetl.core.GeneralVarTagBinding;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;

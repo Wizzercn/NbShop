@@ -1,4 +1,4 @@
-package cn.wizzer.app.web.commons.beetl.tag;
+package cn.wizzer.app.web.modules.tags;
 
 import cn.wizzer.app.cms.modules.services.CmsArticleService;
 import cn.wizzer.framework.page.Pagination;
@@ -8,8 +8,6 @@ import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
-
-import java.util.List;
 
 /**
  * Created by wizzer on 2017/5/22.

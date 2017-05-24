@@ -22,10 +22,17 @@
             <version>${code-version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 搜索引擎 -->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
             <version>5.4.0</version>
+        </dependency>
+        <!-- 汉语拼音 -->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
     <build>

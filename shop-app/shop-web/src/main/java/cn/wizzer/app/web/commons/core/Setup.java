@@ -2,10 +2,10 @@ package cn.wizzer.app.web.commons.core;
 
 import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.web.commons.base.Globals;
-import cn.wizzer.app.web.commons.beetl.tag.CmsArticleListTag;
-import cn.wizzer.app.web.commons.beetl.tag.CmsArticleTag;
-import cn.wizzer.app.web.commons.beetl.tag.CmsChannelListTag;
-import cn.wizzer.app.web.commons.beetl.tag.CmsChannelTag;
+import cn.wizzer.app.web.modules.tags.CmsArticleListTag;
+import cn.wizzer.app.web.modules.tags.CmsArticleTag;
+import cn.wizzer.app.web.modules.tags.CmsChannelListTag;
+import cn.wizzer.app.web.modules.tags.CmsChannelTag;
 import cn.wizzer.app.web.commons.plugin.IPlugin;
 import cn.wizzer.app.web.commons.plugin.PluginMaster;
 import cn.wizzer.framework.ig.RedisIdGenerator;

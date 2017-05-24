@@ -1,4 +1,4 @@
-package cn.wizzer.app.web.commons.beetl.tag;
+package cn.wizzer.app.web.modules.tags;
 
 import cn.wizzer.app.cms.modules.models.Cms_channel;
 import cn.wizzer.app.cms.modules.services.CmsChannelService;
