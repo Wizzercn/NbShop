@@ -71,6 +71,7 @@ layout("/layouts/platform.html"){
             },
             "drawCallback": function () {
                 sublime.closeLoadingbar($(".main-content"));
+                $(".location").editable();
             },
             "ajax": {
                 "url": "${base}/platform/shop/express/data",
@@ -79,7 +80,7 @@ layout("/layouts/platform.html"){
 
                 }
             },
-            "order": [[0, "desc"]],
+            "order": [[4, "asc"]],
             "columns": [
                     {"data": "code", "bSortable": true},
                     {"data": "name", "bSortable": true},
@@ -96,6 +97,12 @@ layout("/layouts/platform.html"){
                         return '<i id="disabled_'+row.id+'" class="fa fa-circle text-danger ml5"></i>';
                     },
                     "targets": 3
+                },
+                {
+                    "render": function (data, type, row) {
+                        return  '<a class="location" href="#" id="location'+row.id+'" data-url="${base!}/platform/shop/express/location" data-type="text" data-pk="'+row.id+'" data-title="填写排序字段" class="editable editable-click" data-original-title="" title="" style="background-color: rgba(0, 0, 0, 0);">'+data+'</a>';
+                    },
+                    "targets": 4
                 },
                 {
                     "render": function (data, type, row) {

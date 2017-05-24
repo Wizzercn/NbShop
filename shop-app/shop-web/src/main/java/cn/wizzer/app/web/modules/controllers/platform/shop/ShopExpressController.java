@@ -9,8 +9,9 @@ import cn.wizzer.app.shop.modules.models.Shop_express;
 import cn.wizzer.app.shop.modules.services.ShopExpressService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.nutz.dao.Cnd;
+import org.nutz.dao.*;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -108,7 +109,6 @@ public class ShopExpressController{
     public Object enable(String id, HttpServletRequest req) {
         try {
             shopExpressService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
-
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -121,11 +121,21 @@ public class ShopExpressController{
     public Object disable(String id, HttpServletRequest req) {
         try {
             shopExpressService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));
-
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
         }
     }
 
+    @At("/location")
+    @Ok("json")
+    @RequiresAuthentication
+    public Object location(@Param("pk") String pk, @Param("name") String name, @Param("value") int value) {
+        shopExpressService.update(org.nutz.dao.Chain.make("location", value), Cnd.where("id", "=", pk));
+        NutMap nutMap = new NutMap();
+        nutMap.addv("name", name);
+        nutMap.addv("pk", pk);
+        nutMap.addv("value", value);
+        return nutMap;
+    }
 }
