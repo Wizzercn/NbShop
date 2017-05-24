@@ -90,12 +90,17 @@ layout("/layouts/platform.html"){
             "columnDefs": [
                 {
                     "render": function (data, type, row) {
+                        var s= '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">设为默认</a></li>';
+                        if(row.defaultValue){
+                            s="";
+                        }
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base}/platform/shop/payment/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
-                                '<li><a href="${base}/platform/shop/payment/edit/' + row.id + '" data-pjax>修改</a></li>' +
-                                '<li class="divider"></li>' +
-                                '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
+                            '<li><a href="${base}/platform/shop/payment/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
+                            '<li class="divider"></li>' +
+                            '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
+                            '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
+                            s +
                                 '</ul></div>';
                     },
                     "targets": 6
