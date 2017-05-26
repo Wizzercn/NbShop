@@ -137,4 +137,16 @@ public class ShopShippingController {
         nutMap.addv("value", value);
         return nutMap;
     }
+
+    @At("/setDefault/?")
+    @Ok("json")
+    @RequiresPermissions("shop.logistics.shipping")
+    public Object setDefault(String id, HttpServletRequest req) {
+        try {
+            shopShippingService.setDefault(id);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
 }

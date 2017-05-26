@@ -145,6 +145,10 @@ layout("/layouts/platform.html"){
                 },
                 {
                     "render": function (data, type, row) {
+                        var s= '<li><a href="javascript:;" onclick="setDefault(\'' + row.id + '\')">设为默认</a></li>';
+                        if(row.defaultValue){
+                            s="";
+                        }
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
                                 '<li><a href="${base}/platform/shop/shipping/edit/' + row.id + '" data-pjax>修改</a></li>' +
@@ -152,6 +156,7 @@ layout("/layouts/platform.html"){
                                 '<li class="divider"></li>' +
                             '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
                             '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
+                            s +
                             '</ul></div>';
                     },
                     "targets": 6
@@ -231,6 +236,18 @@ layout("/layouts/platform.html"){
             }
         }, "json");
     }
+
+    function setDefault(id) {
+        $.post("${base}/platform/shop/shipping/setDefault/" + id, {}, function (data) {
+            if (data.code == 0) {
+                datatable.ajax.reload();
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
     $(function () {
         initDatatable();
         $("#dialogDetail").on("hidden.bs.modal", function () {

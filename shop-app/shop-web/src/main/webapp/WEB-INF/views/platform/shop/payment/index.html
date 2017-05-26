@@ -11,9 +11,8 @@ layout("/layouts/platform.html"){
             <table class="table table-bordered table-striped mg-t datatable">
                 <thead>
                     <tr>
-                            <th>名称</th>
-                            <th>Logo</th>
-                            <th>配置内容</th>
+                            <th>支付编码</th>
+                            <th>支付名称</th>
                             <th>是否禁用</th>
                             <th>是否默认</th>
                             <th>排序字段</th>
@@ -70,6 +69,7 @@ layout("/layouts/platform.html"){
             },
             "drawCallback": function () {
                 sublime.closeLoadingbar($(".main-content"));
+                $(".location").editable();
             },
             "ajax": {
                 "url": "${base}/platform/shop/payment/data",
@@ -78,32 +78,63 @@ layout("/layouts/platform.html"){
 
                 }
             },
-            "order": [[0, "desc"]],
+            "order": [[4, "asc"]],
             "columns": [
+                    {"data": "id", "bSortable": true},
                     {"data": "name", "bSortable": true},
-                    {"data": "logo", "bSortable": true},
-                    {"data": "data", "bSortable": true},
                     {"data": "disabled", "bSortable": true},
                     {"data": "defaultValue", "bSortable": true},
-                    {"data": "location", "bSortable": true},
+                    {"data": "location", "bSortable": true}
             ],
             "columnDefs": [
                 {
                     "render": function (data, type, row) {
-                        var s= '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">设为默认</a></li>';
+                        if(!data){
+                            return '<i id="disabled_'+row.id+'" class="fa fa-circle text-success ml5"></i>';
+                        }
+                        return '<i id="disabled_'+row.id+'" class="fa fa-circle text-danger ml5"></i>';
+                    },
+                    "targets": 2
+                },
+                {
+                    "render": function (data, type, row) {
+                        if(data){
+                            return '<i id="disabled_'+row.id+'" class="fa fa-circle text-success ml5"></i>';
+                        }
+                        return '';
+                    },
+                    "targets": 3
+                },
+                {
+                    "render": function (data, type, row) {
+                        return  '<a class="location" href="#" id="location'+row.id+'" data-url="${base!}/platform/shop/payment/location" data-type="text" data-pk="'+row.id+'" data-title="填写排序字段" class="editable editable-click" data-original-title="" title="" style="background-color: rgba(0, 0, 0, 0);">'+data+'</a>';
+                    },
+                    "targets": 4
+                },
+                {
+                    "render": function (data, type, row) {
+                        var s= '<li><a href="javascript:;" onclick="setDefault(\'' + row.id + '\')">设为默认</a></li>';
+                        var y='';
                         if(row.defaultValue){
                             s="";
                         }
+                        if(row.id=='wxpay'){
+                            y= '<li><a href="${base}/platform/shop/payment/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
+                                '<li class="divider"></li>';
+                        }
+                        if(row.id=='alipay'){
+                            y= '<li><a href="${base}/platform/shop/payment/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
+                                '<li class="divider"></li>';
+                        }
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                            '<li><a href="${base}/platform/shop/payment/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
-                            '<li class="divider"></li>' +
+                            y+
                             '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
                             '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
                             s +
                                 '</ul></div>';
                     },
-                    "targets": 6
+                    "targets": 5
                 }
             ]
         });
@@ -159,6 +190,39 @@ layout("/layouts/platform.html"){
             Toast.warning("请先选择要删除的项！");
         }
     }
+    function enable(id) {
+        $.post("${base}/platform/shop/payment/enable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disabled_"+id).attr("class", "fa fa-circle text-success ml5");
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
+    function disable(id) {
+        $.post("${base}/platform/shop/payment/disable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disabled_"+id).attr("class", "fa fa-circle text-danger ml5");
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
+    function setDefault(id) {
+        $.post("${base}/platform/shop/payment/setDefault/" + id, {}, function (data) {
+            if (data.code == 0) {
+                datatable.ajax.reload();
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
     $(function () {
         initDatatable();
         $("#dialogDetail").on("hidden.bs.modal", function () {

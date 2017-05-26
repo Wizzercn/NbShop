@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">微信支付配置</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="form-group">
+            <label for="logo" class="col-sm-3 control-label">Logo图片</label>
+
+            <div class="col-sm-9">
+                <div id="queue"></div>
+                <div>
+                    <input id="file_upload" name="file_upload" type="file" multiple="false">
+                </div>
+                <div id="img" style="padding: 5px;">
+                </div>
+                <input type="hidden" id="logo" name="logo" value="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">AppId</label>
+            <div class="col-sm-9" style="padding-bottom: 5px;">
+                <input id="wxpay_appid" type="text" class="form-control" value="wx17fe71227e1577d9">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">AppSecret</label>
+            <div class="col-sm-9" style="padding-bottom: 5px;">
+                <input id="wxpay_appsecret" type="text" class="form-control" value="190550dda42029b952ee4273b8d4aec1">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Mchid</label>
+            <div class="col-sm-9" style="padding-bottom: 5px;">
+                <input id="wxpay_mchid" type="text" class="form-control" value="1310090901">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">key</label>
+            <div class="col-sm-9" style="padding-bottom: 5px;">
+                <input id="wxpay_key" type="text" class="form-control" value="SunChn8878dhdhd72hdvASdyxyyd3713">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">请在微信公众号后台添加支付授权目录</label>
+            <div class="col-sm-9" style="padding-bottom: 5px;">
+                http://${AppDomain!}/wap/cart/order/<br>
+                http://${AppDomain!}/wap/member/
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+    <button id="save" type="button" class="btn btn-primary" data-loading-text="正在提交...">保 存</button>
+</div>
+<script language="JavaScript">
+    function clearFile() {
+        $("#img").html("");
+        $("#queue").html("");
+        $("#logo").val("");
+    }
+    $(function () {
+        $('#file_upload').uploadifive({
+            'auto': true,
+            'multi': false,
+            'width': '100%',
+            'height': '35',
+            'buttonText': '请选择图片',
+            'fileType': 'image/jpg,image/jpeg,image/png',
+            'fileSizeLimit': 1024,
+            'queueSizeLimit': 1,
+            'formData': {},
+            'queueID': 'queue',
+            'uploadScript': '${base!}/open/file/upload/image',
+            'onUploadComplete': function (file, data) {
+                data = JSON.parse(data);
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    $("#img").html("<img src='" + data.data + "' style='width:100px;'>");
+                    $("#logo").val(data.data);
+                } else {
+                    clearFile();
+                    Toast.error(data.msg);
+                }
+            },
+            'onDrop': function (file, fileDropCount) {
+                clearFile();
+            },
+            'onClearQueue': function (queue) {
+                clearFile();
+            },
+            'onCancel': function () {
+                clearFile();
+            }
+        });
+
+    });
+</script>

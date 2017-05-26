@@ -51,4 +51,10 @@ public class ShopShippingServiceImpl extends BaseServiceImpl<Shop_shipping> impl
         }
         this.updateIgnoreNull(shopShipping);
     }
+
+    @Aop(TransAop.READ_COMMITTED)
+    public void setDefault(String id) {
+        this.update(Chain.make("defaultValue", false), Cnd.NEW());
+        this.update(Chain.make("defaultValue", true), Cnd.where("id", "=", id));
+    }
 }
