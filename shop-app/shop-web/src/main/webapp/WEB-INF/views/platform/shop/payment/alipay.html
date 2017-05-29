@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">微信支付配置</h4>
+    <h4 class="modal-title">支付宝支付配置</h4>
 </div>
 <div class="modal-body">
     <div class="row">
@@ -23,46 +23,28 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <label class="col-sm-3 control-label">AppId</label>
+            <label class="col-sm-3 control-label">合作者身份(parterID)</label>
             <div class="col-sm-9" style="padding-bottom: 5px;">
-                <input id="wxpay_appid" type="text" class="form-control" value="${data.wxpay_appid!}">
+                <input id="alipay_parter" type="text" class="form-control" value="${data.alipay_parter!}">
 
             </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group">
-            <label class="col-sm-3 control-label">AppSecret</label>
+            <label class="col-sm-3 control-label">安全校验码(key)</label>
             <div class="col-sm-9" style="padding-bottom: 5px;">
-                <input id="wxpay_appsecret" type="text" class="form-control" value="${data.wxpay_appsecret!}">
+                <input id="alipay_key" type="text" class="form-control" value="${data.alipay_key!}">
 
             </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group">
-            <label class="col-sm-3 control-label">Mchid</label>
+            <label class="col-sm-3 control-label">支付宝账号</label>
             <div class="col-sm-9" style="padding-bottom: 5px;">
-                <input id="wxpay_mchid" type="text" class="form-control" value="${data.wxpay_mchid!}">
+                <input id="alipay_email" type="text" class="form-control" value="${data.alipay_email!}">
 
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <label class="col-sm-3 control-label">key</label>
-            <div class="col-sm-9" style="padding-bottom: 5px;">
-                <input id="wxpay_key" type="text" class="form-control" value="${data.wxpay_key!}">
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <label class="col-sm-3 control-label">请在微信公众号后台添加支付授权目录</label>
-            <div class="col-sm-9" style="padding-bottom: 5px;">
-                http://${AppDomain!}/wap/cart/order/<br>
-                http://${AppDomain!}/wap/member/
             </div>
         </div>
     </div>
@@ -80,11 +62,10 @@
     $(function () {
         $("#save").on("click",function () {
             var data={};
-            data.wxpay_appid=$("#wxpay_appid").val();
-            data.wxpay_appsecret=$("#wxpay_appsecret").val();
-            data.wxpay_mchid=$("#wxpay_mchid").val();
-            data.wxpay_key=$("#wxpay_key").val();
-            $.post("${base}/platform/shop/payment/update/wxpay", {
+            data.alipay_parter=$("#alipay_parter").val();
+            data.alipay_key=$("#alipay_key").val();
+            data.alipay_email=$("#alipay_email").val();
+            $.post("${base}/platform/shop/payment/update/alipay", {
                 logo:$("#logo").val(),
                 data:JSON.stringify(data)
             }, function (data) {

@@ -9,7 +9,8 @@ import cn.wizzer.app.shop.modules.models.Shop_payment;
 import cn.wizzer.app.shop.modules.services.ShopPaymentService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.nutz.dao.Cnd;
+import org.nutz.dao.*;
+import org.nutz.json.Json;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -167,6 +168,19 @@ public class ShopPaymentController {
     @RequiresPermissions("shop.logistics.shipping")
     public String method(String id, HttpServletRequest req) {
         req.setAttribute("obj", shopPaymentService.fetch(id));
+        req.setAttribute("data", Json.fromJson(NutMap.class, Strings.sNull(shopPaymentService.fetch(id).getData())));
         return "beetl:/platform/shop/payment/" + id + ".html";
+    }
+
+    @At("/update/?")
+    @Ok("json")
+    @RequiresPermissions("shop.logistics.shipping")
+    public Object update(String id, @Param("logo") String logo, @Param("data") String data, HttpServletRequest req) {
+        try {
+            shopPaymentService.update(org.nutz.dao.Chain.make("logo", logo).add("data", data), Cnd.where("id", "=", id));
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 }

@@ -11,7 +11,6 @@ layout("/layouts/platform.html"){
             <table class="table table-bordered table-striped mg-t datatable">
                 <thead>
                     <tr>
-                            <th>支付编码</th>
                             <th>支付名称</th>
                             <th>是否禁用</th>
                             <th>是否默认</th>
@@ -78,9 +77,8 @@ layout("/layouts/platform.html"){
 
                 }
             },
-            "order": [[4, "asc"]],
+            "order": [[3, "asc"]],
             "columns": [
-                    {"data": "id", "bSortable": true},
                     {"data": "name", "bSortable": true},
                     {"data": "disabled", "bSortable": true},
                     {"data": "defaultValue", "bSortable": true},
@@ -94,7 +92,7 @@ layout("/layouts/platform.html"){
                         }
                         return '<i id="disabled_'+row.id+'" class="fa fa-circle text-danger ml5"></i>';
                     },
-                    "targets": 2
+                    "targets": 1
                 },
                 {
                     "render": function (data, type, row) {
@@ -103,13 +101,13 @@ layout("/layouts/platform.html"){
                         }
                         return '';
                     },
-                    "targets": 3
+                    "targets": 2
                 },
                 {
                     "render": function (data, type, row) {
                         return  '<a class="location" href="#" id="location'+row.id+'" data-url="${base!}/platform/shop/payment/location" data-type="text" data-pk="'+row.id+'" data-title="填写排序字段" class="editable editable-click" data-original-title="" title="" style="background-color: rgba(0, 0, 0, 0);">'+data+'</a>';
                     },
-                    "targets": 4
+                    "targets": 3
                 },
                 {
                     "render": function (data, type, row) {
@@ -118,23 +116,16 @@ layout("/layouts/platform.html"){
                         if(row.defaultValue){
                             s="";
                         }
-                        if(row.id=='wxpay'){
-                            y= '<li><a href="${base}/platform/shop/payment/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
-                                '<li class="divider"></li>';
-                        }
-                        if(row.id=='alipay'){
-                            y= '<li><a href="${base}/platform/shop/payment/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
-                                '<li class="divider"></li>';
-                        }
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                            y+
+                            '<li><a href="${base}/platform/shop/payment/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">配置</a></li>' +
+                            '<li class="divider"></li>'+
                             '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
                             '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
                             s +
                                 '</ul></div>';
                     },
-                    "targets": 5
+                    "targets": 4
                 }
             ]
         });
