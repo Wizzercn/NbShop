@@ -10,7 +10,9 @@ import cn.wizzer.app.shop.modules.services.ShopConfigService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
+import org.nutz.json.Json;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -31,7 +33,11 @@ public class ShopConfigController {
     @Ok("beetl:/platform/shop/config/index.html")
     @RequiresPermissions("shop.config.config")
     public void index(HttpServletRequest req) {
-        req.setAttribute("obj", shopConfigService.fetch("system"));
+        Shop_config config = shopConfigService.fetch("system");
+        req.setAttribute("logistics_info", Json.fromJson(NutMap.class, Strings.sNull(config.getLogistics_info())));
+        req.setAttribute("oauth_qq_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_qq_info())));
+        req.setAttribute("oauth_wechat_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_wechat_info())));
+        req.setAttribute("obj", config);
     }
 
     @At("/editDo")
