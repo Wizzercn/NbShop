@@ -29,21 +29,6 @@ public class Shop_config extends BaseModel implements Serializable {
     private int point_rate;
 
     @Column
-    @Comment("列表方式")
-    @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String list_load_type;
-
-    @Column
-    @Comment("分页大小")
-    @ColDefine(type = ColType.INT)
-    private int list_page_size;
-
-    @Column
-    @Comment("快速购买")
-    @ColDefine(type = ColType.BOOLEAN)
-    private boolean list_quick_buy;
-
-    @Column
     @Comment("发票")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean tax_disabled;
@@ -54,11 +39,6 @@ public class Shop_config extends BaseModel implements Serializable {
     private int tax_price;
 
     @Column
-    @Comment("货到付款")
-    @ColDefine(type = ColType.BOOLEAN)
-    private boolean pay_cash;
-
-    @Column
     @Comment("物流跟踪")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean logistics_open;
@@ -67,6 +47,31 @@ public class Shop_config extends BaseModel implements Serializable {
     @Comment("物流跟踪配置")
     @ColDefine(type = ColType.TEXT)
     private String logistics_info;
+
+    @Column
+    @Comment("第三方登录")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean oauth_open;
+
+    @Column
+    @Comment("微信登录")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean oauth_wechat;
+
+    @Column
+    @Comment("微信登录配置")
+    @ColDefine(type = ColType.TEXT)
+    private String oauth_wechat_info;
+
+    @Column
+    @Comment("QQ登录")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean oauth_qq;
+
+    @Column
+    @Comment("QQ登录配置")
+    @ColDefine(type = ColType.TEXT)
+    private String oauth_qq_info;
 
     public String getId() {
         return id;
@@ -84,36 +89,12 @@ public class Shop_config extends BaseModel implements Serializable {
         this.shop_stock = shop_stock;
     }
 
-    public String getList_load_type() {
-        return list_load_type;
-    }
-
     public int getPoint_rate() {
         return point_rate;
     }
 
     public void setPoint_rate(int point_rate) {
         this.point_rate = point_rate;
-    }
-
-    public void setList_load_type(String list_load_type) {
-        this.list_load_type = list_load_type;
-    }
-
-    public int getList_page_size() {
-        return list_page_size;
-    }
-
-    public void setList_page_size(int list_page_size) {
-        this.list_page_size = list_page_size;
-    }
-
-    public boolean isList_quick_buy() {
-        return list_quick_buy;
-    }
-
-    public void setList_quick_buy(boolean list_quick_buy) {
-        this.list_quick_buy = list_quick_buy;
     }
 
     public boolean isTax_disabled() {
@@ -132,14 +113,6 @@ public class Shop_config extends BaseModel implements Serializable {
         this.tax_price = tax_price;
     }
 
-    public boolean isPay_cash() {
-        return pay_cash;
-    }
-
-    public void setPay_cash(boolean pay_cash) {
-        this.pay_cash = pay_cash;
-    }
-
     public boolean isLogistics_open() {
         return logistics_open;
     }
@@ -154,5 +127,45 @@ public class Shop_config extends BaseModel implements Serializable {
 
     public void setLogistics_info(String logistics_info) {
         this.logistics_info = logistics_info;
+    }
+
+    public boolean isOauth_open() {
+        return oauth_open;
+    }
+
+    public void setOauth_open(boolean oauth_open) {
+        this.oauth_open = oauth_open;
+    }
+
+    public boolean isOauth_wechat() {
+        return oauth_wechat;
+    }
+
+    public void setOauth_wechat(boolean oauth_wechat) {
+        this.oauth_wechat = oauth_wechat;
+    }
+
+    public String getOauth_wechat_info() {
+        return oauth_wechat_info;
+    }
+
+    public void setOauth_wechat_info(String oauth_wechat_info) {
+        this.oauth_wechat_info = oauth_wechat_info;
+    }
+
+    public boolean isOauth_qq() {
+        return oauth_qq;
+    }
+
+    public void setOauth_qq(boolean oauth_qq) {
+        this.oauth_qq = oauth_qq;
+    }
+
+    public String getOauth_qq_info() {
+        return oauth_qq_info;
+    }
+
+    public void setOauth_qq_info(String oauth_qq_info) {
+        this.oauth_qq_info = oauth_qq_info;
     }
 }
