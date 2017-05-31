@@ -1,6 +1,7 @@
 package cn.wizzer.app.web.modules.controllers.open.test;
 
 import cn.wizzer.app.sms.commons.service.SmsService;
+import cn.wizzer.app.web.commons.base.Globals;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.util.NutMap;
@@ -27,6 +28,6 @@ public class ShopTestController {
     @At("/sms")
     @Ok("json")
     public Object sms() {
-        return smsService.send("SMS_69305052", "13359011952", NutMap.NEW().addv("code", "12345").addv("product", "NutzShop"));
+        return smsService.send("SMS_69305052", "13359011952", NutMap.NEW().addv("code", "12345").addv("product", Globals.AppShrotName));
     }
 }
