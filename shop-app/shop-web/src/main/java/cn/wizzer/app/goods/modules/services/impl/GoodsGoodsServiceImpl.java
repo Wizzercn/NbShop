@@ -9,8 +9,12 @@ import cn.wizzer.app.goods.modules.services.GoodsProductsService;
 import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.goods.modules.models.Goods_product;
+import cn.wizzer.app.shop.modules.models.Shop_estemp;
+import cn.wizzer.app.shop.modules.services.ShopEstempService;
+import cn.wizzer.app.web.commons.es.EsService;
 import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.base.service.BaseServiceImpl;
+import cn.wizzer.framework.page.Pagination;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.nutz.aop.interceptor.ioc.TransAop;
@@ -27,6 +31,7 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @IocBean(args = {"refer:dao"})
@@ -46,6 +51,10 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
     private GoodsImagesService shopGoodsImagesService;
     @Inject
     private PubSubService pubSubService;
+    @Inject
+    private ShopEstempService shopEstempService;
+    @Inject
+    private EsService esService;
 
     /**
      * 添加商品
@@ -140,6 +149,10 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
             }
             this.update(Chain.make("imgurl", defaultImge), Cnd.where("id", "=", shopGoods.getId()));
         }
+        Shop_estemp estemp = new Shop_estemp();
+        estemp.setAction("create");
+        estemp.setGoodsId(shopGoods.getId());
+        shopEstempService.insert(estemp);
         return shopGoods.getId();
     }
 
@@ -238,6 +251,10 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
             }
             this.update(Chain.make("imgurl", defaultImge), Cnd.where("id", "=", shopGoods.getId()));
         }
+        Shop_estemp estemp = new Shop_estemp();
+        estemp.setAction("update");
+        estemp.setGoodsId(shopGoods.getId());
+        shopEstempService.insert(estemp);
         return shopGoods.getId();
     }
 
@@ -249,15 +266,19 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
     @Aop(TransAop.READ_COMMITTED)
     public void deleteProdcut(String id) {
         //删除商品会员价格信息
-        shopGoodsLvPriceService.clear(Cnd.where("goodsId", "=", id));
+        shopGoodsLvPriceService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "=", id));
         //删除商品相册信息
-        shopGoodsImagesService.clear(Cnd.where("goodsId", "=", id));
+        shopGoodsImagesService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "=", id));
         //删除商品货品信息
-        shopGoodsProductsService.clear(Cnd.where("goodsId", "=", id));
+        shopGoodsProductsService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "=", id));
         //清除标签关联表数据
         this.dao().clear("goods_tag_link", Cnd.where("goodsId", "=", id));
         //删除商品
-        this.delete(id);
+        this.vDelete(id);
+        Shop_estemp estemp = new Shop_estemp();
+        estemp.setAction("delete");
+        estemp.setGoodsId(id);
+        shopEstempService.insert(estemp);
     }
 
     /**
@@ -268,16 +289,21 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
     @Aop(TransAop.READ_COMMITTED)
     public void deleteProdcut(String[] ids) {
         //删除商品会员价格信息
-        shopGoodsLvPriceService.clear(Cnd.where("goodsId", "in", ids));
+        shopGoodsLvPriceService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "in", ids));
         //删除商品相册信息
-        shopGoodsImagesService.clear(Cnd.where("goodsId", "in", ids));
+        shopGoodsImagesService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "in", ids));
         //删除商品货品信息
-        shopGoodsProductsService.clear(Cnd.where("goodsId", "in", ids));
+        shopGoodsProductsService.update(Chain.make("delFlag", true), Cnd.where("goodsId", "in", ids));
         //清除标签关联表数据
         this.dao().clear("goods_tag_link", Cnd.where("goodsId", "in", ids));
-
         //删除商品
-        this.delete(ids);
+        this.vDelete(ids);
+        for (String id : ids) {
+            Shop_estemp estemp = new Shop_estemp();
+            estemp.setAction("delete");
+            estemp.setGoodsId(id);
+            shopEstempService.insert(estemp);
+        }
     }
 
     /**
@@ -305,6 +331,10 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         } else {
             this.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "=", goodsId));
         }
+        Shop_estemp estemp = new Shop_estemp();
+        estemp.setAction("update");
+        estemp.setGoodsId(goodsId);
+        shopEstempService.insert(estemp);
     }
 
     /**
@@ -322,6 +352,12 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         } else {
             this.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("id", "in", goodsIds));
             shopGoodsProductsService.update(Chain.make("disabled", false).add("upAt", (int) (System.currentTimeMillis() / 1000)).add("opAt", (int) (System.currentTimeMillis() / 1000)).add("opBy", uid), Cnd.where("goodsId", "in", goodsIds));
+        }
+        for (String id : goodsIds) {
+            Shop_estemp estemp = new Shop_estemp();
+            estemp.setAction("update");
+            estemp.setGoodsId(id);
+            shopEstempService.insert(estemp);
         }
     }
 
@@ -342,5 +378,15 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
 
         return shopGoodsProductsService.fetch(Cnd.where("goodsId", "=", id).and("isDefault", "=", true));
 
+    }
+
+    public Pagination essearch(int pageNumber, int pageSize, String keyword) {
+        List<NutMap> list = new ArrayList<>();
+        Pagination pagination = new Pagination();
+        pagination.setPageNo(pageNumber);
+        pagination.setPageSize(pageSize);
+        pagination.setList(list);
+        esService.getClient();
+        return pagination;
     }
 }

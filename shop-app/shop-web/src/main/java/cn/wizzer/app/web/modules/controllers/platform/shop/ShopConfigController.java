@@ -1,5 +1,6 @@
 package cn.wizzer.app.web.modules.controllers.platform.shop;
 
+import cn.wizzer.app.shop.modules.services.ShopEstempService;
 import cn.wizzer.app.web.commons.es.EsService;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
@@ -11,6 +12,7 @@ import cn.wizzer.app.shop.modules.services.ShopConfigService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Sqls;
 import org.nutz.json.Json;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
@@ -31,6 +33,8 @@ public class ShopConfigController {
     private ShopConfigService shopConfigService;
     @Inject
     private EsService esService;
+    @Inject
+    private ShopEstempService shopEstempService;
 
     @At("")
     @Ok("beetl:/platform/shop/config/index.html")
@@ -72,6 +76,18 @@ public class ShopConfigController {
                 esService.deleteIndex(indexName);
             }
             esService.createIndex(indexName);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    @At("/esdata/?")
+    @Ok("json")
+    public Object esdata(String indexName) {
+        try {
+            shopEstempService.clear();
+            shopEstempService.dao().execute(Sqls.create("INSERT INTO shop_estemp(id,goodsid,ACTION,opAt) SELECT id,id,'create',0 FROM goods_goods WHERE delFlag=@f").setParam("f",false));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
