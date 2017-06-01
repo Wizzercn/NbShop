@@ -7,7 +7,8 @@ layout("/layouts/platform.html"){
     <header class="header navbar bg-white shadow">
         <div class="pull-right">
             <div class="btn-group tool-button">
-                <button class="btn btn-primary navbar-btn" type="button" id="save"><span class="ti-save"></span> 保存</button>
+                <button class="btn btn-primary navbar-btn" type="button" id="save"><span class="ti-save"></span> 保存
+                </button>
             </div>
         </div>
     </header>
@@ -24,18 +25,38 @@ layout("/layouts/platform.html"){
                     </li>
                     <li><a href="#shop_yf" data-toggle="tab">物流跟踪</a>
                     </li>
+                    <li><a href="#shop_img" data-toggle="tab">图片设置</a>
+                    </li>
                     <li><a href="#shop_login" data-toggle="tab">信任登录</a>
+                    </li>
+                    <li><a href="#shop_es" data-toggle="tab">搜索引擎</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="shop_base">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">库存预警值(小于)</label>
+                                <label class="col-sm-2 control-label">库存预警值</label>
 
                                 <div class="col-sm-8">
-                                    <input class="form-control" name="shop_stock" value="${obj.shop_stock!'0'}">
+                                    <div class="input-group mb15">
+                                        <span class="input-group-addon"><</span>
+                                        <input type="text" name="shop_stock" value="${obj.shop_stock!'0'}"
+                                               class="form-control" data-parsley-type="integer" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商品积分比率</label>
 
+                                <div class="col-sm-8">
+                                    <div class="input-group mb15">
+                                        <span class="input-group-addon">%</span>
+                                        <input type="text" name="point_rate" value="${obj.point_rate!'0'}"
+                                               class="form-control" data-parsley-type="integer" placeholder="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -45,15 +66,21 @@ layout("/layouts/platform.html"){
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否启用发票</label>
                                 <div class="col-sm-8" style="padding-top: 5px;">
-                                    <input type="radio" name="tax_disabled" value="0" <%if(!obj.tax_disabled){%>checked<%}%>>启用
-                                    <input type="radio" name="tax_disabled" value="1" <%if(obj.tax_disabled){%>checked<%}%>>禁用
+                                    <input type="radio" name="tax_disabled" value="0"
+                                    <%if(!obj.tax_disabled){%>checked<%}%>>启用
+                                    <input type="radio" name="tax_disabled" value="1"
+                                    <%if(obj.tax_disabled){%>checked<%}%>>禁用
 
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">订单满多少可开(单位：元)</label>
+                                <label class="col-sm-2 control-label">订单满多少可开</label>
                                 <div class="col-sm-8" style="padding-top: 5px;">
-                                    <input class="form-control" name="tax_price" value="${obj.tax_price!'0'}">
+                                    <div class="input-group mb15">
+                                        <span class="input-group-addon">￥</span>
+                                        <input type="text" name="tax_price" value="${obj.tax_price!'0'}"
+                                               class="form-control" data-parsley-type="integer" placeholder="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -63,9 +90,36 @@ layout("/layouts/platform.html"){
                             <label class="col-sm-2 control-label">物流跟踪</label>
                             <div class="col-sm-8" style="padding-top: 5px;">
                                 <input type="radio" name="logistics_open" value="1" checked>启用
-                                <input type="radio" name="logistics_open" value="0" >禁用
-                                <button class="btn btn-info" type="button" id="btnOauth_lg" data-toggle="modal" data-target="#dialogOauth_lg"> 配置</button>
-                                <input name="logistics_info" id="logistics_info" type="hidden" value="${@string.toJson(logistics_info)}">
+                                <input type="radio" name="logistics_open" value="0">禁用
+                                <button class="btn btn-info" type="button" id="btnOauth_lg" data-toggle="modal"
+                                        data-target="#dialogOauth_lg"> 配置
+                                </button>
+                                <input name="logistics_info" id="logistics_info" type="hidden"
+                                       value="${@string.toJson(logistics_info)}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="shop_img">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="s_width" class="col-sm-2 control-label">列表页缩略图设定</label>
+
+                                <div class="col-sm-8" style="text-align: left;float: left">
+                                    宽:<input type="text" id="s_width" style="width: 100px;" name="s_width"
+                                             value="${obj.s_width!120}" data-parsley-type="integer"> ×
+                                    高:<input type="text" id="s_height" style="width: 100px;" name="s_height"
+                                             value="${obj.s_height!140}" data-parsley-type="integer">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_width" class="col-sm-2 control-label">商品相册图设定</label>
+
+                                <div class="col-sm-8" style="text-align: left;float: left">
+                                    宽:<input type="text" id="m_width" style="width: 100px;" name="m_width"
+                                             value="${obj.m_width!300}" data-parsley-type="integer"> ×
+                                    高:<input type="text" id="m_height" style="width: 100px;" name="m_height"
+                                             value="${obj.m_height!300}" data-parsley-type="integer">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,8 +128,10 @@ layout("/layouts/platform.html"){
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">信任登录</label>
                                 <div class="col-sm-8" style="padding-top: 5px;">
-                                    <input type="radio" name="oauth_open" value="1" <%if(obj.oauth_open){%>checked<%}%>>启用
-                                    <input type="radio" name="oauth_open" value="0" <%if(!obj.oauth_open){%>checked<%}%>>禁用
+                                    <input type="radio" name="oauth_open" value="1"
+                                    <%if(obj.oauth_open){%>checked<%}%>>启用
+                                    <input type="radio" name="oauth_open" value="0"
+                                    <%if(!obj.oauth_open){%>checked<%}%>>禁用
 
                                 </div>
                             </div>
@@ -83,25 +139,51 @@ layout("/layouts/platform.html"){
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">微信信任登录</label>
                                     <div class="col-sm-8" style="padding-top: 5px;">
-                                        <input type="radio" name="oauth_wechat" value="1" <%if(obj.oauth_wechat){%>checked<%}%>>启用
-                                        <input type="radio" name="oauth_wechat" value="0" <%if(!obj.oauth_wechat){%>checked<%}%>>禁用
-                                        <button class="btn btn-info" type="button" id="btnOauth_wechat" data-toggle="modal" data-target="#dialogOauth_wechat"> 配置</button>
-                                        <input name="oauth_wechat_info" id="oauth_wechat_info" type="hidden" value="${@string.toJson(oauth_wechat_info)}">
+                                        <input type="radio" name="oauth_wechat" value="1"
+                                        <%if(obj.oauth_wechat){%>checked<%}%>>启用
+                                        <input type="radio" name="oauth_wechat" value="0"
+                                        <%if(!obj.oauth_wechat){%>checked<%}%>>禁用
+                                        <button class="btn btn-info" type="button" id="btnOauth_wechat"
+                                                data-toggle="modal" data-target="#dialogOauth_wechat"> 配置
+                                        </button>
+                                        <input name="oauth_wechat_info" id="oauth_wechat_info" type="hidden"
+                                               value="${@string.toJson(oauth_wechat_info)}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">QQ信任登录</label>
                                     <div class="col-sm-8" style="padding-top: 5px;">
-                                        <input type="radio" name="oauth_qq" value="1" <%if(obj.oauth_qq){%>checked<%}%>>启用
-                                        <input type="radio" name="oauth_qq" value="0" <%if(!obj.oauth_qq){%>checked<%}%>>禁用
-                                        <button class="btn btn-info" type="button" id="btnOauth_qq" data-toggle="modal" data-target="#dialogOauth_qq"> 配置</button>
-                                        <input name="oauth_qq_info" id="oauth_qq_info" type="hidden" value="${@string.toJson(oauth_qq_info)}">
+                                        <input type="radio" name="oauth_qq" value="1"
+                                        <%if(obj.oauth_qq){%>checked<%}%>>启用
+                                        <input type="radio" name="oauth_qq" value="0"
+                                        <%if(!obj.oauth_qq){%>checked<%}%>>禁用
+                                        <button class="btn btn-info" type="button" id="btnOauth_qq" data-toggle="modal"
+                                                data-target="#dialogOauth_qq"> 配置
+                                        </button>
+                                        <input name="oauth_qq_info" id="oauth_qq_info" type="hidden"
+                                               value="${@string.toJson(oauth_qq_info)}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="tab-pane fade" id="shop_es">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">索引</label>
+                            <div class="col-sm-8" style="padding-top: 5px;">
+                                <button class="btn btn-info" type="button" id="btnEs_init" > 配置
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">数据</label>
+                            <div class="col-sm-8" style="padding-top: 5px;">
+                                <button class="btn btn-info" type="button" id="btnEs_goods" data-toggle="modal"
+                                        data-target="#dialogEs_goods"> 配置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -121,7 +203,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppId</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="wechat_appid" type="text" class="form-control" value="<%if(!isEmpty(logistics_info)){%>${logistics_info.wechat_appid!}<%}%>">
+                            <input id="wechat_appid" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_wechat_info)){%>${oauth_wechat_info.wechat_appid!}<%}%>">
 
                         </div>
                     </div>
@@ -130,7 +213,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppKey</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="wechat_appkey" type="text" class="form-control" value="<%if(!isEmpty(logistics_info)){%>${logistics_info.wechat_appkey!}<%}%>">
+                            <input id="wechat_appkey" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_wechat_info)){%>${oauth_wechat_info.wechat_appkey!}<%}%>">
 
                         </div>
                     </div>
@@ -139,7 +223,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">验证content</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="wechat_appcontent" type="text" class="form-control" value="<%if(!isEmpty(logistics_info)){%>${logistics_info.wechat_appcontent!}<%}%>">
+                            <input id="wechat_appcontent" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_wechat_info)){%>${oauth_wechat_info.wechat_appcontent!}<%}%>">
 
                         </div>
                     </div>
@@ -147,7 +232,8 @@ layout("/layouts/platform.html"){
             </div>
             <div class="modal-footer">
                 <button id="btnWechat" type="button" class="btn btn-default" data-dismiss="modal">清 除</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定
+                </button>
             </div>
         </div>
     </div>
@@ -164,7 +250,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppId</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="qq_appid" type="text" class="form-control" value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appid!}<%}%>">
+                            <input id="qq_appid" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appid!}<%}%>">
 
                         </div>
                     </div>
@@ -173,7 +260,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppKey</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="qq_appkey" type="text" class="form-control" value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appkey!}<%}%>">
+                            <input id="qq_appkey" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appkey!}<%}%>">
 
                         </div>
                     </div>
@@ -182,7 +270,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">验证content</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="qq_appcontent" type="text" class="form-control" value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appcontent!}<%}%>">
+                            <input id="qq_appcontent" type="text" class="form-control"
+                                   value="<%if(!isEmpty(oauth_qq_info)){%>${oauth_qq_info.qq_appcontent!}<%}%>">
 
                         </div>
                     </div>
@@ -199,7 +288,8 @@ layout("/layouts/platform.html"){
             </div>
             <div class="modal-footer">
                 <button id="btnQq" type="button" class="btn btn-default" data-dismiss="modal">清 除</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定
+                </button>
             </div>
         </div>
     </div>
@@ -216,8 +306,9 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppName</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <select id="lg_appname"  class="form-control" >
-                                <option value="kdn" <%if(!isEmpty(logistics_info)&&"kdn"==logistics_info.lg_appname){%>selected<%}%>>快递鸟</option>
+                            <select id="lg_appname" class="form-control">
+                                <option value="kdn"
+                                <%if(!isEmpty(logistics_info)&&"kdn"==logistics_info.lg_appname){%>selected<%}%>>快递鸟</option>
                             </select>
                         </div>
                     </div>
@@ -226,7 +317,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppId</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="lg_appid" type="text" class="form-control" value="<%if(!isEmpty(logistics_info)){%>${logistics_info.lg_appid!}<%}%>">
+                            <input id="lg_appid" type="text" class="form-control"
+                                   value="<%if(!isEmpty(logistics_info)){%>${logistics_info.lg_appid!}<%}%>">
 
                         </div>
                     </div>
@@ -235,7 +327,8 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">AppKey</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="lg_appkey" type="text" class="form-control" value="<%if(!isEmpty(logistics_info)){%>${logistics_info.lg_appkey!}<%}%>">
+                            <input id="lg_appkey" type="text" class="form-control"
+                                   value="<%if(!isEmpty(logistics_info)){%>${logistics_info.lg_appkey!}<%}%>">
 
                         </div>
                     </div>
@@ -243,50 +336,115 @@ layout("/layouts/platform.html"){
             </div>
             <div class="modal-footer">
                 <button id="btnLg" type="button" class="btn btn-default" data-dismiss="modal">清 除</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialogEs_init" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">搜索引擎初始化</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">索引名称</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;">
+                            <input id="indexName" type="text" value="nutzshop" disabled class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">索引状态</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;color: red" id="es_init_tip">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="padding-left: 20px;padding-top: 10px;">
+                        若索引“已创建”，执行初始化，则删除索引重新创建
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                <button id="btnEs_exe" type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-loading-text="执行中...">执 行
+                </button>
             </div>
         </div>
     </div>
 </div>
 <script language="JavaScript">
+    function getEsIndexStatus() {
+        $.post("${base!}/platform/shop/config/es/" + $("#indexName").val(), {}, function (d) {
+            if(d.data){
+                $("#es_init_tip").html("已创建");
+            }else
+                $("#es_init_tip").html("未创建");
+        }, "json");
+    }
     $(document).ready(function () {
-        $("input[name=oauth_open]").on("click",function(){
-            if($(this).val()=='1'){
+        $("#btnEs_init").on("click", function () {
+            getEsIndexStatus();
+            $("#dialogEs_init").modal("show");
+        });
+        $("#btnEs_exe").on("click",function () {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base!}/platform/shop/config/esindex/" + $("#indexName").val(), {}, function (d) {
+                if (d.code == 0) {
+                    Toast.success(d.msg);
+                } else {
+                    Toast.error(d.msg);
+                }
+                btn.button("reset");
+                $("#dialogEs_init").modal("hide");
+            }, "json");
+        });
+        $("input[name=oauth_open]").on("click", function () {
+            if ($(this).val() == '1') {
                 $("#div_oauth").show();
-            }else {
+            } else {
                 $("#div_oauth").hide();
             }
         });
-        $("#btnWx").on("click",function(){
-            $("#dialogWxpay input[type=text]").each(function(){
+        $("#btnWx").on("click", function () {
+            $("#dialogWxpay input[type=text]").each(function () {
                 $(this).val("");
             });
         });
-        $("#btnQq").on("click",function(){
-            $("#dialogOauth_qq input[type=text]").each(function(){
+        $("#btnQq").on("click", function () {
+            $("#dialogOauth_qq input[type=text]").each(function () {
                 $(this).val("");
             });
         });
-        $("#btnLg").on("click",function(){
-            $("#dialogOauth_lg input[type=text]").each(function(){
+        $("#btnLg").on("click", function () {
+            $("#dialogOauth_lg input[type=text]").each(function () {
                 $(this).val("");
             });
         });
-        $("#save").on("click",function(){
-            var wechat={};
-            wechat.wechat_appid=$("#wechat_appid").val();
-            wechat.wechat_appkey=$("#wechat_appkey").val();
-            wechat.wechat_appcontent=$("#wechat_appcontent").val();
+        $("#save").on("click", function () {
+            var wechat = {};
+            wechat.wechat_appid = $("#wechat_appid").val();
+            wechat.wechat_appkey = $("#wechat_appkey").val();
+            wechat.wechat_appcontent = $("#wechat_appcontent").val();
             $("#oauth_wechat_info").val(JSON.stringify(wechat));
-            var qq={};
-            qq.qq_appid=$("#qq_appid").val();
-            qq.qq_appkey=$("#qq_appkey").val();
-            qq.qq_appcontent=$("#qq_appcontent").val();
+            var qq = {};
+            qq.qq_appid = $("#qq_appid").val();
+            qq.qq_appkey = $("#qq_appkey").val();
+            qq.qq_appcontent = $("#qq_appcontent").val();
             $("#oauth_qq_info").val(JSON.stringify(qq));
-            var lg={};
-            lg.lg_appname=$("#lg_appname").val();
-            lg.lg_appid=$("#lg_appid").val();
-            lg.lg_appkey=$("#lg_appkey").val();
+            var lg = {};
+            lg.lg_appname = $("#lg_appname").val();
+            lg.lg_appid = $("#lg_appid").val();
+            lg.lg_appkey = $("#lg_appkey").val();
             $("#logistics_info").val(JSON.stringify(lg));
             $('#addForm').submit();
         });

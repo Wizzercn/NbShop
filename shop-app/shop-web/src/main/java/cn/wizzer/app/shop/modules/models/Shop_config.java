@@ -73,6 +73,26 @@ public class Shop_config extends BaseModel implements Serializable {
     @ColDefine(type = ColType.TEXT)
     private String oauth_qq_info;
 
+    @Column
+    @Comment("缩略图宽")
+    @ColDefine(type = ColType.INT)
+    private int s_width;
+
+    @Column
+    @Comment("缩略图高")
+    @ColDefine(type = ColType.INT)
+    private int s_height;
+
+    @Column
+    @Comment("相册图宽")
+    @ColDefine(type = ColType.INT)
+    private int m_width;
+
+    @Column
+    @Comment("相册图高")
+    @ColDefine(type = ColType.INT)
+    private int m_height;
+
     public String getId() {
         return id;
     }
@@ -167,5 +187,37 @@ public class Shop_config extends BaseModel implements Serializable {
 
     public void setOauth_qq_info(String oauth_qq_info) {
         this.oauth_qq_info = oauth_qq_info;
+    }
+
+    public int getS_width() {
+        return s_width;
+    }
+
+    public void setS_width(int s_width) {
+        this.s_width = s_width;
+    }
+
+    public int getS_height() {
+        return s_height;
+    }
+
+    public void setS_height(int s_height) {
+        this.s_height = s_height;
+    }
+
+    public int getM_width() {
+        return m_width;
+    }
+
+    public void setM_width(int m_width) {
+        this.m_width = m_width;
+    }
+
+    public int getM_height() {
+        return m_height;
+    }
+
+    public void setM_height(int m_height) {
+        this.m_height = m_height;
     }
 }

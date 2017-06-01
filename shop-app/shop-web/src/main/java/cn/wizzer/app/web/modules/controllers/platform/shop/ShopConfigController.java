@@ -1,5 +1,6 @@
 package cn.wizzer.app.web.modules.controllers.platform.shop;
 
+import cn.wizzer.app.web.commons.es.EsService;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
@@ -28,6 +29,8 @@ public class ShopConfigController {
     private static final Log log = Logs.get();
     @Inject
     private ShopConfigService shopConfigService;
+    @Inject
+    private EsService esService;
 
     @At("")
     @Ok("beetl:/platform/shop/config/index.html")
@@ -55,4 +58,23 @@ public class ShopConfigController {
         }
     }
 
+    @At("/es/?")
+    @Ok("json")
+    public Object es(String indexName) {
+        return Result.success("system.success", esService.isExistsIndex(indexName));
+    }
+
+    @At("/esindex/?")
+    @Ok("json")
+    public Object esindex(String indexName) {
+        try {
+            if(esService.isExistsIndex(indexName)){
+                esService.deleteIndex(indexName);
+            }
+            esService.createIndex(indexName);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
 }

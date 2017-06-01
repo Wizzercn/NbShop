@@ -228,6 +228,7 @@ public class Setup implements org.nutz.mvc.Setup {
      */
     private void initSysData(NutConfig config, Dao dao) {
         Daos.createTablesInPackage(dao, "cn.wizzer.app", false);
+        Daos.migration(dao, "cn.wizzer.app", true,false);
         // 若必要的数据表不存在，则初始化数据库
         if (0 == dao.count(Sys_user.class)) {
             //初始化配置表
