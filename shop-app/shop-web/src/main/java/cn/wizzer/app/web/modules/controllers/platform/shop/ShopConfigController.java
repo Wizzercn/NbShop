@@ -13,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Sqls;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.json.Json;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
@@ -35,6 +36,8 @@ public class ShopConfigController {
     private EsService esService;
     @Inject
     private ShopEstempService shopEstempService;
+    @Inject
+    private PropertiesProxy cfg;
 
     @At("")
     @Ok("beetl:/platform/shop/config/index.html")
@@ -45,6 +48,7 @@ public class ShopConfigController {
         req.setAttribute("oauth_qq_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_qq_info())));
         req.setAttribute("oauth_wechat_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_wechat_info())));
         req.setAttribute("obj", config);
+        req.setAttribute("indexName", cfg.get("es.index.name", "nutzshop"));
     }
 
     @At("/editDo")
@@ -72,7 +76,7 @@ public class ShopConfigController {
     @Ok("json")
     public Object esindex(String indexName) {
         try {
-            if(esService.isExistsIndex(indexName)){
+            if (esService.isExistsIndex(indexName)) {
                 esService.deleteIndex(indexName);
             }
             esService.createIndex(indexName);
@@ -82,15 +86,25 @@ public class ShopConfigController {
         }
     }
 
-    @At("/esdata/?")
+    @At("/esdata/")
     @Ok("json")
-    public Object esdata(String indexName) {
+    public Object esdata() {
         try {
             shopEstempService.clear();
-            shopEstempService.dao().execute(Sqls.create("INSERT INTO shop_estemp(id,goodsid,ACTION,opAt) SELECT id,id,'create',0 FROM goods_goods WHERE delFlag=@f").setParam("f",false));
+            shopEstempService.dao().execute(Sqls.create("INSERT INTO shop_estemp(id,goodsid,ACTION,opAt) SELECT id,id,'create',0 FROM goods_goods WHERE delFlag=@f").setParam("f", false));
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
+        }
+    }
+
+    @At("/escount")
+    @Ok("json")
+    public Object count() {
+        try {
+            return Result.success("globals.result.success", shopEstempService.count());
+        } catch (Exception e) {
+            return Result.error("globals.result.error");
         }
     }
 }

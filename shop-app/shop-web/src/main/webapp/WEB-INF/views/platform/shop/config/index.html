@@ -168,20 +168,16 @@ layout("/layouts/platform.html"){
                         </div>
                     </div>
                     <div class="tab-pane fade" id="shop_es">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">索引</label>
-                            <div class="col-sm-8" style="padding-top: 5px;">
-                                <button class="btn btn-info" type="button" id="btnEs_init" > 配置
-                                </button>
-                            </div>
+                        <div class="form-group" style="padding-left: 50px;">
+                            <button class="btn btn-info" type="button" id="btnEs_init"> 索引管理
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">数据</label>
-                            <div class="col-sm-8" style="padding-top: 5px;">
-                                <button class="btn btn-info" type="button" id="btnEs_goods" data-toggle="modal"
-                                        data-target="#dialogEs_goods"> 配置
-                                </button>
-                            </div>
+                        <div class="form-group" style="padding-left: 50px;">
+
+                            <div>商品缓存区数据量：<span id="es_data_count"  style="color: #00a0f8">0</span>条</div>
+                            <button class="btn btn-info" type="button" id="btnEs_data" data-toggle="modal"
+                                    data-target="#dialogData_init"> 数据管理
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -354,7 +350,7 @@ layout("/layouts/platform.html"){
                     <div class="form-group">
                         <label class="col-sm-3 control-label">索引名称</label>
                         <div class="col-sm-7" style="padding-bottom: 5px;">
-                            <input id="indexName" type="text" value="nutzshop" disabled class="form-control">
+                            <input id="indexName" type="text" value="${indexName!}" disabled class="form-control">
                         </div>
                     </div>
                 </div>
@@ -381,6 +377,29 @@ layout("/layouts/platform.html"){
         </div>
     </div>
 </div>
+<div id="dialogData_init" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">商品数据初始化</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div style="padding-left: 20px;padding-top: 10px;">
+                        商品数据初始化仅进行增量更新，若要完全初始化数据，请先执行索引初始化
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                <button id="btnData_exe" type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-loading-text="执行中...">执 行
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script language="JavaScript">
     function getEsIndexStatus() {
         $.post("${base!}/platform/shop/config/es/" + $("#indexName").val(), {}, function (d) {
@@ -388,6 +407,14 @@ layout("/layouts/platform.html"){
                 $("#es_init_tip").html("已创建");
             }else
                 $("#es_init_tip").html("未创建");
+        }, "json");
+    }
+    function getEsDataCount() {
+        $.post("${base!}/platform/shop/config/escount", {}, function (d) {
+            if (d.code == 0) {
+                $("#es_data_count").html(d.data);
+            } else
+                $("#es_data_count").html(0);
         }, "json");
     }
     $(document).ready(function () {
@@ -408,6 +435,23 @@ layout("/layouts/platform.html"){
                 $("#dialogEs_init").modal("hide");
             }, "json");
         });
+        $("#btnData_exe").on("click", function () {
+            var btn = $(this);
+            btn.button("loading");
+            $.post("${base!}/platform/shop/config/esdata", {}, function (d) {
+                if (d.code == 0) {
+                    Toast.success(d.msg);
+                    getEsDataCount();
+                } else {
+                    Toast.error(d.msg);
+                }
+                btn.button("reset");
+                $("#dialogData_init").modal("hide");
+            }, "json");
+        });
+        setInterval(function () {
+            getEsDataCount();
+        },3200);
         $("input[name=oauth_open]").on("click", function () {
             if ($(this).val() == '1') {
                 $("#div_oauth").show();
