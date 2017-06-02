@@ -53,7 +53,7 @@ public class ShopConfigController {
 
     @At("/editDo")
     @Ok("json")
-    @RequiresPermissions("shop.config.config")
+    @RequiresPermissions("shop.config.config.update")
     @SLog(tag = "Shop_config", msg = "${args[0].id}")
     public Object editDo(@Param("..") Shop_config shopConfig, HttpServletRequest req) {
         try {
@@ -74,6 +74,7 @@ public class ShopConfigController {
 
     @At("/esindex/?")
     @Ok("json")
+    @RequiresPermissions("shop.config.config.update")
     public Object esindex(String indexName) {
         try {
             if (esService.isExistsIndex(indexName)) {
@@ -88,6 +89,7 @@ public class ShopConfigController {
 
     @At("/esdata/")
     @Ok("json")
+    @RequiresPermissions("shop.config.config.update")
     public Object esdata() {
         try {
             shopEstempService.clear();
