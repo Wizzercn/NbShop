@@ -4,13 +4,13 @@ import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by wizzer on 2017/5/20.
  */
 @Table("member_user")
 @TableIndexes({@Index(name = "INDEX_MEMBER_USER_LOGINNAMAE", fields = {"loginname"}, unique = true),
-        @Index(name = "INDEX_MEMBER_USER_EMAIL", fields = {"email"}, unique = true),
         @Index(name = "INDEX_MEMBER_USER_MOBILE", fields = {"mobile"}, unique = true)
 })
 public class Member_user extends BaseModel implements Serializable {
@@ -21,6 +21,16 @@ public class Member_user extends BaseModel implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 32)
     @Prev(els = {@EL("uuid()")})
     private String id;
+
+    @Column
+    @Comment("会员类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String typeId;
+
+    @Column
+    @Comment("会员等级")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String levelId;
 
     @Column
     @Comment("登录名")
@@ -72,6 +82,11 @@ public class Member_user extends BaseModel implements Serializable {
     private Integer freezeScore=0;
 
     @Column
+    @Comment("会员历史总积分")//计算会员等级用
+    @ColDefine(type = ColType.INT)
+    private Integer allScore=0;
+
+    @Column
     @Comment("昵称")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String nickname;
@@ -117,9 +132,28 @@ public class Member_user extends BaseModel implements Serializable {
     private String cityId;
 
     @Column
+    @Comment("注册来源")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String regSrc;
+
+    @Column
+    @Comment("注册时间")
+    @ColDefine(type = ColType.INT)
+    private Integer regAt;
+
+    @Column
     @Comment("是否禁用")
     @ColDefine(type = ColType.BOOLEAN)
     private boolean disabled;
+
+    @One(target = Member_type.class, field = "typeId")
+    private Member_type memberType;
+
+    @One(target = Member_level.class, field = "levelId")
+    private Member_level memberLevel;
+
+    @Many(target = Member_bind.class, field = "memberId")
+    private List<Member_bind> memberBindList;
 
     public String getId() {
         return id;
@@ -127,6 +161,22 @@ public class Member_user extends BaseModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(String levelId) {
+        this.levelId = levelId;
     }
 
     public String getLoginname() {
@@ -209,6 +259,14 @@ public class Member_user extends BaseModel implements Serializable {
         this.freezeScore = freezeScore;
     }
 
+    public Integer getAllScore() {
+        return allScore;
+    }
+
+    public void setAllScore(Integer allScore) {
+        this.allScore = allScore;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -281,11 +339,51 @@ public class Member_user extends BaseModel implements Serializable {
         this.cityId = cityId;
     }
 
+    public String getRegSrc() {
+        return regSrc;
+    }
+
+    public void setRegSrc(String regSrc) {
+        this.regSrc = regSrc;
+    }
+
+    public Integer getRegAt() {
+        return regAt;
+    }
+
+    public void setRegAt(Integer regAt) {
+        this.regAt = regAt;
+    }
+
     public boolean isDisabled() {
         return disabled;
     }
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
+    }
+
+    public Member_type getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(Member_type memberType) {
+        this.memberType = memberType;
+    }
+
+    public Member_level getMemberLevel() {
+        return memberLevel;
+    }
+
+    public void setMemberLevel(Member_level memberLevel) {
+        this.memberLevel = memberLevel;
+    }
+
+    public List<Member_bind> getMemberBindList() {
+        return memberBindList;
+    }
+
+    public void setMemberBindList(List<Member_bind> memberBindList) {
+        this.memberBindList = memberBindList;
     }
 }

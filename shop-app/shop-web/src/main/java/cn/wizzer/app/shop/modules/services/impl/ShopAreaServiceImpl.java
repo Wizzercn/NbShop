@@ -43,4 +43,11 @@ public class ShopAreaServiceImpl extends BaseServiceImpl<Shop_area> implements S
             }
         }
     }
+
+    public String getNameByCode(String code) {
+        Shop_area shopArea = this.fetch(Cnd.where("code", "=", code));
+        if (shopArea != null)
+            return shopArea.getName();
+        return "";
+    }
 }

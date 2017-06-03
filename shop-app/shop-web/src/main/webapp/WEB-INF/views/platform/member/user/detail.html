@@ -1,0 +1,62 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">会员信息</a>
+                    </div>
+                </header>
+                <div class="list-group" style="text-align: center;padding-top: 10px;">
+                    <table width="80%" style="padding: 10px;">
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">用户名：</td>
+                            <td width="30%" align="left">${obj.loginname!}
+                            </td>
+                            <td width="20%" align="right">信任登录：</td>
+                            <td width="30%" align="left"><%for(o in obj.memberBindList){%>${o.bind_type!} | <%}%></td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">昵称：</td>
+                            <td width="30%" align="left">${obj.nickname!}</td>
+                            <td width="20%" align="right">手机号码：</td>
+                            <td width="30%" align="left">${obj.mobile!}</td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">帐户余额：</td>
+                            <td width="30%" align="left" style="color: red">&yen;${@money.fenToYuan(obj.money)}</td>
+                            <td width="20%" align="right">积分：</td>
+                            <td width="30%" align="left">${obj.score!0}</td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">Email：</td>
+                            <td width="30%" align="left" colspan="3">${obj.email!}</td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">姓名：</td>
+                            <td width="30%" align="left">${obj.name!}</td>
+                            <td width="20%" align="right">性别：</td>
+                            <td width="30%" align="left">${obj.sex!}</td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">出生日期：</td>
+                            <td width="30%" align="left">${obj.b_year!}-${obj.b_month!}-${obj.b_day!}</td>
+                            <td width="20%" align="right">所属地区：</td>
+                            <td width="30%" align="left">${province!}-${city!}</td>
+                        </tr>
+                        <tr style="height: 30px;">
+                            <td width="20%" align="right">注册来源：</td>
+                            <td width="30%" align="left">${obj.regSrc!}</td>
+                            <td width="20%" align="right">注册时间：</td>
+                            <td width="30%" align="left">${@date.getDate(obj.regAt)}</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+</div>
