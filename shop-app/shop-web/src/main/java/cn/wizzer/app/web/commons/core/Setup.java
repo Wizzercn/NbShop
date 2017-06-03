@@ -2,10 +2,7 @@ package cn.wizzer.app.web.commons.core;
 
 import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.web.commons.base.Globals;
-import cn.wizzer.app.web.modules.tags.CmsArticleListTag;
-import cn.wizzer.app.web.modules.tags.CmsArticleTag;
-import cn.wizzer.app.web.modules.tags.CmsChannelListTag;
-import cn.wizzer.app.web.modules.tags.CmsChannelTag;
+import cn.wizzer.app.web.modules.tags.*;
 import cn.wizzer.app.web.commons.plugin.IPlugin;
 import cn.wizzer.app.web.commons.plugin.PluginMaster;
 import cn.wizzer.framework.ig.RedisIdGenerator;
@@ -79,6 +76,8 @@ public class Setup implements org.nutz.mvc.Setup {
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_channel", ()->ioc.get(CmsChannelTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article_list", ()->ioc.get(CmsArticleListTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article", ()->ioc.get(CmsArticleTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_list", ()->ioc.get(GoodsListTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_detail", ()->ioc.get(GoodsDetailTag.class));
                 }
             }
             log.info("\n _  _ _   _ _____ ______      ___  __\n" +

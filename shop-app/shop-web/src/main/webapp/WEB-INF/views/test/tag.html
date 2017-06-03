@@ -5,8 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-<#cms_channel_list parentId="" parentName="新手上路" var="o">
-    ${o.name!}
-</#cms_channel_list>
+
+
+<#goods_list classId="" title="" keyword="苹果" explain="true" pageNumber="1" pageSize="10" sortName="" sortOrder="" var="page">
+    <ul>
+    <%for(o in page.list){%>
+    <li>${o["name"]}</li>
+    <%}%>
+    </ul>
+</#goods_list>
+
+<#goods_detail id="f75dd5eb3e454f66acff86b2fe607165" var="o">
+    <ul>
+        ${o!}
+    </ul>
+</#goods_detail>
 </body>
 </html>
