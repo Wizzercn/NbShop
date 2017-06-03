@@ -29,6 +29,7 @@ public class MemberUserController {
     private MemberUserService memberUserService;
     @Inject
     private ShopAreaService shopAreaService;
+
     @At("")
     @Ok("beetl:/platform/member/user/index.html")
     @RequiresPermissions("member.manager.user")
@@ -38,8 +39,15 @@ public class MemberUserController {
     @At("/data")
     @Ok("json")
     @RequiresPermissions("member.manager.user")
-    public Object data(@Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
+    public Object data(@Param("keyword") String keyword, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
         Cnd cnd = Cnd.NEW();
+        if (Strings.isNotBlank(keyword)) {
+            if (Strings.isMobile(keyword)) {
+                cnd.and("mobile", "like", "%" + keyword + "%");
+            } else {
+                cnd.and("loginname", "like", "%" + keyword + "%");
+            }
+        }
         return memberUserService.data(length, start, draw, order, columns, cnd, "^(memberType|memberLevel)$");
     }
 
@@ -109,9 +117,9 @@ public class MemberUserController {
     @RequiresPermissions("member.manager.user")
     public void detail(String id, HttpServletRequest req) {
         if (!Strings.isBlank(id)) {
-            Member_user memberUser=memberUserService.fetch(id);
-            req.setAttribute("province",shopAreaService.getNameByCode(memberUser.getProvinceId()));
-            req.setAttribute("city",shopAreaService.getNameByCode(memberUser.getCityId()));
+            Member_user memberUser = memberUserService.fetch(id);
+            req.setAttribute("province", shopAreaService.getNameByCode(memberUser.getProvinceId()));
+            req.setAttribute("city", shopAreaService.getNameByCode(memberUser.getCityId()));
             req.setAttribute("obj", memberUserService.fetchLinks(memberUser, null));
         } else {
             req.setAttribute("obj", null);

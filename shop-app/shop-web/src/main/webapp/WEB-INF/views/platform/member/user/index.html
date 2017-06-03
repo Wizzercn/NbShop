@@ -3,7 +3,7 @@ layout("/layouts/platform.html"){
 %>
 <section class="content-wrap bg-white">
     <header class="header navbar bg-white shadow">
-        <div class="btn-group tool-button"><input id="mobile" type="text" class="form-control"
+        <div class="btn-group tool-button"><input id="keyword" type="text" class="form-control"
                                                   placeholder="用户名或手机号码">
         </div>
         <div class="btn-group tool-button">
@@ -62,7 +62,7 @@ layout("/layouts/platform.html"){
                 "url": "${base}/platform/member/user/data",
                 "type": "post",
                 "data": function (d) {
-
+                    d.keyword=$("#keyword").val();
                 }
             },
             "order": [[5, "desc"]],
