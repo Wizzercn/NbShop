@@ -11,7 +11,7 @@ import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.goods.modules.models.Goods_product;
 import cn.wizzer.app.shop.modules.models.Shop_estemp;
 import cn.wizzer.app.shop.modules.services.ShopEstempService;
-import cn.wizzer.app.web.commons.es.EsService;
+import cn.wizzer.app.web.commons.ext.es.EsService;
 import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.base.service.BaseServiceImpl;
 import cn.wizzer.framework.page.Pagination;

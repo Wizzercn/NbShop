@@ -102,6 +102,32 @@ layout("/layouts/platform.html"){
                     <div class="tab-pane fade" id="shop_img">
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">存储方式</label>
+                                <div class="col-sm-8" style="padding-top: 5px;">
+                                    <input type="radio" name="img_save_local" value="1"
+                                    <%if(obj.img_save_local){%>checked<%}%>>本地存储
+                                    <input type="radio" name="img_save_local" value="0"
+                                    <%if(!obj.img_save_local){%>checked<%}%>>云存储
+
+                                </div>
+                            </div>
+                            <div id="div_img" style="display: <%if(!obj.img_save_local){%>block<%}else{%>none<%}%>">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">七牛云配置</label>
+                                    <div class="col-sm-8" style="padding-top: 5px;">
+                                        <input type="radio" name="img_qiniu" value="1"
+                                        <%if(obj.img_qiniu){%>checked<%}%>>启用
+                                        <input type="radio" name="img_qiniu" value="0"
+                                        <%if(!obj.img_qiniu){%>checked<%}%>>禁用
+                                        <button class="btn btn-info" type="button"
+                                                data-toggle="modal" data-target="#dialogImg_qiniu"> 配置
+                                        </button>
+                                        <input name="img_qiniu_info" id="img_qiniu_info" type="hidden"
+                                               value="${@string.toJson(img_qiniu_info)}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="s_width" class="col-sm-2 control-label">列表页缩略图设定</label>
 
                                 <div class="col-sm-8" style="text-align: left;float: left">
@@ -187,6 +213,63 @@ layout("/layouts/platform.html"){
         </div>
     </div>
 </form>
+<div id="dialogImg_qiniu" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">七牛云</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Access Key</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;">
+                            <input id="qiniu_ak" type="text" class="form-control"
+                                   value="<%if(!isEmpty(img_qiniu_info)){%>${img_qiniu_info.qiniu_ak!}<%}%>">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">SecretKey</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;">
+                            <input id="qiniu_sk" type="text" class="form-control"
+                                   value="<%if(!isEmpty(img_qiniu_info)){%>${img_qiniu_info.qiniu_sk!}<%}%>">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">空间名称</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;">
+                            <input id="qiniu_bucket" type="text" class="form-control"
+                                   value="<%if(!isEmpty(img_qiniu_info)){%>${img_qiniu_info.qiniu_bucket!}<%}%>">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">访问域名</label>
+                        <div class="col-sm-7" style="padding-bottom: 5px;">
+                            <input id="qiniu_domain" type="text" class="form-control"
+                                   value="<%if(!isEmpty(img_qiniu_info)){%>${img_qiniu_info.qiniu_domain!}<%}%>">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnQiniu" type="button" class="btn btn-default" data-dismiss="modal">清 除</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-loading-text="确定...">确 定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dialogOauth_wechat" class="modal fade bs-modal-sm" tabindex="-2" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -410,12 +493,14 @@ layout("/layouts/platform.html"){
         }, "json");
     }
     function getEsDataCount() {
-        $.post("${base!}/platform/shop/config/escount", {}, function (d) {
-            if (d.code == 0) {
-                $("#es_data_count").html(d.data);
-            } else
-                $("#es_data_count").html(0);
-        }, "json");
+        if (window.location.href.lastIndexOf("/platform/shop/config") > 0) {
+            $.post("${base!}/platform/shop/config/escount", {}, function (d) {
+                if (d.code == 0) {
+                    $("#es_data_count").html(d.data);
+                } else
+                    $("#es_data_count").html(0);
+            }, "json");
+        }
     }
     $(document).ready(function () {
         $("#btnEs_init").on("click", function () {
@@ -459,6 +544,13 @@ layout("/layouts/platform.html"){
                 $("#div_oauth").hide();
             }
         });
+        $("input[name=img_save_local]").on("click", function () {
+            if ($(this).val() == '0') {
+                $("#div_img").show();
+            } else {
+                $("#div_img").hide();
+            }
+        });
         $("#btnWx").on("click", function () {
             $("#dialogWxpay input[type=text]").each(function () {
                 $(this).val("");
@@ -471,6 +563,11 @@ layout("/layouts/platform.html"){
         });
         $("#btnLg").on("click", function () {
             $("#dialogOauth_lg input[type=text]").each(function () {
+                $(this).val("");
+            });
+        });
+        $("#btnQiniu").on("click", function () {
+            $("#dialogImg_qiniu input[type=text]").each(function () {
                 $(this).val("");
             });
         });
@@ -490,6 +587,12 @@ layout("/layouts/platform.html"){
             lg.lg_appid = $("#lg_appid").val();
             lg.lg_appkey = $("#lg_appkey").val();
             $("#logistics_info").val(JSON.stringify(lg));
+            var qiniu = {};
+            qiniu.qiniu_sk = $("#qiniu_sk").val();
+            qiniu.qiniu_ak = $("#qiniu_ak").val();
+            qiniu.qiniu_bucket = $("#qiniu_bucket").val();
+            qiniu.qiniu_domain = $("#qiniu_domain").val();
+            $("#img_qiniu_info").val(JSON.stringify(qiniu));
             $('#addForm').submit();
         });
         $('#addForm').ajaxForm({

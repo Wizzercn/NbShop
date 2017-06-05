@@ -93,6 +93,21 @@ public class Shop_config extends BaseModel implements Serializable {
     @ColDefine(type = ColType.INT)
     private int m_height;
 
+    @Column
+    @Comment("本地存储")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean img_save_local;
+
+    @Column
+    @Comment("七牛云配置")
+    @ColDefine(type = ColType.BOOLEAN)
+    private boolean img_qiniu;
+
+    @Column
+    @Comment("七牛云配置")
+    @ColDefine(type = ColType.TEXT)
+    private String img_qiniu_info;
+
     public String getId() {
         return id;
     }
@@ -219,5 +234,29 @@ public class Shop_config extends BaseModel implements Serializable {
 
     public void setM_height(int m_height) {
         this.m_height = m_height;
+    }
+
+    public boolean isImg_save_local() {
+        return img_save_local;
+    }
+
+    public void setImg_save_local(boolean img_save_local) {
+        this.img_save_local = img_save_local;
+    }
+
+    public boolean isImg_qiniu() {
+        return img_qiniu;
+    }
+
+    public void setImg_qiniu(boolean img_qiniu) {
+        this.img_qiniu = img_qiniu;
+    }
+
+    public String getImg_qiniu_info() {
+        return img_qiniu_info;
+    }
+
+    public void setImg_qiniu_info(String img_qiniu_info) {
+        this.img_qiniu_info = img_qiniu_info;
     }
 }

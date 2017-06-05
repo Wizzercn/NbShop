@@ -1,4 +1,4 @@
-package cn.wizzer.app.web.commons.es;
+package cn.wizzer.app.web.commons.ext.es;
 
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
@@ -25,8 +25,6 @@ import org.nutz.log.Logs;
 
 import java.net.InetAddress;
 import java.util.List;
-
-import static org.elasticsearch.rest.RestStatus.OK;
 
 /**
  * Created by wizzer on 2017/6/1.

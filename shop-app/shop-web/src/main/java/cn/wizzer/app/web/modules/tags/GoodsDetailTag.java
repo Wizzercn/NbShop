@@ -1,37 +1,23 @@
 package cn.wizzer.app.web.modules.tags;
 
-import cn.wizzer.app.goods.modules.models.Goods_class;
 import cn.wizzer.app.goods.modules.models.Goods_goods;
 import cn.wizzer.app.goods.modules.services.GoodsClassService;
-import cn.wizzer.app.web.commons.es.EsService;
-import cn.wizzer.framework.page.Pagination;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import cn.wizzer.app.web.commons.ext.es.EsService;
 import org.beetl.core.GeneralVarTagBinding;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
-import org.elasticsearch.search.sort.SortOrder;
-import org.nutz.dao.Cnd;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
-import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
