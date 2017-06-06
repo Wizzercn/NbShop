@@ -1,0 +1,53 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">Sales_coupon</a>
+                        <small>${obj.id}</small>
+                    </div>
+                </header>
+                <div class="list-group">
+                    <table class="table table-bordered table-striped mg-t datatable">
+                        <tbody>
+                                                        <tr>
+                                <td>优惠券名称</td><td>${obj.name}</td>
+                            </tr>
+                                                        <tr>
+                                <td>金额</td><td>${obj.money}</td>
+                            </tr>
+                                                        <tr>
+                                <td>总数量</td><td>${obj.total_num}</td>
+                            </tr>
+                                                        <tr>
+                                <td>已发数量</td><td>${obj.send_num}</td>
+                            </tr>
+                                                        <tr>
+                                <td>期限限制</td><td>${obj.has_limit}</td>
+                            </tr>
+                                                        <tr>
+                                <td>使用期限</td><td>${obj.limit_time}</td>
+                            </tr>
+                                                        <tr>
+                                <td>允许领取多张</td><td>${obj.has_more}</td>
+                            </tr>
+                                                        <tr>
+                                <td>允许积分兑换</td><td>${obj.has_score}</td>
+                            </tr>
+                                                        <tr>
+                                <td>所需积分</td><td>${obj.score}</td>
+                            </tr>
+                                                        <tr>
+                                <td>是否禁用</td><td>${obj.disabled}</td>
+                            </tr>
+                                                    </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+</div>

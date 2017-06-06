@@ -1,0 +1,44 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">Member_coupon</a>
+                        <small>${obj.id}</small>
+                    </div>
+                </header>
+                <div class="list-group">
+                    <table class="table table-bordered table-striped mg-t datatable">
+                        <tbody>
+                                                        <tr>
+                                <td>优惠券ID</td><td>${obj.coupon_id}</td>
+                            </tr>
+                                                        <tr>
+                                <td>优惠券名称</td><td>${obj.coupon_name}</td>
+                            </tr>
+                                                        <tr>
+                                <td>优惠券金额</td><td>${obj.coupon_money}</td>
+                            </tr>
+                                                        <tr>
+                                <td>获取时间</td><td>${obj.createAt}</td>
+                            </tr>
+                                                        <tr>
+                                <td>使用时间</td><td>${obj.orderAt}</td>
+                            </tr>
+                                                        <tr>
+                                <td>订单ID</td><td>${obj.orderId}</td>
+                            </tr>
+                                                        <tr>
+                                <td>优惠券状态</td><td>${obj.status}</td>
+                            </tr>
+                                                    </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+</div>

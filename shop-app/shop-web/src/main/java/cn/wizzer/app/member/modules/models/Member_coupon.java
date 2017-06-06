@@ -20,6 +20,11 @@ public class Member_coupon extends BaseModel implements Serializable {
     private String id;
 
     @Column
+    @Comment("优惠券ID")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String coupon_id;
+
+    @Column
     @Comment("优惠券名称")
     @ColDefine(type = ColType.VARCHAR, width = 100)
     private String coupon_name;
@@ -32,6 +37,84 @@ public class Member_coupon extends BaseModel implements Serializable {
     @Column
     @Comment("获取时间")
     @ColDefine(type = ColType.INT)
-    private Integer getAt;
+    private Integer createAt;
 
+    @Column
+    @Comment("使用时间")
+    @ColDefine(type = ColType.INT)
+    private Integer orderAt;
+
+    @Column
+    @Comment("订单ID")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String orderId;
+
+    @Column
+    @Comment("优惠券状态")
+    @ColDefine(type = ColType.INT)
+    private Integer status;//0 未使用 1 已使用  2 已失效
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCoupon_id() {
+        return coupon_id;
+    }
+
+    public void setCoupon_id(String coupon_id) {
+        this.coupon_id = coupon_id;
+    }
+
+    public String getCoupon_name() {
+        return coupon_name;
+    }
+
+    public void setCoupon_name(String coupon_name) {
+        this.coupon_name = coupon_name;
+    }
+
+    public String getCoupon_money() {
+        return coupon_money;
+    }
+
+    public void setCoupon_money(String coupon_money) {
+        this.coupon_money = coupon_money;
+    }
+
+    public Integer getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Integer createAt) {
+        this.createAt = createAt;
+    }
+
+    public Integer getOrderAt() {
+        return orderAt;
+    }
+
+    public void setOrderAt(Integer orderAt) {
+        this.orderAt = orderAt;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }
