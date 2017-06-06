@@ -4,6 +4,7 @@ import cn.wizzer.app.sys.modules.models.Sys_config;
 import cn.wizzer.app.sys.modules.models.Sys_route;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
+import org.nutz.weixin.impl.WxApi2Impl;
 
 import java.util.HashMap;
 import java.util.List;

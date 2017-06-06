@@ -69,6 +69,7 @@ public class WxConfigController {
     public Object editDo(@Param("..") Wx_config conf, HttpServletRequest req) {
         try {
             wxConfigService.updateIgnoreNull(conf);
+            wxConfigService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -83,6 +84,7 @@ public class WxConfigController {
         try {
             req.setAttribute("appname", wxConfigService.fetch(id).getAppname());
             wxConfigService.delete(id);
+            wxConfigService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
