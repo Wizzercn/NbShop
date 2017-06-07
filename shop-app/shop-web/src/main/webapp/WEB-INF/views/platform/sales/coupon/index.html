@@ -5,7 +5,6 @@ layout("/layouts/platform.html"){
     <header class="header navbar bg-white shadow">
         <div class="btn-group tool-button">
             <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/sales/coupon/add" data-pjax><i class="ti-plus"></i> 新增</a>
-            <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
         </div>
     </header>
     <div class=panel-body style="padding-top: 50px;">
@@ -15,14 +14,11 @@ layout("/layouts/platform.html"){
                     <tr>
                             <th>优惠券名称</th>
                             <th>金额</th>
-                            <th>总数量</th>
-                            <th>已发数量</th>
+                            <th>数量</th>
+                            <th>所需积分</th>
                             <th>期限限制</th>
                             <th>使用期限</th>
-                            <th>允许领取多张</th>
-                            <th>允许积分兑换</th>
-                            <th>所需积分</th>
-                            <th>是否禁用</th>
+                            <th>状态</th>
                             <th>操作</th>
                     </tr>
                 </thead>
@@ -41,7 +37,7 @@ layout("/layouts/platform.html"){
                 <div class="row">
                     <div class="col-xs-12">
                         删除后无法恢复。<br/>
-                        <br/>确定删除吗？
+                        删除后无法恢复，并且<span style="color: red">会员已兑换的优惠券将变更为“已过期”状态</span>，确定删除吗？
                     </div>
                 </div>
             </div>
@@ -89,26 +85,24 @@ layout("/layouts/platform.html"){
                     {"data": "name", "bSortable": true},
                     {"data": "money", "bSortable": true},
                     {"data": "total_num", "bSortable": true},
-                    {"data": "send_num", "bSortable": true},
-                    {"data": "has_limit", "bSortable": true},
-                    {"data": "limit_time", "bSortable": true},
-                    {"data": "has_more", "bSortable": true},
-                    {"data": "has_score", "bSortable": true},
                     {"data": "score", "bSortable": true},
-                    {"data": "disabled", "bSortable": true},
+                    {"data": "limit_number", "bSortable": true},
+                    {"data": "limit_sartAt", "bSortable": true},
+                    {"data": "disabled", "bSortable": true}
             ],
             "columnDefs": [
                 {
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="${base}/platform/sales/coupon/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
                                 '<li><a href="${base}/platform/sales/coupon/edit/' + row.id + '" data-pjax>修改</a></li>' +
-                                '<li class="divider"></li>' +
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
+                                '<li class="divider"></li>' +
+                                '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
+                                '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 10
+                    "targets": 7
                 }
             ]
         });
@@ -137,38 +131,29 @@ layout("/layouts/platform.html"){
             }, "json");
         });
     }
-    function delCheck() {
-        var chks = datatable.rows('.selected').data();
-        if (chks.length > 0) {
-            var ids = [];
-            $.each(datatable.rows('.selected').data(), function (i, n) {
-                ids.push(n.id);
-            });
-            var dialog = $("#dialogDelete");
-            dialog.modal("show");
-            dialog.find("#okDel").unbind("click");
-            dialog.find("#okDel").bind("click", function (event) {
-                var btn = $(this);
-                btn.button("loading");
-                $.post("${base}/platform/sales/coupon/delete", {ids: ids.toString()}, function (data) {
-                    if (data.code == 0) {
-                        datatable.ajax.reload(null,false);
-                    } else {
-                        Toast.error(data.msg);
-                    }
-                    btn.button("reset");
-                    dialog.modal("hide");
-                }, "json");
-            });
-        } else {
-            Toast.warning("请先选择要删除的项！");
-        }
+    function enable(id) {
+        $.post("${base}/platform/sales/coupon/enable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disabled_"+id).attr("class", "fa fa-circle text-success ml5");
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
+    function disable(id) {
+        $.post("${base}/platform/sales/coupon/disable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disabled_"+id).attr("class", "fa fa-circle text-danger ml5");
+                Toast.success(data.msg);
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
     }
     $(function () {
         initDatatable();
-        $("#dialogDetail").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
-        });
     });
 </script>
 <%}%>

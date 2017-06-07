@@ -39,19 +39,19 @@ public class Sales_coupon extends BaseModel implements Serializable {
     private Integer send_num;
 
     @Column
-    @Comment("期限限制")
+    @Comment("使用期限起")
     @ColDefine(type = ColType.INT)
-    private Integer has_limit;//0 不限  1 按到期时间  2 按获取时间
+    private Integer limit_sartAt;
 
     @Column
-    @Comment("使用期限")
+    @Comment("使用期限至")
     @ColDefine(type = ColType.INT)
-    private Integer limit_time;
+    private Integer limit_endAt;
 
     @Column
-    @Comment("允许领取多张")
-    @ColDefine(type = ColType.BOOLEAN)
-    private boolean has_more;
+    @Comment("允许领取数量")
+    @ColDefine(type = ColType.INT)
+    private Integer limit_number;
 
     @Column
     @Comment("允许积分兑换")
@@ -108,28 +108,28 @@ public class Sales_coupon extends BaseModel implements Serializable {
         this.send_num = send_num;
     }
 
-    public Integer getHas_limit() {
-        return has_limit;
+    public Integer getLimit_sartAt() {
+        return limit_sartAt;
     }
 
-    public void setHas_limit(Integer has_limit) {
-        this.has_limit = has_limit;
+    public void setLimit_sartAt(Integer limit_sartAt) {
+        this.limit_sartAt = limit_sartAt;
     }
 
-    public Integer getLimit_time() {
-        return limit_time;
+    public Integer getLimit_endAt() {
+        return limit_endAt;
     }
 
-    public void setLimit_time(Integer limit_time) {
-        this.limit_time = limit_time;
+    public void setLimit_endAt(Integer limit_endAt) {
+        this.limit_endAt = limit_endAt;
     }
 
-    public boolean isHas_more() {
-        return has_more;
+    public Integer getLimit_number() {
+        return limit_number;
     }
 
-    public void setHas_more(boolean has_more) {
-        this.has_more = has_more;
+    public void setLimit_number(Integer limit_number) {
+        this.limit_number = limit_number;
     }
 
     public boolean isHas_score() {
