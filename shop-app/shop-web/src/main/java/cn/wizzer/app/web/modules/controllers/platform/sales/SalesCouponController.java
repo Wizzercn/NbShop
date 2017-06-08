@@ -5,6 +5,7 @@ import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
 import cn.wizzer.framework.page.datatable.DataTableOrder;
+import cn.wizzer.framework.util.DateUtil;
 import cn.wizzer.framework.util.StringUtil;
 import cn.wizzer.app.sales.modules.models.Sales_coupon;
 import cn.wizzer.app.sales.modules.services.SalesCouponService;
@@ -53,9 +54,12 @@ public class SalesCouponController {
     @Ok("json")
     @RequiresPermissions("sales.coupon.manager.add")
     @SLog(tag = "Sales_coupon", msg = "${args[0].id}")
-    public Object addDo(@Param("..") Sales_coupon salesCoupon,@Param("moneys")String moneys, HttpServletRequest req) {
+    public Object addDo(@Param("..") Sales_coupon salesCoupon, @Param("enabled") boolean enabled, @Param("moneys") String moneys, @Param("limit_sartAts") String limit_sartAts, @Param("limit_endAts") String limit_endAts, HttpServletRequest req) {
         try {
+            salesCoupon.setDisabled(!enabled);
             salesCoupon.setMoney(MoneyUtil.yuanToFen(moneys));
+            salesCoupon.setLimit_sartAt(DateUtil.getTime(limit_sartAts));
+            salesCoupon.setLimit_endAt(DateUtil.getTime(limit_endAts));
             salesCouponService.insert(salesCoupon);
             return Result.success("system.success");
         } catch (Exception e) {
@@ -74,8 +78,11 @@ public class SalesCouponController {
     @Ok("json")
     @RequiresPermissions("sales.coupon.manager.edit")
     @SLog(tag = "Sales_coupon", msg = "${args[0].id}")
-    public Object editDo(@Param("..") Sales_coupon salesCoupon,@Param("moneys")String moneys, HttpServletRequest req) {
+    public Object editDo(@Param("..") Sales_coupon salesCoupon, @Param("enabled") boolean enabled, @Param("moneys") String moneys, @Param("limit_sartAts") String limit_sartAts, @Param("limit_endAts") String limit_endAts, HttpServletRequest req) {
         try {
+            salesCoupon.setDisabled(!enabled);
+            salesCoupon.setLimit_sartAt(DateUtil.getTime(limit_sartAts));
+            salesCoupon.setLimit_endAt(DateUtil.getTime(limit_endAts));
             salesCoupon.setMoney(MoneyUtil.yuanToFen(moneys));
             salesCoupon.setOpBy(StringUtil.getUid());
             salesCoupon.setOpAt((int) (System.currentTimeMillis() / 1000));

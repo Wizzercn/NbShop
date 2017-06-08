@@ -14,19 +14,7 @@ $.ajaxSetup({
     }
 });
 function setPrice(str){
-    if (typeof str == 'string' && str.length > 2) {
-        return str.substring(0, str.length - 2) + '.' + str.substring(str.length - 2);
-    }else if(typeof str == 'string' && str.length == 2){
-        return '0.'+str;
-    }else if(typeof str == 'string' && str.length == 1){
-        return '0.0'+str;
-    }else if(typeof str == 'string'){
-        return '0.00';
-    }
-    if (typeof str == 'number') {
-        var s = str.toString();
-        return setPrice(s);
-    }
+    return (str/100).toFixed(2);
 }
 function removeHTMLTag(str) {
   str = str.replace(/<\/?[^>]*>/g,''); //去除HTML tag

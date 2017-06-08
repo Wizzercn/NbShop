@@ -16,7 +16,7 @@ layout("/layouts/platform.html"){
                             <th>金额</th>
                             <th>数量</th>
                             <th>所需积分</th>
-                            <th>期限限制</th>
+                            <th>限领张数</th>
                             <th>使用期限</th>
                             <th>状态</th>
                             <th>操作</th>
@@ -36,8 +36,7 @@ layout("/layouts/platform.html"){
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        删除后无法恢复。<br/>
-                        删除后无法恢复，并且<span style="color: red">会员已兑换的优惠券将变更为“已过期”状态</span>，确定删除吗？
+                        删除后无法恢复。<br/>确定删除吗？
                     </div>
                 </div>
             </div>
@@ -91,6 +90,43 @@ layout("/layouts/platform.html"){
                     {"data": "disabled", "bSortable": true}
             ],
             "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        if (data) {
+                            return "￥"+setPrice(data);
+                        }
+                        return '';
+                    },
+                    "targets": 1
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data) {
+                            var s=row.send_num||0;
+                            return row.total_num+"(送出:"+s+",剩余:"+(row.total_num-s)+")";
+                        }
+                        return '';
+                    },
+                    "targets": 2
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data) {
+                            return moment(parseInt(row.limit_sartAt * 1000)).format("YYYY-MM-DD HH:mm:ss")+" <span style='b'>至<span> "+moment(parseInt(row.limit_endAt * 1000)).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return '';
+                    },
+                    "targets": 5
+                },
+                {
+                    "render": function (data, type, row) {
+                        if(!data){
+                            return '<i id="disabled_'+row.id+'" class="fa fa-circle text-success ml5"></i>';
+                        }
+                        return '<i id="disabled_'+row.id+'" class="fa fa-circle text-danger ml5"></i>';
+                    },
+                    "targets": 6
+                },
                 {
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +

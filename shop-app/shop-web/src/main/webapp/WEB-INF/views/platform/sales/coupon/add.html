@@ -40,7 +40,7 @@ layout("/layouts/platform.html"){
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
-                                <input type="hidden" id="limit_sartAt" name="limit_sartAt" value="${@date.getDateTime()}" />
+                                <input type="hidden" id="limit_sartAt" name="limit_sartAts" value="${@date.getDateTime()}" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,13 +51,13 @@ layout("/layouts/platform.html"){
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                                 </div>
-                                <input type="hidden" id="limit_endAt" name="limit_sartAt" value="${@date.getDateTime()}" />
+                                <input type="hidden" id="limit_endAt" name="limit_endAts" value="${@date.getDateTime()}" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="limit_number" class="col-sm-2 control-label">可领取张数</label>
+                            <label for="limit_number" class="col-sm-2 control-label">限领张数</label>
                             <div class="col-sm-8">
-                            <input type="text" id="limit_number" class="form-control" name="limit_number" data-parsley-required="true" placeholder="允许领取多张">
+                            <input type="text" id="limit_number" class="form-control" name="limit_number" data-parsley-required="true" placeholder="可领取张数">
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,14 +71,14 @@ layout("/layouts/platform.html"){
                         <div id="has_score_div" style="display: none" class="form-group">
                             <label for="score" class="col-sm-2 control-label">所需积分</label>
                             <div class="col-sm-8">
-                            <input type="text" id="score" class="form-control" name="score" data-parsley-type="integer" data-parsley-required="true" placeholder="所需积分">
+                            <input type="text" id="score" class="form-control" name="score" placeholder="所需积分">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="disabled" class="col-sm-2 control-label">启用状态</label>
+                            <label for="enabled" class="col-sm-2 control-label">启用状态</label>
                             <div class="col-sm-8 switcha">
                                 <div class="mr15">
-                                    <input type="checkbox" id="disabled" name="disabled" class="js-switch-blue" value="false">
+                                    <input type="checkbox" id="enabled" name="enabled" class="js-switch-blue" value="true">
                                 </div>
                             </div>
                         </div>
@@ -103,10 +103,10 @@ layout("/layouts/platform.html"){
         myForm.init();
         $('#has_score').on("change",function () {
            if(this.checked){
-               $("#score").val("0").attr("data-parsley-required",true);
+               $("#score").val("0").attr("data-parsley-required",true).attr("data-parsley-type","integer");
                $('#has_score_div').show();
            }else {
-               $("#score").val("0").removeAttr("data-parsley-required");
+               $("#score").val("0").removeAttr("data-parsley-required").removeAttr("data-parsley-type");
                $('#has_score_div').hide();
            }
         });
