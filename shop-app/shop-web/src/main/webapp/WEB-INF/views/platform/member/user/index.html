@@ -128,8 +128,17 @@ layout("/layouts/platform.html"){
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                             ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
-                            '<li><a href="${base}/platform/member/user/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +
-                            '<li><a href="${base}/platform/member/user/edit/' + row.id + '" data-pjax>修改</a></li>' +
+                            '<li><a href="/platform/member/user/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">会员信息</a></li>' +
+                            '<li><a href="/platform/member/user/order/' + row.id + '" data-toggle="modal" data-target="#dialogOrder">订单</a></li>' +
+                            '<li class="divider"></li>' +
+                            '<li><a href="/platform/member/user/money/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">预存款</a></li>' +
+                            '<li><a href="/platform/member/user/moneylog/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">存款记录</a></li>' +
+                            '<li class="divider"></li>' +
+                            '<li><a href="/platform/member/user/score/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">积分</a></li>' +
+                            '<li><a href="/platform/member/user/scorelog/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">积分记录</a></li>' +
+                            '<li class="divider"></li>' +
+                            '<li><a href="/platform/member/user/coupon/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">优惠券</a></li>' +
+                            '<li><a href="/platform/member/user/couponlog/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">优惠券记录</a></li>' +
                             '<li class="divider"></li>' +
                             '<li><a href="javascript:;" onclick="enable(\'' + row.id + '\')">启用</a></li>' +
                             '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +

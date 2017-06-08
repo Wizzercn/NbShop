@@ -149,4 +149,11 @@ public class MemberUserController {
             return Result.error("system.error");
         }
     }
+
+    @At("/money/?")
+    @Ok("beetl:/platform/member/user/money.html")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object money(String id, HttpServletRequest req) {
+        return memberUserService.fetch(id);
+    }
 }
