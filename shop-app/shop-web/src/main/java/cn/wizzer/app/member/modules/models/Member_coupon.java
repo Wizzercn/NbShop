@@ -20,6 +20,11 @@ public class Member_coupon extends BaseModel implements Serializable {
     private String id;
 
     @Column
+    @Comment("会员ID")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String memberId;
+
+    @Column
     @Comment("优惠券ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String coupon_id;
@@ -53,6 +58,9 @@ public class Member_coupon extends BaseModel implements Serializable {
     @Comment("优惠券状态")
     @ColDefine(type = ColType.INT)
     private Integer status;//0 未使用 1 已使用  2 已失效
+
+    @One(target = Member_user.class, field = "memberId")
+    private Member_user memberUser;
 
     public String getId() {
         return id;
@@ -116,5 +124,21 @@ public class Member_coupon extends BaseModel implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public Member_user getMemberUser() {
+        return memberUser;
+    }
+
+    public void setMemberUser(Member_user memberUser) {
+        this.memberUser = memberUser;
     }
 }

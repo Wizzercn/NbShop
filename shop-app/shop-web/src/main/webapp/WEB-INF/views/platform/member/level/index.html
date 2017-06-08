@@ -13,7 +13,6 @@ layout("/layouts/platform.html"){
                 <thead>
                     <tr>
                             <th>等级名称</th>
-                            <th>会员类型</th>
                             <th>折扣率</th>
                             <th>所需积分</th>
                             <th>是否禁用</th>
@@ -82,7 +81,6 @@ layout("/layouts/platform.html"){
             "order": [[0, "desc"]],
             "columns": [
                     {"data": "name", "bSortable": true},
-                    {"data": "typeId", "bSortable": true},
                     {"data": "dis_count", "bSortable": true},
                     {"data": "point", "bSortable": true},
                     {"data": "disabled", "bSortable": true},
@@ -96,7 +94,7 @@ layout("/layouts/platform.html"){
                         }
                         return '禁用';
                     },
-                    "targets": 4
+                    "targets": 3
                 },
                 {
                     "render": function (data, type, row) {
@@ -105,7 +103,7 @@ layout("/layouts/platform.html"){
                         }
                         return '';
                     },
-                    "targets": 5
+                    "targets": 4
                 },
                 {
                     "render": function (data, type, row) {
@@ -115,7 +113,7 @@ layout("/layouts/platform.html"){
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 6
+                    "targets": 5
                 }
             ]
         });

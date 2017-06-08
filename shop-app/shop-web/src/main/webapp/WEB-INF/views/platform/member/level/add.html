@@ -21,16 +21,6 @@ layout("/layouts/platform.html"){
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="typeId" class="col-sm-2 control-label">会员类型</label>
-                            <div class="col-sm-8">
-                                <select id="typeId" name="typeId" class="form-control">
-                                    <%for(o in typeList){%>
-                                    <option value="${o.id}">${o.name}</option>
-                                    <%}%>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="dis_count" class="col-sm-2 control-label">折扣率(单位:%)</label>
                             <div class="col-sm-8">
                             <input type="text" id="dis_count" class="form-control" name="dis_count" data-parsley-type="integer" data-parsley-required="true" placeholder="折扣率">

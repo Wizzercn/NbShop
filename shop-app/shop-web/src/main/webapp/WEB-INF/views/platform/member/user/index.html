@@ -18,7 +18,6 @@ layout("/layouts/platform.html"){
                 <tr>
                     <th>用户名</th>
                     <th>手机号</th>
-                    <th>会员类型</th>
                     <th>会员等级</th>
                     <th>注册来源</th>
                     <th>注册时间</th>
@@ -69,7 +68,6 @@ layout("/layouts/platform.html"){
             "columns": [
                 {"data": "loginname", "bSortable": true},
                 {"data": "mobile", "bSortable": true},
-                {"data": "typeId", "bSortable": true},
                 {"data": "levelId", "bSortable": true},
                 {"data": "regSrc", "bSortable": true},
                 {"data": "regAt", "bSortable": true},
@@ -82,20 +80,11 @@ layout("/layouts/platform.html"){
                 {
                     "render": function (data, type, row) {
                         if (data) {
-                            return row.memberType.name;
-                        }
-                        return '';
-                    },
-                    "targets": 2
-                },
-                {
-                    "render": function (data, type, row) {
-                        if (data) {
                             return row.memberLevel.name;
                         }
                         return '';
                     },
-                    "targets": 3
+                    "targets": 2
                 },
 
                 {
@@ -105,13 +94,13 @@ layout("/layouts/platform.html"){
                         }
                         return '';
                     },
-                    "targets": 5
+                    "targets": 4
                 },
                 {
                     "render": function (data, type, row) {
                         return '￥' + setPrice(data);
                     },
-                    "targets": 6
+                    "targets": 5
                 },
                 {
                     "render": function (data, type, row) {
@@ -124,7 +113,7 @@ layout("/layouts/platform.html"){
                         }
                         return '';
                     },
-                    "targets": 8
+                    "targets": 7
                 },
                 {
                     "render": function (data, type, row) {
@@ -133,7 +122,7 @@ layout("/layouts/platform.html"){
                         }
                         return '<i id="disabled_' + row.id + '" class="fa fa-circle text-danger ml5"></i>';
                     },
-                    "targets": 9
+                    "targets": 8
                 },
                 {
                     "render": function (data, type, row) {
@@ -146,7 +135,7 @@ layout("/layouts/platform.html"){
                             '<li><a href="javascript:;" onclick="disable(\'' + row.id + '\')">禁用</a></li>' +
                             '</ul></div>';
                     },
-                    "targets": 10
+                    "targets": 9
                 }
             ]
         });
