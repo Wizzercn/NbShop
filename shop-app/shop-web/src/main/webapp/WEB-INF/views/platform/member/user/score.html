@@ -1,5 +1,5 @@
 <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
-      action="${base}/platform/member/user/moneyDo" method="post">
+      action="${base}/platform/member/user/scoreDo" method="post">
     <div class="modal-body no-p">
         <div class="row">
             <input type="hidden" id="id" name="id" value="${obj.id!}">
@@ -7,22 +7,22 @@
                 <section class="panel panel-primary no-b">
                     <header class="panel-heading clearfix brtl brtr">
                         <div class="overflow-hidden">
-                            <a href="javascript:;" class="h4 show no-m pt5">预存款</a>
+                            <a href="javascript:;" class="h4 show no-m pt5">积分</a>
                         </div>
                     </header>
                     <div class="row mb10" style="text-align: center;padding-top: 10px;">
                         <table width="80%" style="padding: 10px;">
                             <tr style="height: 40px;">
-                                <td width="30%" align="right">当前预存款：</td>
+                                <td width="30%" align="right">当前积分：</td>
                                 <td width="70%" align="left">
-                                    <span style="color: red">&yen;${@money.fenToYuan(obj.money)}</span>
+                                    <span style="color: red">${obj.score}</span>
                                 </td>
                             </tr>
                             <tr style="height: 40px;">
-                                <td width="30%" align="right"><span style="color: red">*</span>充值金额：</td>
+                                <td width="30%" align="right"><span style="color: red">*</span>调整积分：</td>
                                 <td width="70%" align="left">
-                                    <input type="text" id="money" name="money" class="form-control"
-                                           placeholder="负值表示减预存款" data-parsley-required="true"
+                                    <input type="text" id="score" name="score" class="form-control"
+                                           placeholder="负值表示减积分" data-parsley-required="true"
                                            data-parsley-price2="true">
                                 </td>
                             </tr>

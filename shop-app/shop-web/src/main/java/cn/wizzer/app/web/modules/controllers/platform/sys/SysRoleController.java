@@ -205,13 +205,13 @@ public class SysRoleController {
     public Object userData(@Param("roleid") String roleid, @Param("loginname") String loginname, @Param("nickname") String nickname, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
         String sql = "SELECT a.* FROM sys_user a,sys_user_role b WHERE a.id=b.userId ";
         if (!Strings.isBlank(roleid)) {
-            sql += " and b.roleId='" + roleid + "'";
+            sql += " and b.roleId='" + Sqls.escapeSqlFieldValue(roleid) + "'";
         }
         if (!Strings.isBlank(loginname)) {
-            sql += " and a.loginname like '%" + loginname + "%'";
+            sql += " and a.loginname like '%" + Sqls.escapeSqlFieldValue(loginname) + "%'";
         }
         if (!Strings.isBlank(nickname)) {
-            sql += " and a.nickname like '%" + nickname + "%'";
+            sql += " and a.nickname like '%" + Sqls.escapeSqlFieldValue(nickname) + "%'";
         }
         String s = sql;
         if (order != null && order.size() > 0) {

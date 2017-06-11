@@ -41,6 +41,15 @@ $(function(){
       zh_cn:'请填写正确的金额'
     }
   });
+  window.Parsley.addValidator('price2', {
+        validateString: function(value) {
+            var price = /^(-?[1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
+            return (price.test(value));
+        },
+        messages: {
+            zh_cn:'请填写正确的金额'
+        }
+    });
   window.Parsley.addValidator('phone', {
     validateString: function(value) {
       var phone = /^1[3|4|5|7|8][0-9]\d{8}$/;

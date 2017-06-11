@@ -146,9 +146,6 @@ public class Member_user extends BaseModel implements Serializable {
     @ColDefine(type = ColType.BOOLEAN)
     private boolean disabled;
 
-    @One(target = Member_type.class, field = "typeId")
-    private Member_type memberType;
-
     @One(target = Member_level.class, field = "levelId")
     private Member_level memberLevel;
 
@@ -361,14 +358,6 @@ public class Member_user extends BaseModel implements Serializable {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-    }
-
-    public Member_type getMemberType() {
-        return memberType;
-    }
-
-    public void setMemberType(Member_type memberType) {
-        this.memberType = memberType;
     }
 
     public Member_level getMemberLevel() {

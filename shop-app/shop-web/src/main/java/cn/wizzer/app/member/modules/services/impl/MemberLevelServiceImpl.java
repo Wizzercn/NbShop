@@ -23,7 +23,7 @@ public class MemberLevelServiceImpl extends BaseServiceImpl<Member_level> implem
     @Aop(TransAop.READ_COMMITTED)
     public void add(Member_level level) {
         if (level.isDefaultValue()) {
-            this.update(Chain.make("defaultValue", false), Cnd.where("typeId", "=", level.getTypeId()));
+            this.update(Chain.make("defaultValue", false), Cnd.NEW());
         }
         this.insert(level);
     }
@@ -33,7 +33,7 @@ public class MemberLevelServiceImpl extends BaseServiceImpl<Member_level> implem
         level.setOpBy(StringUtil.getUid());
         level.setOpAt((int) (System.currentTimeMillis() / 1000));
         if (level.isDefaultValue()) {
-            this.update(Chain.make("defaultValue", false), Cnd.where("typeId", "=", level.getTypeId()));
+            this.update(Chain.make("defaultValue", false), Cnd.NEW());
         }
         this.updateIgnoreNull(level);
     }

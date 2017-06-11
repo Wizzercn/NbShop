@@ -1,6 +1,9 @@
 package cn.wizzer.app.web.modules.controllers.platform.member;
 
+import cn.wizzer.app.member.modules.services.MemberUserMoneyService;
+import cn.wizzer.app.member.modules.services.MemberUserScoreService;
 import cn.wizzer.app.shop.modules.services.ShopAreaService;
+import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
@@ -29,6 +32,10 @@ public class MemberUserController {
     private MemberUserService memberUserService;
     @Inject
     private ShopAreaService shopAreaService;
+    @Inject
+    private MemberUserMoneyService memberUserMoneyService;
+    @Inject
+    private MemberUserScoreService memberUserScoreService;
 
     @At("")
     @Ok("beetl:/platform/member/user/index.html")
@@ -155,5 +162,56 @@ public class MemberUserController {
     @RequiresPermissions("member.manager.user.edit")
     public Object money(String id, HttpServletRequest req) {
         return memberUserService.fetch(id);
+    }
+
+    @At("/moneyDo")
+    @Ok("json")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object moneyDo(@Param("id") String id, @Param("money") String money, @Param("txt") String txt, HttpServletRequest req) {
+        try {
+            memberUserService.money(id, MoneyUtil.yuanToFen(money), txt);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+
+    @At("/moneylog/?")
+    @Ok("beetl:/platform/member/user/moneylog.html")
+    @RequiresPermissions("member.manager.user")
+    public void moneylog(String id, HttpServletRequest req) {
+        req.setAttribute("obj",memberUserService.fetch(id));
+        req.setAttribute("id", id);
+    }
+
+    @At("/moneydata/?")
+    @Ok("json:full")
+    @RequiresPermissions("member.manager.user")
+    public Object moneydata(String memberId, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
+        Cnd cnd = Cnd.NEW();
+        if (Strings.isNotBlank(memberId)) {
+            cnd.and("memberId", "=", memberId);
+        }
+        return memberUserMoneyService.data(length, start, draw, order, columns, cnd, "sysUser");
+    }
+
+    @At("/score/?")
+    @Ok("beetl:/platform/member/user/score.html")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object score(String id, HttpServletRequest req) {
+        return memberUserService.fetch(id);
+    }
+
+    @At("/scoreDo")
+    @Ok("json")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object scoreDo(@Param("id") String id, @Param("score") int score, @Param("txt") String txt, HttpServletRequest req) {
+        try {
+            memberUserService.score(id, score, txt);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
     }
 }

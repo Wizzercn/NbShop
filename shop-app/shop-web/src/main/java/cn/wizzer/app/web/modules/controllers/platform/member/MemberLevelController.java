@@ -1,14 +1,11 @@
 package cn.wizzer.app.web.modules.controllers.platform.member;
 
-import cn.wizzer.app.member.modules.services.MemberTypeService;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
 import cn.wizzer.framework.page.datatable.DataTableOrder;
-import cn.wizzer.framework.util.StringUtil;
 import cn.wizzer.app.member.modules.models.Member_level;
 import cn.wizzer.app.member.modules.services.MemberLevelService;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
 import org.nutz.lang.Strings;
@@ -25,8 +22,6 @@ import java.util.List;
 public class MemberLevelController {
     @Inject
     private MemberLevelService memberLevelService;
-    @Inject
-    private MemberTypeService memberTypeService;
 
     @At("")
     @Ok("beetl:/platform/member/level/index.html")
@@ -47,7 +42,7 @@ public class MemberLevelController {
     @Ok("beetl:/platform/member/level/add.html")
     @RequiresPermissions("member.config.level")
     public void add(HttpServletRequest req) {
-        req.setAttribute("typeList", memberTypeService.query());
+
     }
 
     @At("/addDo")

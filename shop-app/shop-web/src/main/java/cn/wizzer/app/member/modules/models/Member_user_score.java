@@ -31,6 +31,11 @@ public class Member_user_score extends BaseModel implements Serializable {
     private String orderId;
 
     @Column
+    @Comment("交易类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String type;//消费  管理
+
+    @Column
     @Comment("商品ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String goodsId;
@@ -90,6 +95,14 @@ public class Member_user_score extends BaseModel implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getGoodsId() {

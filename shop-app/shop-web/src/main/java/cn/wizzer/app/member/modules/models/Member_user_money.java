@@ -1,5 +1,6 @@
 package cn.wizzer.app.member.modules.models;
 
+import cn.wizzer.app.sys.modules.models.Sys_user;
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
 
@@ -29,6 +30,16 @@ public class Member_user_money extends BaseModel implements Serializable {
     @Comment("订单ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String orderId;
+
+    @Column
+    @Comment("交易类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String type;//消费  充值  管理
+
+    @Column
+    @Comment("支付类型")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String payType;
 
     @Column
     @Comment("交易单据号")
@@ -63,6 +74,9 @@ public class Member_user_money extends BaseModel implements Serializable {
     @ColDefine(type = ColType.INT)
     private Integer creatAt;
 
+    @One(target = Sys_user.class, field = "opBy")
+    private Sys_user sysUser;
+
     public String getId() {
         return id;
     }
@@ -85,6 +99,22 @@ public class Member_user_money extends BaseModel implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
     public String getTrade_no() {
@@ -133,5 +163,13 @@ public class Member_user_money extends BaseModel implements Serializable {
 
     public void setCreatAt(Integer creatAt) {
         this.creatAt = creatAt;
+    }
+
+    public Sys_user getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(Sys_user sysUser) {
+        this.sysUser = sysUser;
     }
 }

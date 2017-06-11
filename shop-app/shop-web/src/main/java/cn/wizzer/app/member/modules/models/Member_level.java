@@ -25,11 +25,6 @@ public class Member_level extends BaseModel implements Serializable {
     private String name;
 
     @Column
-    @Comment("会员类型")
-    @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String typeId;
-
-    @Column
     @Comment("等级图标")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String logo;
@@ -68,14 +63,6 @@ public class Member_level extends BaseModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(String typeId) {
-        this.typeId = typeId;
     }
 
     public String getLogo() {
