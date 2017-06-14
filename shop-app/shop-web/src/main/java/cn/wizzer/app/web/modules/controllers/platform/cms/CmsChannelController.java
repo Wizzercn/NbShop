@@ -54,6 +54,7 @@ public class CmsChannelController {
     public Object addDo(@Param("..") Cms_channel channel, @Param("parentId") String parentId, HttpServletRequest req) {
         try {
             cmsChannelService.save(channel, parentId);
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -80,6 +81,7 @@ public class CmsChannelController {
             channel.setOpBy(StringUtil.getUid());
             channel.setOpAt((int) (System.currentTimeMillis() / 1000));
             cmsChannelService.updateIgnoreNull(channel);
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -95,6 +97,7 @@ public class CmsChannelController {
             Cms_channel channel = cmsChannelService.fetch(id);
             req.setAttribute("name", channel.getName());
             cmsChannelService.deleteAndChild(channel);
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -109,6 +112,7 @@ public class CmsChannelController {
         try {
             req.setAttribute("name", cmsChannelService.fetch(menuId).getName());
             cmsChannelService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", menuId));
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -123,6 +127,7 @@ public class CmsChannelController {
         try {
             req.setAttribute("name", cmsChannelService.fetch(menuId).getName());
             cmsChannelService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", menuId));
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -171,6 +176,7 @@ public class CmsChannelController {
         }
         req.setAttribute("firstMenus", firstMenus);
         req.setAttribute("secondMenus", secondMenus);
+        cmsChannelService.clearCache();
     }
 
     @At
@@ -187,6 +193,7 @@ public class CmsChannelController {
                     i++;
                 }
             }
+            cmsChannelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

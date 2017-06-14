@@ -18,7 +18,7 @@ public class CmsChannelTag extends GeneralVarTagBinding {
     @Override
     public void render() {
         String id = Strings.sNull(this.getAttributeValue("id"));
-        Cms_channel channel = cmsChannelService.fetch(id);
+        Cms_channel channel = cmsChannelService.getChannel(id);
         this.binds(channel);
         this.doBodyRender();
     }

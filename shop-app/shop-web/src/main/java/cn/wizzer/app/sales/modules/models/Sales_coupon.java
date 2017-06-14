@@ -31,11 +31,13 @@ public class Sales_coupon extends BaseModel implements Serializable {
     @Column
     @Comment("总数量")
     @ColDefine(type = ColType.INT)
+    @Default("0")
     private Integer total_num;
 
     @Column
     @Comment("已发数量")
     @ColDefine(type = ColType.INT)
+    @Default("0")
     private Integer send_num;
 
     @Column
@@ -51,6 +53,7 @@ public class Sales_coupon extends BaseModel implements Serializable {
     @Column
     @Comment("允许领取数量")
     @ColDefine(type = ColType.INT)
+    @Default("1")
     private Integer limit_number;
 
     @Column
@@ -61,6 +64,7 @@ public class Sales_coupon extends BaseModel implements Serializable {
     @Column
     @Comment("所需积分")
     @ColDefine(type = ColType.INT)
+    @Default("0")
     private Integer score;
 
     @Column

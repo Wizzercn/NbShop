@@ -10,6 +10,7 @@ import java.io.Serializable;
  * Created by Wizzer on 2016/7/18.
  */
 @Table("cms_channel")
+@TableIndexes({@Index(name = "INDEX_CMS_CHANNEL", fields = {"code"}, unique = true)})
 public class Cms_channel extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column
@@ -38,6 +39,11 @@ public class Cms_channel extends BaseModel implements Serializable {
     @Comment("栏目名称")
     @ColDefine(type = ColType.VARCHAR, width = 100)
     private String name;
+
+    @Column
+    @Comment("栏目名称")
+    @ColDefine(type = ColType.VARCHAR, width = 100)
+    private String code;
 
     @Column
     @Comment("栏目类型")
@@ -114,6 +120,14 @@ public class Cms_channel extends BaseModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getType() {

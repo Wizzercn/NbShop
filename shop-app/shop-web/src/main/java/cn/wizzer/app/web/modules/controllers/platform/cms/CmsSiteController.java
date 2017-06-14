@@ -2,9 +2,11 @@ package cn.wizzer.app.web.modules.controllers.platform.cms;
 
 import cn.wizzer.app.cms.modules.models.Cms_site;
 import cn.wizzer.app.cms.modules.services.CmsSiteService;
+import cn.wizzer.app.web.commons.base.Globals;
 import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.base.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
@@ -43,6 +45,7 @@ public class CmsSiteController {
     public Object editDo(@Param("..") Cms_site site) {
         try {
             cmsSiteService.updateIgnoreNull(site);
+            Globals.AppCmsSite = site;
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

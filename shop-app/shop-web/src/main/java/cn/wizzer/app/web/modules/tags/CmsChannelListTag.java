@@ -23,14 +23,7 @@ public class CmsChannelListTag extends GeneralVarTagBinding {
     public void render() {
         String parentId = Strings.sNull(this.getAttributeValue("parentId"));
         String parentName = Strings.sNull(this.getAttributeValue("parentName"));
-        List<Cms_channel> list = new ArrayList<>();
-        if (Strings.isNotBlank(parentName)) {
-            Cms_channel channel = cmsChannelService.fetch(Cnd.where("name", "=", parentName));
-            if (channel != null)
-                list = cmsChannelService.query(Cnd.where("parentId", "=", channel.getId()).and("disabled", "=", false).asc("location"));
-        } else {
-            list = cmsChannelService.query(Cnd.where("parentId", "=", parentId).and("disabled", "=", false).asc("location"));
-        }
+        List<Cms_channel> list = cmsChannelService.listChannel(parentId, parentName);
         for (Cms_channel channel : list) {
             this.binds(channel);
             this.doBodyRender();

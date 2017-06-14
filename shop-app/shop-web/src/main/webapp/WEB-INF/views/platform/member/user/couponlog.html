@@ -1,0 +1,89 @@
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="pull-left offscreen-left" style="padding-top:15px;">
+            会员: ${obj.loginname!}
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border" style="padding-top: 5px;">
+            <table id="datatable_select" class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                <tr>
+                    <th>优惠券名称</th>
+                    <th>优惠券金额</th>
+                    <th>获取时间</th>
+                    <th>订单号</th>
+                    <th>使用状态</th>
+                    <th>使用时间</th>
+            </table>
+        </div>
+    </div>
+</section>
+<script language="JavaScript">
+    var datatable_select;
+    function initdatatable_select() {
+        datatable_select = $('#datatable_select').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching": false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/plugins/datatables/cn.json"
+            },
+            "ajax": {
+                "url": "${base}/platform/member/user/coupondata/${id}",
+                "type": "post",
+                "data": function (d) {
+                }
+            },
+            "order": [[1, "desc"]],
+            "columns": [
+                {"data": "coupon_name", "bSortable": true},
+                {"data": "coupon_money", "bSortable": true},
+                {"data": "type", "bSortable": true},
+                {"data": "note", "bSortable": true}
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        if ("消费" == data) {
+                            return "[消费]订单号:" + row.orderId;
+                        }
+                        if ("管理" == data) {
+                            return "[管理]管理员:" + row.sysUser.loginname;
+                        }
+                        return '';
+                    },
+                    "targets": 2
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data) {
+                            return moment(parseInt(data * 1000)).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return '';
+                    },
+                    "targets": 1
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (data) {
+                            if(data>0){
+                                return '<span style="color: red">+'+data+'</span>'
+                            }
+                            return '<span style="color: green">'+data+'</span>'
+                        }
+                        return '';
+                    },
+                    "targets": 0
+                }
+            ]
+        });
+    }
+    $(document).ready(function () {
+        initdatatable_select();
+    });
+
+</script>

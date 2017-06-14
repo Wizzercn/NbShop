@@ -1,9 +1,13 @@
 package cn.wizzer.app.member.modules.services.impl;
 
+import cn.wizzer.app.member.modules.models.Member_coupon;
 import cn.wizzer.app.member.modules.models.Member_user_money;
 import cn.wizzer.app.member.modules.models.Member_user_score;
+import cn.wizzer.app.member.modules.services.MemberCouponService;
 import cn.wizzer.app.member.modules.services.MemberUserMoneyService;
 import cn.wizzer.app.member.modules.services.MemberUserScoreService;
+import cn.wizzer.app.sales.modules.models.Sales_coupon;
+import cn.wizzer.app.sales.modules.services.SalesCouponService;
 import cn.wizzer.framework.base.service.BaseServiceImpl;
 import cn.wizzer.app.member.modules.models.Member_user;
 import cn.wizzer.app.member.modules.services.MemberUserService;
@@ -26,6 +30,10 @@ public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implemen
     private MemberUserMoneyService memberUserMoneyService;
     @Inject
     private MemberUserScoreService memberUserScoreService;
+    @Inject
+    private MemberCouponService memberCouponService;
+    @Inject
+    private SalesCouponService salesCouponService;
 
     @Aop(TransAop.READ_COMMITTED)
     public void money(String id, int money, String txt) {
@@ -58,5 +66,18 @@ public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implemen
         memberUserScoreService.insert(userScore);
         this.update(Chain.make("score", (user.getScore() + score)).add("opBy", StringUtil.getUid()).add("opAt",
                 (int) (System.currentTimeMillis() / 1000)), Cnd.where("id", "=", id));
+    }
+
+    @Aop(TransAop.READ_COMMITTED)
+    public void coupon(String id, String couponId, String txt) {
+        Sales_coupon coupon = salesCouponService.fetch(couponId);
+        Member_coupon memberCoupon = new Member_coupon();
+        memberCoupon.setCoupon_id(couponId);
+        memberCoupon.setCoupon_money(coupon.getMoney());
+        memberCoupon.setCoupon_name(coupon.getName());
+        memberCoupon.setCreateAt((int) (System.currentTimeMillis() / 1000));
+        memberCoupon.setStatus(0);
+        memberCouponService.insert(memberCoupon);
+        salesCouponService.update(Chain.make("send_num", (coupon.getSend_num() + 1)), Cnd.where("id", "=", couponId));
     }
 }

@@ -21,6 +21,7 @@ layout("/layouts/platform.html"){
                         <th class="col-md-2 pd-l-lg">
                             <span class="pd-l-sm ml20"></span>栏目名称
                         </th>
+                        <th class="col-md-1">栏目标识</th>
                         <th class="col-md-1">栏目类型</th>
                         <th class="col-md-1">URL</th>
                         <th class="col-md-1">打开方式</th>
@@ -35,6 +36,7 @@ layout("/layouts/platform.html"){
                         <td>
                             <span class="pd-l-sm"></span> ${obj.name!}
                         </td>
+                        <td>${obj.code!}</td>
                         <td><%if(obj.type=="article"){%>文章<%}%><%if(obj.type=="photo"){%>相册<%}%></td>
                         <td>${obj.url!}</td>
                         <td>${obj.target!}</td>

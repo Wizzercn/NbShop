@@ -1,5 +1,6 @@
 package cn.wizzer.app.member.modules.models;
 
+import cn.wizzer.app.sys.modules.models.Sys_user;
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
 
@@ -72,6 +73,9 @@ public class Member_user_score extends BaseModel implements Serializable {
     @Comment("产生时间")
     @ColDefine(type = ColType.INT)
     private Integer creatAt;
+
+    @One(target = Sys_user.class, field = "opBy")
+    private Sys_user sysUser;
 
     public String getId() {
         return id;
@@ -159,5 +163,13 @@ public class Member_user_score extends BaseModel implements Serializable {
 
     public void setCreatAt(Integer creatAt) {
         this.creatAt = creatAt;
+    }
+
+    public Sys_user getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(Sys_user sysUser) {
+        this.sysUser = sysUser;
     }
 }

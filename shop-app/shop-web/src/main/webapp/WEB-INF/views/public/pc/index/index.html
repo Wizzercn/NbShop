@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="keywords" content="${site.seo_keywords!}">
+    <meta name="description" content="${site.seo_description!}">
+    <title>${site.site_name!"NutzShop"}</title>
+    <!--<link rel="shortcut icon" type="image/x-icon" href="./img/favico.ico">-->
+    <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css" />
+    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js" ></script>
 </head>
-<body>
+<body id="r1">
+<% include( "../include/top.html" ){}; %>
+<% include( "../include/head.html" ){}; %>
 
+<% include( "../include/foot.html" ){}; %>
 </body>
 </html>

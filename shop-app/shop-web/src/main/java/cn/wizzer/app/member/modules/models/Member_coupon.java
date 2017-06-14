@@ -36,8 +36,9 @@ public class Member_coupon extends BaseModel implements Serializable {
 
     @Column
     @Comment("优惠券金额")
-    @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String coupon_money;
+    @ColDefine(type = ColType.INT)
+    @Default("0")
+    private Integer coupon_money;
 
     @Column
     @Comment("获取时间")
@@ -57,6 +58,7 @@ public class Member_coupon extends BaseModel implements Serializable {
     @Column
     @Comment("优惠券状态")
     @ColDefine(type = ColType.INT)
+    @Default("0")
     private Integer status;//0 未使用 1 已使用  2 已失效
 
     @One(target = Member_user.class, field = "memberId")
@@ -86,11 +88,11 @@ public class Member_coupon extends BaseModel implements Serializable {
         this.coupon_name = coupon_name;
     }
 
-    public String getCoupon_money() {
+    public Integer getCoupon_money() {
         return coupon_money;
     }
 
-    public void setCoupon_money(String coupon_money) {
+    public void setCoupon_money(Integer coupon_money) {
         this.coupon_money = coupon_money;
     }
 

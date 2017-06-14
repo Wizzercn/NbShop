@@ -2,6 +2,7 @@ package cn.wizzer.app.web.modules.controllers.platform.member;
 
 import cn.wizzer.app.member.modules.services.MemberUserMoneyService;
 import cn.wizzer.app.member.modules.services.MemberUserScoreService;
+import cn.wizzer.app.sales.modules.services.SalesCouponService;
 import cn.wizzer.app.shop.modules.services.ShopAreaService;
 import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.base.Result;
@@ -14,6 +15,7 @@ import cn.wizzer.app.member.modules.services.MemberUserService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.util.cri.Static;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -36,6 +38,8 @@ public class MemberUserController {
     private MemberUserMoneyService memberUserMoneyService;
     @Inject
     private MemberUserScoreService memberUserScoreService;
+    @Inject
+    private SalesCouponService salesCouponService;
 
     @At("")
     @Ok("beetl:/platform/member/user/index.html")
@@ -181,7 +185,7 @@ public class MemberUserController {
     @Ok("beetl:/platform/member/user/moneylog.html")
     @RequiresPermissions("member.manager.user")
     public void moneylog(String id, HttpServletRequest req) {
-        req.setAttribute("obj",memberUserService.fetch(id));
+        req.setAttribute("obj", memberUserService.fetch(id));
         req.setAttribute("id", id);
     }
 
@@ -209,6 +213,45 @@ public class MemberUserController {
     public Object scoreDo(@Param("id") String id, @Param("score") int score, @Param("txt") String txt, HttpServletRequest req) {
         try {
             memberUserService.score(id, score, txt);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+    @At("/scorelog/?")
+    @Ok("beetl:/platform/member/user/scorelog.html")
+    @RequiresPermissions("member.manager.user")
+    public void scorelog(String id, HttpServletRequest req) {
+        req.setAttribute("obj", memberUserService.fetch(id));
+        req.setAttribute("id", id);
+    }
+
+    @At("/scoredata/?")
+    @Ok("json:full")
+    @RequiresPermissions("member.manager.user")
+    public Object scoredata(String memberId, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
+        Cnd cnd = Cnd.NEW();
+        if (Strings.isNotBlank(memberId)) {
+            cnd.and("memberId", "=", memberId);
+        }
+        return memberUserScoreService.data(length, start, draw, order, columns, cnd, "sysUser");
+    }
+
+    @At("/coupon/?")
+    @Ok("beetl:/platform/member/user/coupon.html")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object coupon(String id, HttpServletRequest req) {
+        req.setAttribute("list",salesCouponService.query(Cnd.where("disabled","=",false).and(new Static("total_num>send_num"))));
+        return memberUserService.fetch(id);
+    }
+
+    @At("/couponDo")
+    @Ok("json")
+    @RequiresPermissions("member.manager.user.edit")
+    public Object couponDo(@Param("id") String id, @Param("couponId") String couponId, @Param("txt") String txt, HttpServletRequest req) {
+        try {
+            memberUserService.coupon(id, couponId, txt);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

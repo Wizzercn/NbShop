@@ -1,5 +1,7 @@
 package cn.wizzer.app.web.commons.base;
 
+import cn.wizzer.app.cms.modules.models.Cms_site;
+import cn.wizzer.app.shop.modules.models.Shop_config;
 import cn.wizzer.app.sys.modules.models.Sys_config;
 import cn.wizzer.app.sys.modules.models.Sys_route;
 import org.nutz.dao.Cnd;
@@ -27,12 +29,14 @@ public class Globals {
     //文件上传路径
     public static String AppUploadPath = "/upload";
     //系统自定义参数
-    public static Map<String, String> MyConfig=new HashMap<>();
+    public static Map<String, String> MyConfig = new HashMap<>();
     //自定义路由
-    public static Map<String, Sys_route> RouteMap=new HashMap<>();
+    public static Map<String, Sys_route> RouteMap = new HashMap<>();
+    public static Cms_site AppCmsSite;
 
     public static void initSysConfig(Dao dao) {
         Globals.MyConfig.clear();
+        Globals.AppCmsSite = dao.fetch(Cms_site.class, Cnd.where("id", "=", "site"));
         List<Sys_config> configList = dao.query(Sys_config.class, Cnd.NEW());
         for (Sys_config sysConfig : configList) {
             switch (sysConfig.getConfigKey()) {

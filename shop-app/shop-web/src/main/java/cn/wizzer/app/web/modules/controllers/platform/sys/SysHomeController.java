@@ -109,8 +109,5 @@ public class SysHomeController {
             req.setAttribute("perpath", perpath);
         }
     }
-    
-    @At(value={"/", "/index"}, top=true)
-    @Ok(">>:/sysadmin")
-    public void index() {}
+
 }
