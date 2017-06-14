@@ -64,21 +64,25 @@ public class CmsChannelServiceImpl extends BaseServiceImpl<Cms_channel> implemen
     }
 
     @CacheResult
-    public Cms_channel getChannel(String id) {
+    public Cms_channel getChannel(String id, String code) {
+        if (Strings.isNotBlank(code)) {
+            return this.fetch(Cnd.where("code", "=", code));
+        }
         return this.fetch(id);
     }
 
     @CacheResult
-    public List<Cms_channel> listChannel(String parentId, String parentName) {
-        List<Cms_channel> list = new ArrayList<>();
-        if (Strings.isNotBlank(parentName)) {
-            Cms_channel channel = this.fetch(Cnd.where("name", "=", parentName));
+    public List<Cms_channel> listChannel(String parentId, String parentCode) {
+        Cnd cnd = Cnd.NEW();
+        if (Strings.isNotBlank(parentCode)) {
+            Cms_channel channel = this.fetch(Cnd.where("code", "=", parentCode));
             if (channel != null)
-                list = this.query(Cnd.where("parentId", "=", channel.getId()).and("disabled", "=", false).asc("location"));
+                cnd.and("parentId", "=", channel.getId()).and("disabled", "=", false);
         } else {
-            list = this.query(Cnd.where("parentId", "=", parentId).and("disabled", "=", false).asc("location"));
+            cnd.and("parentId", "=", Strings.sNull(parentId)).and("disabled", "=", false);
         }
-        return list;
+        cnd.asc("location");
+        return this.query(cnd);
     }
 
     @CacheRemoveAll

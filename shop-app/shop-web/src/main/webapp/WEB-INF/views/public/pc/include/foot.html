@@ -1,39 +1,48 @@
 <div class="footer">
     <div class="w_1200 footer-con cf2">
         <ul class="footer-ul cf2">
+            <#cms_channel id="" code="newcomers" var="o">
+                <li>
+                    <h3><a href="javascript:;">${o.name!}</a></h3>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                    <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
+                    </#cms_channel_list>
+                </li>
+            </#cms_channel>
+            <#cms_channel id="" code="payandfreight" var="o">
+                <li>
+                    <h3><a href="javascript:;">${o.name!}</a></h3>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                        <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
+                    </#cms_channel_list>
+                </li>
+            </#cms_channel>
+            <#cms_channel id="" code="company" var="o">
+                <li>
+                    <h3><a href="javascript:;">${o.name!}</a></h3>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                        <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
+                    </#cms_channel_list>
+                </li>
+            </#cms_channel>
+            <#cms_channel id="" code="news" var="o">
+                <li>
+                    <h3><a href="javascript:;">${o.name!}</a></h3>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                        <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
+                    </#cms_channel_list>
+                </li>
+            </#cms_channel>
+            <#cms_channel id="" code="help" var="o">
+                <li>
+                    <h3><a href="javascript:;">${o.name!}</a></h3>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                        <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
+                    </#cms_channel_list>
+                </li>
+            </#cms_channel>
             <li>
-                <h3><a href="#">新手上路</a></h3>
-                <p><a href="#">新用户注册</a></p>
-                <p><a href="#">预订流程</a></p>
-                <p><a href="#">购物保障</a></p>
-            </li>
-            <li>
-                <h3><a href="#">支付/配送</a></h3>
-                <p><a href="#">支付方式</a></p>
-                <p><a href="#">配送方式</a></p>
-                <p><a href="#">配送时间及运费</a></p>
-            </li>
-            <li>
-                <h3><a href="#">公司信息</a></h3>
-                <p><a href="#">关于我们</a></p>
-                <p><a href="#">用户协议</a></p>
-                <p><a href="#">隐私声明</a></p>
-                <p><a href="#">品牌介绍</a></p>
-            </li>
-            <li>
-                <h3><a href="#">新闻资讯</a></h3>
-                <p><a href="#">站内公告</a></p>
-                <p><a href="#">活动资讯</a></p>
-                <p><a href="#">公司动态</a></p>
-            </li>
-            <li>
-                <h3><a href="#">帮助中心</a></h3>
-                <p><a href="#">常见问题</a></p>
-                <p><a href="#">找回密码</a></p>
-                <p><a href="#">联系我们</a></p>
-            </li>
-            <li>
-                <h3><a href="#">关注我们</a></h3>
+                <h3><a href="javascript:;">关注公众号</a></h3>
                 <span><img src="${site.wechat_qrcode!base+'/assets/public/pc/img/wei.jpg'}" /></span>
             </li>
 
