@@ -52,3 +52,22 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="${base}/assets/public/pc/js/common.js" ></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="${base}/assets/public/pc/js/DD_belatedPNG.js"></script>
+<script>
+    DD_belatedPNG.fix('.png_img img,.png');
+</script>
+<![endif]-->
+<!--[if lt IE 10]>
+<script type="text/javascript" src="${base}/assets/public/pc/pie.js"></script>
+<![endif]-->
+<script language="javascript">
+    $(function () {
+        if (window.PIE) {
+            $('.round_s,.round_a').each(function () {
+                PIE.attach(this);
+            });
+        }
+    });
+</script>

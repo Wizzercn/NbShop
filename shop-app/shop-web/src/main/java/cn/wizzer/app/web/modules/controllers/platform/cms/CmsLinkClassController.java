@@ -84,15 +84,8 @@ public class CmsLinkClassController {
     @SLog(tag = "删除链接分类", msg = "ID:${args[2].getAttribute('id')}")
     public Object delete(String oneId, @Param("ids") String[] ids, HttpServletRequest req) {
         try {
-            if (ids != null && ids.length > 0) {
-                cmsLinkClassService.delete(ids);
-                cmsLinkService.clear(Cnd.where("classId", "in", ids));
-                req.setAttribute("id", org.apache.shiro.util.StringUtils.toString(ids));
-            } else {
-                cmsLinkClassService.delete(oneId);
-                cmsLinkService.clear(Cnd.where("classId", "=", oneId));
-                req.setAttribute("id", oneId);
-            }
+            cmsLinkClassService.deleteAndLink(oneId);
+            req.setAttribute("id", oneId);
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

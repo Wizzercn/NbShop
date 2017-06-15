@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="d-ifir w_1200 cf2">
+    <div class="banner">
+        <div id="slideBox" class="slideBox">
+            <div class="bd">
+                <ul>
+                    <#cms_link_list code="index_slide" size="5" var="o">
+                        <li><a href="${o.url!}" target="${o.target!}" title="${o.name!}"><img alt="${o.name!}" src="${base}${o.picurl!}" /></a></li>
+                    </#cms_link_list>
+                </ul>
+            </div>
+            <div class="s-ico">
+                <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                <a class="prev" href="javascript:void(0)"><span><</span></a>
+                <a class="next" href="javascript:void(0)"><span>></span></a>
+            </div>
 
-</body>
-</html>
+        </div>
+    </div>
+    <div class="d-ifirr">
+        <#cms_link_list code="index_right_1" size="1" var="o">
+            <a href="${o.url!}" target="${o.target!}"  class="d-ifirra scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+        </#cms_link_list>
+        <#cms_link_list code="index_right_2" size="1" var="o">
+            <a href="${o.url!}" target="${o.target!}"  class="d-ifirrb scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+        </#cms_link_list>
+    </div>
+
+</div>

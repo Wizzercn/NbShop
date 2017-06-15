@@ -5,7 +5,6 @@ layout("/layouts/platform.html"){
 <header class="header navbar bg-white shadow">
     <div class="btn-group tool-button">
         <a class="btn btn-primary navbar-btn" href="${base}/platform/cms/link/class/add" data-pjax><i class="ti-plus"></i> 添加分类</a>
-        <button class="btn btn-danger navbar-btn" onclick="delCheck()"><i class="ti-close"></i> 删除选中</button>
     </div>
 </header>
 <div class=panel-body style="padding-top: 50px;">
@@ -15,6 +14,7 @@ layout("/layouts/platform.html"){
             <thead>
             <tr>
                 <th>分类名称</th>
+                <th>分类编码</th>
                 <th>操作</th>
         </table>
     </div>
@@ -67,7 +67,8 @@ layout("/layouts/platform.html"){
             },
             "order": [[0, "asc"]],
             "columns": [
-                {"data": "name", "bSortable": true}
+                {"data": "name", "bSortable": true},
+                {"data": "code", "bSortable": true}
             ],
             "columnDefs": [
                 {
@@ -78,7 +79,7 @@ layout("/layouts/platform.html"){
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 1
+                    "targets": 2
                 }
             ]
         });
@@ -107,33 +108,6 @@ layout("/layouts/platform.html"){
                 dialog.modal("hide");
             }, "json");
         });
-    }
-    function delCheck() {
-        var chks = datatable.rows('.selected').data();
-        if (chks.length > 0) {
-            var ids = [];
-            $.each(chks, function (i, n) {
-                ids.push(n.id);
-            });
-            var dialog = $("#dialogDelete");
-            dialog.modal("show");
-            dialog.find("#ok").unbind("click");
-            dialog.find("#ok").bind("click", function (event) {
-                var btn = $(this);
-                btn.button("loading");
-                $.post("${base}/platform/cms/link/class/delete", {ids: ids.toString()}, function (data) {
-                    if (data.code == 0) {
-                        datatable.ajax.reload(null,false);
-                    } else {
-                        Toast.error(data.msg);
-                    }
-                    btn.button("reset");
-                    dialog.modal("hide");
-                }, "json");
-            });
-        } else {
-            Toast.warning("请先选择要删除的项目！");
-        }
     }
     $(function () {
         initDatatable();

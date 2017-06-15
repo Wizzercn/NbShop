@@ -62,6 +62,7 @@ public class CmsLinkController {
     public Object addDo(@Param("..") Cms_link link, HttpServletRequest req) {
         try {
             cmsLinkService.insert(link);
+            cmsLinkService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -87,6 +88,7 @@ public class CmsLinkController {
     public Object editDo(@Param("..") Cms_link link, HttpServletRequest req) {
         try {
             cmsLinkService.updateIgnoreNull(link);
+            cmsLinkService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -106,6 +108,7 @@ public class CmsLinkController {
                 cmsLinkService.delete(oneId);
                 req.setAttribute("id", oneId);
             }
+            cmsLinkService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

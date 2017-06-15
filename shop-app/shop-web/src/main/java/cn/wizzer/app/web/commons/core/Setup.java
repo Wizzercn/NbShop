@@ -78,6 +78,7 @@ public class Setup implements org.nutz.mvc.Setup {
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article", ()->ioc.get(CmsArticleTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_list", ()->ioc.get(GoodsListTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_detail", ()->ioc.get(GoodsDetailTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_link_list", ()->ioc.get(CmsLinkListTag.class));
                 }
             }
             log.info("\n _  _ _   _ _____ ______      ___  __\n" +
