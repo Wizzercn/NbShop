@@ -1,7 +1,7 @@
 package cn.wizzer.app.web.modules.controllers.open.api.shop;
 
 import cn.wizzer.app.goods.modules.models.Goods_goods;
-import cn.wizzer.app.goods.modules.services.GoodsProductsService;
+import cn.wizzer.app.goods.modules.services.GoodsProductService;
 import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.web.commons.filter.TokenFilter;
 import cn.wizzer.framework.base.Result;
@@ -29,7 +29,7 @@ import java.util.List;
 public class ApiGoodsController {
     private static final Log log = Logs.get();
     @Inject
-    private GoodsProductsService shopGoodsProductsService;
+    private GoodsProductService shopGoodsProductsService;
     @Inject
     private GoodsGoodsService shopGoodsService;
 

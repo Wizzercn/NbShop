@@ -53,6 +53,7 @@ public class MemberLevelController {
     public Object addDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
         try {
             memberLevelService.add(memberLevel);
+            memberLevelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -74,6 +75,7 @@ public class MemberLevelController {
     public Object editDo(@Param("..") Member_level memberLevel, HttpServletRequest req) {
         try {
             memberLevelService.edit(memberLevel);
+            memberLevelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -93,6 +95,7 @@ public class MemberLevelController {
                 memberLevelService.delete(id);
                 req.setAttribute("id", id);
             }
+            memberLevelService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

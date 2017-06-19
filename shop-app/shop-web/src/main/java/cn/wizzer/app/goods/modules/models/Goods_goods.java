@@ -94,27 +94,36 @@ public class Goods_goods extends BaseModel implements Serializable {
     @Column
     @Comment("上架时间")
     @ColDefine(type = ColType.INT)
-    private int upAt;
+    private Integer upAt;
 
     @Column
     @Comment("下架时间")
     @ColDefine(type = ColType.INT)
-    private int downAt;
+    private Integer downAt;
 
     @Column
     @Comment("浏览量")
     @ColDefine(type = ColType.INT)
-    private int numView;
+    @Default("0")
+    private Integer numView;
 
     @Column
     @Comment("评论量")
     @ColDefine(type = ColType.INT)
-    private int numComment;
+    @Default("0")
+    private Integer numComment;
 
     @Column
     @Comment("销售量")
     @ColDefine(type = ColType.INT)
-    private int numSale;
+    @Default("0")
+    private Integer numSale;
+
+    @Column
+    @Comment("周销售量")
+    @ColDefine(type = ColType.INT)
+    @Default("0")
+    private Integer numSaleWeek;
 
     @Column
     @Comment("排序字段")
@@ -262,44 +271,52 @@ public class Goods_goods extends BaseModel implements Serializable {
         this.disabled = disabled;
     }
 
-    public int getUpAt() {
+    public Integer getUpAt() {
         return upAt;
     }
 
-    public void setUpAt(int upAt) {
+    public void setUpAt(Integer upAt) {
         this.upAt = upAt;
     }
 
-    public int getDownAt() {
+    public Integer getDownAt() {
         return downAt;
     }
 
-    public void setDownAt(int downAt) {
+    public void setDownAt(Integer downAt) {
         this.downAt = downAt;
     }
 
-    public int getNumView() {
+    public Integer getNumView() {
         return numView;
     }
 
-    public void setNumView(int numView) {
+    public void setNumView(Integer numView) {
         this.numView = numView;
     }
 
-    public int getNumComment() {
+    public Integer getNumComment() {
         return numComment;
     }
 
-    public void setNumComment(int numComment) {
+    public void setNumComment(Integer numComment) {
         this.numComment = numComment;
     }
 
-    public int getNumSale() {
+    public Integer getNumSale() {
         return numSale;
     }
 
-    public void setNumSale(int numSale) {
+    public void setNumSale(Integer numSale) {
         this.numSale = numSale;
+    }
+
+    public Integer getNumSaleWeek() {
+        return numSaleWeek;
+    }
+
+    public void setNumSaleWeek(Integer numSaleWeek) {
+        this.numSaleWeek = numSaleWeek;
     }
 
     public Integer getLocation() {

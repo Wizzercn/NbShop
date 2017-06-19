@@ -21,11 +21,11 @@ public class CmsLinkListTag extends GeneralVarTagBinding {
     @Override
     public void render() {
         String code = Strings.sNull(this.getAttributeValue("code"));
-        int size = NumberUtils.toInt(Strings.sNull(this.getAttributeValue("size")),1);
-        List<Cms_link> list = cmsLinkService.getLinkList(code,size);
-        for (Cms_link link : list) {
+        int size = NumberUtils.toInt(Strings.sNull(this.getAttributeValue("size")), 1);
+        List<Cms_link> list = cmsLinkService.getLinkList(code, size);
+        list.forEach(link -> {
             this.binds(link);
             this.doBodyRender();
-        }
+        });
     }
 }

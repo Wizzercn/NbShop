@@ -7,6 +7,8 @@ import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @IocBean
 public class CmsChannelListTag extends GeneralVarTagBinding {
+    private final static Log log = Logs.get();
     @Inject
     private CmsChannelService cmsChannelService;
 
@@ -24,9 +27,7 @@ public class CmsChannelListTag extends GeneralVarTagBinding {
         String parentId = Strings.sNull(this.getAttributeValue("parentId"));
         String parentCode = Strings.sNull(this.getAttributeValue("parentCode"));
         List<Cms_channel> list = cmsChannelService.listChannel(parentId, parentCode);
-        for (Cms_channel channel : list) {
-            this.binds(channel);
-            this.doBodyRender();
-        }
+        this.binds(list);
+        this.doBodyRender();
     }
 }

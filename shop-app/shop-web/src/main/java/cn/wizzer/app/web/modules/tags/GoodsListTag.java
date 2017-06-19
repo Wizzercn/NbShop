@@ -2,7 +2,9 @@ package cn.wizzer.app.web.modules.tags;
 
 import cn.wizzer.app.goods.modules.models.Goods_class;
 import cn.wizzer.app.goods.modules.models.Goods_goods;
+import cn.wizzer.app.goods.modules.models.Goods_product;
 import cn.wizzer.app.goods.modules.services.GoodsClassService;
+import cn.wizzer.app.goods.modules.services.GoodsProductService;
 import cn.wizzer.app.web.commons.ext.es.EsService;
 import cn.wizzer.framework.page.Pagination;
 import org.apache.commons.lang3.BooleanUtils;
@@ -44,6 +46,8 @@ public class GoodsListTag extends GeneralVarTagBinding {
     private EsService esService;
     @Inject
     private GoodsClassService goodsClassService;
+    @Inject
+    private GoodsProductService goodsProductsService;
     @Inject
     private PropertiesProxy cfg;
 
@@ -123,16 +127,20 @@ public class GoodsListTag extends GeneralVarTagBinding {
             srb.highlighter(highlightBuilder);
         }
         if (Strings.isNotBlank(sortName)) {
+            String[] sortNames = StringUtils.split(sortName, ",");
             if ("asc".equalsIgnoreCase(sortOrder)) {
-                srb.addSort(sortName, SortOrder.ASC);
-            } else
-                srb.addSort(sortName, SortOrder.DESC);
+                for (String s : sortNames)
+                    srb.addSort(s, SortOrder.ASC);
+            } else {
+                for (String s : sortNames)
+                    srb.addSort(s, SortOrder.DESC);
+            }
         }
         SearchResponse response = srb.execute().actionGet();
         SearchHits hits = response.getHits();
         page.setTotalCount((int) hits.getTotalHits());
         List<NutMap> list = new ArrayList<>();
-        for (SearchHit searchHit : hits) {
+        hits.forEach(searchHit -> {
             Map<String, Object> source = searchHit.getSource();
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             //name高亮
@@ -156,9 +164,16 @@ public class GoodsListTag extends GeneralVarTagBinding {
                 source.put("title", tmp);
             }
             Goods_goods goods = Lang.map2Object(source, Goods_goods.class);
-            //log.debug("goods::\r\n" + Json.toJson(goods));
-            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("imgurl", goods.getImgurl()));
-        }
+            String gid = "";
+            for (Goods_product p : goods.getProductList()) {
+                if (p.isDefault()) {
+                    gid = p.getId();
+                    break;
+                }
+            }
+            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("imgurl", goods.getImgurl()).addv("gid", gid));
+        });
+
         page.setList(list);
         this.binds(page);
         this.doBodyRender();

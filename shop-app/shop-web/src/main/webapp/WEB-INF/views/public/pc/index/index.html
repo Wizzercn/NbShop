@@ -6,14 +6,64 @@
     <meta name="description" content="${site.seo_description!}">
     <title>${site.site_name!"NutzShop"}</title>
     <!--<link rel="shortcut icon" type="image/x-icon" href="./img/favico.ico">-->
-    <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css" />
-    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery-1.8.2.min.js" ></script>
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js" ></script>
+    <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css" />
+
 </head>
 <body id="r1">
 <% include( "../include/top.html" ){}; %>
 <% include( "../include/head.html" ){}; %>
-<% include( "slide.html" ){}; %>
+<div class="d-ifir w_1200 cf2">
+    <div class="banner">
+        <div id="slideBox" class="slideBox">
+            <div class="bd">
+                <ul>
+                    <#cms_link_list code="index_slide" size="5" var="o">
+                        <li><a href="${o.url!}" target="${o.target!}" title="${o.name!}"><img alt="${o.name!}" src="${base}${o.picurl!}" /></a></li>
+                    </#cms_link_list>
+                </ul>
+            </div>
+            <div class="s-ico">
+                <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                <a class="prev" href="javascript:void(0)"><span><</span></a>
+                <a class="next" href="javascript:void(0)"><span>></span></a>
+            </div>
+
+        </div>
+    </div>
+    <div class="d-ifirr">
+        <#cms_link_list code="index_right_1" size="1" var="o">
+            <a href="${o.url!}" target="${o.target!}"  class="d-ifirra scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+        </#cms_link_list>
+        <#cms_link_list code="index_right_2" size="1" var="o">
+            <a href="${o.url!}" target="${o.target!}"  class="d-ifirrb scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+        </#cms_link_list>
+    </div>
+
+</div>
+<!--新品热卖-->
+<div class="d-idec w_1200">
+    <div class="i-idectit"><h3>新品热卖</h3><a href="#" style="right:30px;"><span><</span></a><a href="#"><span>></span></a></div>
+    <ul class="i-idecul cf2">
+        <#goods_list sortName="numSaleWeek,numSale" sortOrder="desc" var="page">
+            <%for(o in page.list){%>${page.list!}
+        <li>
+            <a href="${base}/goods/${o.sku!}" class="scl">
+                <dl>
+                    <dt><img src="${base}/assets/public/pc/img/picc.jpg" class="trana" /></dt>
+                    <dd>
+                        <h3>${o.name!} ${o.title!}</h3>
+                        <p>立即购买</p>
+                        <span>￥999.00</span>
+                    </dd>
+                </dl>
+            </a>
+        </li>
+            <%}%>
+        </#goods_list>
+    </ul>
+</div>
 
 <% include( "../include/foot.html" ){}; %>
 </body>

@@ -46,7 +46,7 @@ public class GoodsGoodsController {
     @Inject
     private GoodsTypeSpecService shopGoodsTypeSpecService;
     @Inject
-    private GoodsProductsService shopGoodsProductsService;
+    private GoodsProductService shopGoodsProductsService;
     @Inject
     private MemberLevelService memberLevelService;
     @Inject

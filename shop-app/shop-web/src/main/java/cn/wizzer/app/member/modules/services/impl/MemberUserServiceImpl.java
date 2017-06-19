@@ -19,8 +19,12 @@ import org.nutz.dao.Dao;
 import org.nutz.ioc.aop.Aop;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.plugins.wkcache.annotation.CacheDefaults;
+import org.nutz.plugins.wkcache.annotation.CacheRemoveAll;
+import org.nutz.plugins.wkcache.annotation.CacheResult;
 
 @IocBean(args = {"refer:dao"})
+@CacheDefaults(cacheName = "member_user")
 public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implements MemberUserService {
     public MemberUserServiceImpl(Dao dao) {
         super(dao);
@@ -50,6 +54,7 @@ public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implemen
         memberUserMoneyService.insert(userMoney);
         this.update(Chain.make("money", (user.getMoney() + money)).add("opBy", StringUtil.getUid()).add("opAt",
                 (int) (System.currentTimeMillis() / 1000)), Cnd.where("id", "=", id));
+        this.clearCache();
     }
 
     @Aop(TransAop.READ_COMMITTED)
@@ -66,6 +71,7 @@ public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implemen
         memberUserScoreService.insert(userScore);
         this.update(Chain.make("score", (user.getScore() + score)).add("opBy", StringUtil.getUid()).add("opAt",
                 (int) (System.currentTimeMillis() / 1000)), Cnd.where("id", "=", id));
+        this.clearCache();
     }
 
     @Aop(TransAop.READ_COMMITTED)
@@ -79,5 +85,15 @@ public class MemberUserServiceImpl extends BaseServiceImpl<Member_user> implemen
         memberCoupon.setStatus(0);
         memberCouponService.insert(memberCoupon);
         salesCouponService.update(Chain.make("send_num", (coupon.getSend_num() + 1)), Cnd.where("id", "=", couponId));
+    }
+
+    @CacheResult
+    public Member_user getMember(Cnd cnd) {
+        return this.fetch(cnd);
+    }
+
+    @CacheRemoveAll
+    public void clearCache() {
+
     }
 }

@@ -5,7 +5,7 @@ import cn.wizzer.app.goods.modules.models.Goods_images;
 import cn.wizzer.app.goods.modules.models.Goods_lv_price;
 import cn.wizzer.app.goods.modules.services.GoodsImagesService;
 import cn.wizzer.app.goods.modules.services.GoodsLvPriceService;
-import cn.wizzer.app.goods.modules.services.GoodsProductsService;
+import cn.wizzer.app.goods.modules.services.GoodsProductService;
 import cn.wizzer.app.goods.modules.services.GoodsGoodsService;
 import cn.wizzer.app.member.modules.services.MemberLevelService;
 import cn.wizzer.app.goods.modules.models.Goods_product;
@@ -42,7 +42,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
 
     private static final Log log = Logs.get();
     @Inject
-    private GoodsProductsService shopGoodsProductsService;
+    private GoodsProductService shopGoodsProductsService;
     @Inject
     private MemberLevelService memberLevelService;
     @Inject
@@ -255,6 +255,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         estemp.setAction("update");
         estemp.setGoodsId(shopGoods.getId());
         shopEstempService.insert(estemp);
+        shopGoodsLvPriceService.clearCache();
         return shopGoods.getId();
     }
 
@@ -279,6 +280,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         estemp.setAction("delete");
         estemp.setGoodsId(id);
         shopEstempService.insert(estemp);
+        shopGoodsLvPriceService.clearCache();
     }
 
     /**
@@ -304,6 +306,7 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
             estemp.setGoodsId(id);
             shopEstempService.insert(estemp);
         }
+        shopGoodsLvPriceService.clearCache();
     }
 
     /**
@@ -368,7 +371,6 @@ public class GoodsGoodsServiceImpl extends BaseServiceImpl<Goods_goods> implemen
         Goods_goods goods = this.fetch(id);
         this.fetchLinks(goods, null, Cnd.orderBy().asc("location"));
         return goods;
-
     }
 
     /*

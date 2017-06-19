@@ -98,6 +98,7 @@ public class MemberUserController {
             memberUser.setOpBy(StringUtil.getUid());
             memberUser.setOpAt((int) (System.currentTimeMillis() / 1000));
             memberUserService.updateIgnoreNull(memberUser);
+            memberUserService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -117,6 +118,7 @@ public class MemberUserController {
                 memberUserService.delete(id);
                 req.setAttribute("id", id);
             }
+            memberUserService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -143,6 +145,7 @@ public class MemberUserController {
     public Object enable(String id, HttpServletRequest req) {
         try {
             memberUserService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
+            memberUserService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -155,6 +158,7 @@ public class MemberUserController {
     public Object disable(String id, HttpServletRequest req) {
         try {
             memberUserService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));
+            memberUserService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

@@ -10,11 +10,15 @@ import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.ioc.aop.Aop;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.plugins.wkcache.annotation.CacheDefaults;
+import org.nutz.plugins.wkcache.annotation.CacheRemoveAll;
+import org.nutz.plugins.wkcache.annotation.CacheResult;
 
 /**
  * Created by wizzer on 2017/4/20.
  */
 @IocBean(args = {"refer:dao"})
+@CacheDefaults(cacheName = "member_level")
 public class MemberLevelServiceImpl extends BaseServiceImpl<Member_level> implements MemberLevelService {
     public MemberLevelServiceImpl(Dao dao) {
         super(dao);
@@ -36,6 +40,16 @@ public class MemberLevelServiceImpl extends BaseServiceImpl<Member_level> implem
             this.update(Chain.make("defaultValue", false), Cnd.NEW());
         }
         this.updateIgnoreNull(level);
+    }
+
+    @CacheResult
+    public Member_level getLevel(Cnd cnd) {
+        return this.fetch(cnd);
+    }
+
+    @CacheRemoveAll
+    public void clearCache() {
+
     }
 }
 
