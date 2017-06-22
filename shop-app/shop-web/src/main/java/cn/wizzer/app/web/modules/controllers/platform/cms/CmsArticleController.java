@@ -104,6 +104,7 @@ public class CmsArticleController {
             int publishAt = (int) (sdf.parse(at).getTime() / 1000);
             article.setPublishAt(publishAt);
             cmsArticleService.insert(article);
+            cmsArticleService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -122,7 +123,7 @@ public class CmsArticleController {
     @At
     @Ok("json")
     @RequiresPermissions("cms.content.article.edit")
-    @SLog(tag = "添加文章", msg = "文章标题:${args[0].title}")
+    @SLog(tag = "修改文章", msg = "文章标题:${args[0].title}")
     @AdaptBy(type = WhaleAdaptor.class)
     public Object editDo(@Param("..") Cms_article article, @Param("at") String at, HttpServletRequest req) {
         try {
@@ -130,6 +131,7 @@ public class CmsArticleController {
             int publishAt = (int) (sdf.parse(at).getTime() / 1000);
             article.setPublishAt(publishAt);
             cmsArticleService.updateIgnoreNull(article);
+            cmsArticleService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -145,6 +147,7 @@ public class CmsArticleController {
         try {
             req.setAttribute("title", cmsArticleService.fetch(id).getTitle());
             cmsArticleService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
+            cmsArticleService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -159,6 +162,7 @@ public class CmsArticleController {
         try {
             req.setAttribute("title", cmsArticleService.fetch(id).getTitle());
             cmsArticleService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));
+            cmsArticleService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -178,6 +182,7 @@ public class CmsArticleController {
                 cmsArticleService.delete(oneId);
                 req.setAttribute("id", oneId);
             }
+            cmsArticleService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

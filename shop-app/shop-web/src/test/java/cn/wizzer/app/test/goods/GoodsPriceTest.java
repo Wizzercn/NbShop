@@ -29,10 +29,4 @@ public class GoodsPriceTest extends TestBase {
         log.debug("price:::"+m);
     }
 
-    @Test
-    public void t1(){
-        Map map=new HashMap<>();map.put(null,1);map.clear();map.get(null);
-        log.debug("xxxxxxxxx:::"+ map.get(null));
-
-    }
 }

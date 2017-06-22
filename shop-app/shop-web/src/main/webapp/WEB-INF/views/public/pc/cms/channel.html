@@ -8,272 +8,77 @@
     <!--<link rel="shortcut icon" type="image/x-icon" href="./img/favico.ico">-->
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery-1.8.2.min.js"></script>
     <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css"/>
-    <script type="text/javascript" src="${base}/assets/public/pc/js/common.js"></script>
-    <script type="text/javascript" src="${base}/assets/public/pc/js/index.js"></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/page.js"></script>
 </head>
 <body>
 <% include( "../include/top.html" ){}; %>
 <% include( "../include/head.html" ){}; %>
 <div class="nav-bar w_1200">
-    当前位置：<a href="${base}/">首页</a> / <a href="javascript:;">${pchannelName!}</a> / <a href="${base}/cms/channel/${channelCode!}" class="on">${channelName!}</a>
+    当前位置：<a href="${base}/">首页</a> / ${pchannelName!} / <a href="${base}/cms/channel/${channelCode!}" class="on">${channelName!}</a>
 </div>
 <div class="main cf2 w_1200">
     <div class="main-l">
         <ul class="main-nav">
             <li><h3>${pchannelName!}</h3></li>
             <#cms_channel_list parentId="${pchannelId!}" parentCode="" var="o">
-            <li class="on"><a href="#"><p>活动资讯</p></a></li>
+                <li
+                <%if(o.code==channelCode){%>class="on"<%}%>><a href="${base}/cms/channel/${o.code!}"><p>${o.name!}</p>
+            </a></li>
             </#cms_channel_list>
         </ul>
     </div>
     <div class="main-r">
-        <div class="main-rj"><h3>活动资讯</h3></div>
-        <ul class="news">
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
-            <li class="news-li">
-                <a href="#">
-                    <dl class="cf2">
-                        <dt>
-                        <p>01</p><span>2017-06</span>
-                        </dt>
-                        <dd>
-                            <h3 class="text-ell">300家钢铁电商混战 宝武阿里争个位数席位</h3>
-                            <p>目前河北钢铁、华菱钢铁等国内主流钢厂都在不惜重金投建自己的钢铁电商平台,同时,由钢铁消费企业主导的电子商务平台,比如五矿发展联合阿里建立的五阿哥电商平台、中铁... </p>
-                        </dd>
-                    </dl>
-                </a>
-            </li>
+        <div class="main-rj"><h3>${channelName!}</h3></div>
+        <#cms_article_list channelId="${channelId}" pageNumber="${pageNumber}" pageSize="${pageSize}" var="p">
+            <%if(p.totalCount==1){%>
+            <div class="text">
+                <%for(o in p.list){%>
+                <h1 class="text-h1">${o.title!}</h1>
+                <div class="text-t"><span>发布时间：${@date.getDate(o.publishAt,'yyyy-MM')} </span> <span>来源：${o.author!}</span></div>
+                ${o.content}
+                <%}%>
+            </div>
 
-        </ul>
-        <div class="page">
-            <a href="#" class="page-l round_s"><i></i><span>上一页</span></a>
-            <a href="#" class="page-num round_s on">1</a>
-            <a href="#" class="page-num round_s">2</a>
-            <a href="#" class="page-num round_s">3</a>
-            <a href="#" class="page-num round_s">4</a>
-            <span class="page-txt">...</span>
-            <a href="#" class="page-num round_s">100</a>
-            <a href="#" class="page-r round_s"><span>下一页</span><i></i></a>
-        </div>
-    </div>
-
-</div>
-
-
-<div class="footer">
-    <div class="w_1200 footer-con cf2">
-        <ul class="footer-ul cf2">
-            <li>
-                <h3><a href="#">新手上路</a></h3>
-                <p><a href="#">新用户注册</a></p>
-                <p><a href="#">预订流程</a></p>
-                <p><a href="#">购物保障</a></p>
-            </li>
-            <li>
-                <h3><a href="#">支付/配送</a></h3>
-                <p><a href="#">支付方式</a></p>
-                <p><a href="#">配送方式</a></p>
-                <p><a href="#">配送时间及运费</a></p>
-            </li>
-            <li>
-                <h3><a href="#">公司信息</a></h3>
-                <p><a href="#">关于我们</a></p>
-                <p><a href="#">用户协议</a></p>
-                <p><a href="#">隐私声明</a></p>
-                <p><a href="#">品牌介绍</a></p>
-            </li>
-            <li>
-                <h3><a href="#">新闻资讯</a></h3>
-                <p><a href="#">站内公告</a></p>
-                <p><a href="#">活动资讯</a></p>
-                <p><a href="#">公司动态</a></p>
-            </li>
-            <li>
-                <h3><a href="#">帮助中心</a></h3>
-                <p><a href="#">常见问题</a></p>
-                <p><a href="#">找回密码</a></p>
-                <p><a href="#">联系我们</a></p>
-            </li>
-            <li>
-                <h3><a href="#">关注我们</a></h3>
-                <span><img src="img/wei.jpg" /></span>
-            </li>
-
-        </ul>
-        <div class="footer-bot cf2">
-            <span class="fl">Copyright ©2016 www.NutzShop.cn All Rights Reserved.NutzShop在线售卖系统 版权所有</span>
-            <span class="fr">技术支持：<a href="#" target="_blank">NutzShop</a></span>
-        </div>
-    </div>
-</div>
-
-
-<div class="zhuce c-hide" id="login">
-    <div class="zhuce-div">
-        <ul class="zhuce-ul">
-            <li class="zhece-ula"><img src="img/logo.png" /><i><img src="img/ico/close.jpg" /></i> </li>
-            <li class="zhece-ulb">
-                <a href="#" class="on">普通登录</a><a href="#">动态短信登录</a>
-            </li>
-        </ul>
-        <div class="zhuce-in">
-            <ul class="zhuce-inl">
-                <li class="zhuce-inla"><input type="text" placeholder="请输入用户名/手机号" /> </li>
-                <li class="zhuce-inla"><input type="text" placeholder="请输入密码" /> </li>
-                <li class="zhuce-inla"><input type="text" placeholder="请输入验证码" /><span><img src="img/picf.jpg" /></span> <input type="button" value="换一张" /> </li>
-                <li class="zhuce-inlb"><a href="#">忘记密码？</a></li>
-                <li class="zhuce-inlc"><input type="button" value="登录" /> </li>
-                <li class="zhece-inld cf2">
-                    <div class="zhece-inldl"><a href="#"><img src="img/ico/icog.png" />&nbsp;微信登录 </a>｜&nbsp;&nbsp;&nbsp;&nbsp;<a href="#"><img src="img/ico/icoh.png" />&nbsp;QQ登录 </a></div>
-                    <div class="zhece-inldr">还不是商城会，请 <a href="#">立即注册</a></div>
+            <%}else{%>
+            <ul class="news">
+                <%for(o in p.list){%>
+                <li class="news-li">
+                    <a href="${base}/cms/article/${o.id!}">
+                        <dl class="cf2">
+                            <dt>
+                            <p>${oLP.index}</p><span>${@date.getDate(o.publishAt,'yyyy-MM')}</span>
+                            </dt>
+                            <dd>
+                                <h3 class="text-ell">${o.title!}</h3>
+                                <p>
+                                    ${o.info!}... </p>
+                            </dd>
+                        </dl>
+                    </a>
                 </li>
+                <%}elsefor{%>
+                <li>没有文章</li>
+                <%}%>
             </ul>
-        </div>
+            <%}%>
+            <%if(p.totalCount>1){%>
+            <div class="page"></div>
+            <script type="text/javascript">
+                $(function () {
+                    $(".page").createPage({
+                        pageCount: ${p.totalPage},
+                        current: ${p.pageNo},
+                        backFn: function (p) {
+                            window.location.href = "?pageNumber=" + p + "&pageSize=${p.pageSize}";
+                        }
+                    });
+                });
+            </script>
+            <%}%>
+        </#cms_article_list>
     </div>
+
 </div>
-<div class="zhuce c-hide" id="register">
-    <div class="zhuce-div">
-        <ul class="zhuce-ul">
-            <li class="zhece-ula"><img src="img/logo.png" /><i><img src="img/ico/close.jpg" /></i> </li>
-            <li class="zhece-ulb">
-                <h3>用户注册</h3>
-            </li>
-        </ul>
-        <div class="zhuce-in">
-            <ul class="zhuce-inl">
-                <li class="zhuce-inla"><input type="text" placeholder="请输入手机号" /> </li>
-                <li class="zhuce-inla"><input type="text" placeholder="请输手机校验码" /> <input type="button" value="获取验证码"class="hq-yzm" /> </li>
-                <li class="zhuce-inla"><input type="text" placeholder="请设置6位数以上的密码" /> </li>
-                <li class="zhuce-inla"><input type="text" placeholder="请再次输入密码" /> </li>
-                <li class="zhece-inle"><label><input type="button" /><a href="#">我已立刻并同意《用户协议》！</a> </label></li>
-                <li class="zhuce-inlc"><input type="button" value="登录" /> </li>
-                <li class="zhece-inld cf2">
-
-                    <div class="zhece-inldr">还不是商城会，请 <a href="#">立即登录</a></div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<ul class="flush">
-    <li><a href="#"><img src="img/ico/icoi.png" /> </a></li>
-    <li><a href="#"><img src="img/ico/icoj.png" /> </a></li>
-    <li><a href="#"><img src="img/ico/icok.png" /> </a></li>
-    <li class="flu-top"><a href="#r1"><img src="img/ico/icol.png" /> </a></li>
-</ul>
-
-<script type="text/javascript" src="js/common.js" ></script>
-
-<!--[if IE 6]>
-<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
-<script>
-    DD_belatedPNG.fix('.png_img img,.png');
-</script>
-<![endif]-->
-
-
-<!--[if lt IE 10]>
-<script type="text/javascript" src="pie.js"></script>
-<![endif]-->
-<script language="javascript">
-    $(function () {
-        if (window.PIE) {
-            $('.round_s,.round_a').each(function () {
-                PIE.attach(this);
-            });
-        }
-    });
-</script>
+<% include( "../include/foot.html" ){}; %>
 </body>
 </html>

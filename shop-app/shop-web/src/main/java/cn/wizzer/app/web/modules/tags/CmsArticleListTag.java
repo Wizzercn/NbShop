@@ -21,8 +21,8 @@ public class CmsArticleListTag extends GeneralVarTagBinding {
     public void render() {
         String channelId = Strings.sNull(this.getAttributeValue("channelId"));
         int pageNumber = NumberUtils.toInt(Strings.sNull(this.getAttributeValue("pageNumber")));
-        int pageSize = NumberUtils.toInt(Strings.sNull(this.getAttributeValue("pageNumber")));
-        Pagination pagination = cmsArticleService.listPage(pageNumber, pageSize, Cnd.where("channelId", "=", channelId).and("disabled", "=", false).desc("publishAt"));
+        int pageSize = NumberUtils.toInt(Strings.sNull(this.getAttributeValue("pageSize")));
+        Pagination pagination = cmsArticleService.getListPage(pageNumber, pageSize, Cnd.where("channelId", "=", channelId).and("disabled", "=", false).desc("publishAt"));
         this.binds(pagination);
         this.doBodyRender();
     }
