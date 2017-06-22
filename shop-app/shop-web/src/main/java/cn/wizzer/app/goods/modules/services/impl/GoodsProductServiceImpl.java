@@ -68,7 +68,10 @@ public class GoodsProductServiceImpl extends BaseServiceImpl<Goods_product> impl
             } else {//如果没有找到单独价格,那么到会员等级表找打折比例
                 Member_level memberLevel = memberLevelService.getLevel(Cnd.where("id", "=", memberUser.getLevelId()));
                 if (memberLevel != null) {
-                    //todo
+                    int new_price = (price * memberLevel.getDis_count()) / 100;
+                    if (new_price > 0) {
+                        price = new_price;
+                    }
                 }
             }
         }

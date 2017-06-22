@@ -6,10 +6,11 @@
     <meta name="description" content="${site.seo_description!}">
     <title>${site.site_name!"NutzShop"}</title>
     <!--<link rel="shortcut icon" type="image/x-icon" href="./img/favico.ico">-->
-    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery-1.8.2.min.js" ></script>
-    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js" ></script>
-    <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css" />
-
+    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js"></script>
+    <link rel="stylesheet" href="${base}/assets/public/pc/css/css.css"/>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/common.js"></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/index.js"></script>
 </head>
 <body id="r1">
 <% include( "../include/top.html" ){}; %>
@@ -20,7 +21,9 @@
             <div class="bd">
                 <ul>
                     <#cms_link_list code="index_slide" size="5" var="o">
-                        <li><a href="${o.url!}" target="${o.target!}" title="${o.name!}"><img alt="${o.name!}" src="${base}${o.picurl!}" /></a></li>
+                        <li><a href="${o.url!}" target="${o.target!}" title="${o.name!}"><img alt="${o.name!}"
+                                                                                              src="${base}${o.picurl!}"/></a>
+                        </li>
                     </#cms_link_list>
                 </ul>
             </div>
@@ -34,37 +37,71 @@
     </div>
     <div class="d-ifirr">
         <#cms_link_list code="index_right_1" size="1" var="o">
-            <a href="${o.url!}" target="${o.target!}"  class="d-ifirra scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+            <a href="${o.url!}" target="${o.target!}" class="d-ifirra scl" title="${o.name!}"><span><img
+                    alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
         </#cms_link_list>
         <#cms_link_list code="index_right_2" size="1" var="o">
-            <a href="${o.url!}" target="${o.target!}"  class="d-ifirrb scl" title="${o.name!}"><span><img alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
+            <a href="${o.url!}" target="${o.target!}" class="d-ifirrb scl" title="${o.name!}"><span><img
+                    alt="${o.name!}" src="${base}${o.picurl!}" class="trana"/></span></a>
         </#cms_link_list>
     </div>
 
 </div>
 <!--新品热卖-->
-<div class="d-idec w_1200">
-    <div class="i-idectit"><h3>新品热卖</h3><a href="#" style="right:30px;"><span><</span></a><a href="#"><span>></span></a></div>
-    <ul class="i-idecul cf2">
-        <#goods_list sortName="numSaleWeek,numSale" sortOrder="desc" var="page">
-            <%for(o in page.list){%>${page.list!}
-        <li>
-            <a href="${base}/goods/${o.sku!}" class="scl">
+<div class="d-idec w_1200 picScroll-leftk">
+    <div class="i-idectit" style="padding-top:15px;"><h3>新品热卖</h3></div>
+    <div class="hd">
+        <a class="next">></a>
+        <a class="prev"><</a>
+    </div>
+    <div class="bd">
+        <ul class="i-idecul cf2">
+            <#goods_list pageNumber="1" pageSize="10" sortName="location,numSaleWeek,numSale" sortOrder="desc" var="page">
+                <%for(o in page.list){%>
+                <li>
+                    <a href="${base}/shop/goods/detail/${o.pid!}" target="_blank" class="scl">
+                        <dl>
+                            <dt><img src="${base}${o.imgurl!}" class="trana"/></dt>
+                            <dd>
+                                <h3>${o.name!} ${o.title!}</h3>
+                                <p>立即购买</p>
+                                <span>￥${@money.fenToYuan(o.price)}</span>
+                            </dd>
+                        </dl>
+                    </a>
+                </li>
+                <%}%>
+            </#goods_list>
+        </ul>
+    </div>
+</div>
+<#goods_class_list parentId="" var="o">
+<div class="d-ifir w_1200">
+    <div class="i-idectit"><h3>${o.name!}</h3><a href="${base}/list/${o.id!}"
+                                                 target="_blank"><i>查看更多</i><span>></span></a></div>
+    <ul class="i-ifirul cf2">
+        <#goods_list pageNumber="1" pageSize="10" sortName="location,numSaleWeek,numSale" sortOrder="desc" var="page">
+            <%for(p in page.list){%>
+            <li>
                 <dl>
-                    <dt><img src="${base}/assets/public/pc/img/picc.jpg" class="trana" /></dt>
+                    <dt><a href="${base}/shop/goods/detail/${o.pid!}" target="_blank"  class="scl"><img src="${base}${o.imgurl!}" class="trana"/></a></dt>
                     <dd>
-                        <h3>${o.name!} ${o.title!}</h3>
-                        <p>立即购买</p>
-                        <span>￥999.00</span>
+                        <em></em>
+                        <h3>${p.name!} ${p.title!}</h3>
+                        <p>￥${@money.fenToYuan(p.price)}
+                            <del>￥${@money.fenToYuan(p.priceMarket)}</del>
+                        </p>
+                        <span class="cf2"><input type="button" value="立即购买" class="i-buy fl"/><input type="button"
+                                                                                                     value="加入购物车"
+                                                                                                     class="i-add fr"/> </span>
                     </dd>
                 </dl>
-            </a>
-        </li>
+            </li>
             <%}%>
         </#goods_list>
     </ul>
 </div>
-
+</#goods_class_list>
 <% include( "../include/foot.html" ){}; %>
 </body>
 </html>

@@ -1,17 +1,13 @@
 <div class="footer">
     <div class="w_1200 footer-con cf2">
         <ul class="footer-ul cf2">
-            <#cms_channel_list parentId="" parentCode="" var="list">
-                <%for(o in list){%>
+            <#cms_channel_list parentId="" parentCode="" var="o">
                 <li>
                     <h3><a href="javascript:;">${o.name!}</a></h3>
-                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="sublist">
-                        <%for(p in sublist){%>
-                        <p><a href="${base}/channel/${p.code!}">${p.name!}</a></p>
-                        <%}%>
+                    <#cms_channel_list parentId="${o.id!}" parentCode="" var="p">
+                        <p><a href="${base}/cms/channel/${p.code!}">${p.name!}</a></p>
                     </#cms_channel_list>
                 </li>
-                <%}%>
             </#cms_channel_list>
             <li>
                 <h3><a href="javascript:;">关注公众号</a></h3>
@@ -24,7 +20,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="${base}/assets/public/pc/js/common.js" ></script>
 <!--[if IE 6]>
 <script type="text/javascript" src="${base}/assets/public/pc/js/DD_belatedPNG.js"></script>
 <script>

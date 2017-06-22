@@ -7,6 +7,8 @@ import cn.wizzer.app.goods.modules.services.GoodsClassService;
 import cn.wizzer.app.goods.modules.services.GoodsProductService;
 import cn.wizzer.app.web.commons.ext.es.EsService;
 import cn.wizzer.framework.page.Pagination;
+import cn.wizzer.framework.util.CookieUtil;
+import cn.wizzer.framework.util.StringUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -47,7 +49,7 @@ public class GoodsListTag extends GeneralVarTagBinding {
     @Inject
     private GoodsClassService goodsClassService;
     @Inject
-    private GoodsProductService goodsProductsService;
+    private GoodsProductService goodsProductService;
     @Inject
     private PropertiesProxy cfg;
 
@@ -69,9 +71,9 @@ public class GoodsListTag extends GeneralVarTagBinding {
         if (Strings.isNotBlank(classId)) {
             List<String> classIdList = new ArrayList<>();
             classIdList.add(classId);
-            String path = goodsClassService.getField("path", classId).getPath();
-            if (Strings.isNotBlank(path)) {
-                List<Goods_class> list = goodsClassService.query(Cnd.where("path", "like", path + "_%"));
+            Goods_class gc = goodsClassService.getGoodsClass(Cnd.where("id", "=", classId));
+            if (gc != null && Strings.isNotBlank(gc.getPath())) {
+                List<Goods_class> list = goodsClassService.getList(Cnd.where("path", "like", gc.getPath() + "_%").and("disabled","=",false));
                 for (Goods_class goodsClass : list)
                     classIdList.add(goodsClass.getId());
             }
@@ -164,16 +166,17 @@ public class GoodsListTag extends GeneralVarTagBinding {
                 source.put("title", tmp);
             }
             Goods_goods goods = Lang.map2Object(source, Goods_goods.class);
-            String gid = "";
+            String pid = "";
             for (Goods_product p : goods.getProductList()) {
                 if (p.isDefault()) {
-                    gid = p.getId();
+                    pid = p.getId();
                     break;
                 }
             }
-            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("imgurl", goods.getImgurl()).addv("gid", gid));
+            NutMap map = goodsProductService.getPrice(goods.getId(), pid, StringUtil.getMemberUid());
+            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("imgurl", goods.getImgurl()).addv("pid", pid)
+                    .addv("price", map.getInt("price")).addv("priceMarket", map.getInt("priceMarket")));
         });
-
         page.setList(list);
         this.binds(page);
         this.doBodyRender();

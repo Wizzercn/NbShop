@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by wizzer on 2017/5/22.
  */
-@IocBean
+@IocBean(singleton = false)
 public class CmsChannelListTag extends GeneralVarTagBinding {
     private final static Log log = Logs.get();
     @Inject
@@ -27,7 +27,9 @@ public class CmsChannelListTag extends GeneralVarTagBinding {
         String parentId = Strings.sNull(this.getAttributeValue("parentId"));
         String parentCode = Strings.sNull(this.getAttributeValue("parentCode"));
         List<Cms_channel> list = cmsChannelService.listChannel(parentId, parentCode);
-        this.binds(list);
-        this.doBodyRender();
+        for(Cms_channel channel:list) {
+            this.binds(channel);
+            this.doBodyRender();
+        }
     }
 }

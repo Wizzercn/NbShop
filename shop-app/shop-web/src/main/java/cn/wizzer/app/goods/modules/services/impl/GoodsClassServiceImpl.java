@@ -11,8 +11,14 @@ import org.nutz.dao.Sqls;
 import org.nutz.ioc.aop.Aop;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.plugins.wkcache.annotation.CacheDefaults;
+import org.nutz.plugins.wkcache.annotation.CacheRemoveAll;
+import org.nutz.plugins.wkcache.annotation.CacheResult;
+
+import java.util.List;
 
 @IocBean(args = {"refer:dao"})
+@CacheDefaults(cacheName = "goods_class")
 public class GoodsClassServiceImpl extends BaseServiceImpl<Goods_class> implements GoodsClassService {
     public GoodsClassServiceImpl(Dao dao) {
         super(dao);
@@ -53,5 +59,34 @@ public class GoodsClassServiceImpl extends BaseServiceImpl<Goods_class> implemen
                 dao().execute(Sqls.create("update goods_class set hasChildren=0 where id=@pid").setParam("pid", goodsClass.getParentId()));
             }
         }
+    }
+
+    @CacheResult
+    public Goods_class getGoodsClass(Cnd cnd){
+        return this.fetch(cnd);
+    }
+
+    @CacheResult
+    public List<Goods_class> getList(Cnd cnd) {
+        return this.query(cnd);
+    }
+
+    @CacheResult
+    public List<Goods_class> getList(String parentId) {
+        Cnd cnd = Cnd.NEW();
+        if (Strings.isNotBlank(parentId)) {
+            cnd.and("parentId", "=", "parentId");
+        }else {
+            cnd.and("parentId", "=", "");
+        }
+        cnd.and("disabled","=",false);
+        cnd.asc("location");
+        cnd.asc("path");
+        return this.query(cnd);
+    }
+
+    @CacheRemoveAll
+    public void clearCache(){
+
     }
 }

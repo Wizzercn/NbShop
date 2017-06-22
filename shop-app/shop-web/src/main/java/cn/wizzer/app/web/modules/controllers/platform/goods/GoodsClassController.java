@@ -69,6 +69,7 @@ public class GoodsClassController {
     public Object addDo(@Param("..") Goods_class shopGoodsClass, @Param("parentId") String parentId, HttpServletRequest req) {
         try {
             shopGoodsClassService.save(shopGoodsClass, parentId);
+            shopGoodsClassService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -95,6 +96,7 @@ public class GoodsClassController {
         try {
             shopGoodsClass.setOpAt((int) (System.currentTimeMillis() / 1000));
             shopGoodsClassService.updateIgnoreNull(shopGoodsClass);
+            shopGoodsClassService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -110,6 +112,7 @@ public class GoodsClassController {
         try {
             Goods_class obj = shopGoodsClassService.fetch(id);
             shopGoodsClassService.deleteAndChild(obj);
+            shopGoodsClassService.clearCache();
             req.setAttribute("name", obj.getName());
             return Result.success("system.success");
         } catch (Exception e) {
@@ -125,6 +128,7 @@ public class GoodsClassController {
         try {
             req.setAttribute("name", shopGoodsClassService.fetch(id).getName());
             shopGoodsClassService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", id));
+            shopGoodsClassService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -139,6 +143,7 @@ public class GoodsClassController {
         try {
             req.setAttribute("name", shopGoodsClassService.fetch(id).getName());
             shopGoodsClassService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", id));
+            shopGoodsClassService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");
@@ -207,6 +212,7 @@ public class GoodsClassController {
                     i++;
                 }
             }
+            shopGoodsClassService.clearCache();
             return Result.success("system.success");
         } catch (Exception e) {
             return Result.error("system.error");

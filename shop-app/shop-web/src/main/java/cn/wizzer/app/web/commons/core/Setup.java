@@ -3,8 +3,6 @@ package cn.wizzer.app.web.commons.core;
 import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.web.commons.base.Globals;
 import cn.wizzer.app.web.modules.tags.*;
-import cn.wizzer.app.web.commons.plugin.IPlugin;
-import cn.wizzer.app.web.commons.plugin.PluginMaster;
 import cn.wizzer.framework.ig.RedisIdGenerator;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
@@ -36,7 +34,6 @@ import org.nutz.mvc.ViewMaker;
 import org.quartz.Scheduler;
 import redis.clients.jedis.Jedis;
 
-import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +63,6 @@ public class Setup implements org.nutz.mvc.Setup {
             initSysTask(config, dao);
             // 初始化自定义路由
             initSysRoute(config, dao);
-            // 初始化热插拔插件
-            initSysPlugin(config, dao);
             // 初始化ig缓存
             initRedisIg(ioc.get(JedisAgent.class), ioc.get(PropertiesProxy.class, "conf"), dao);
             for (ViewMaker vm : config.getViewMakers()) {
@@ -76,6 +71,7 @@ public class Setup implements org.nutz.mvc.Setup {
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_channel", ()->ioc.get(CmsChannelTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article_list", ()->ioc.get(CmsArticleListTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_article", ()->ioc.get(CmsArticleTag.class));
+                    ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_class_list", ()->ioc.get(GoodsClassListTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_list", ()->ioc.get(GoodsListTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("goods_detail", ()->ioc.get(GoodsDetailTag.class));
                     ((BeetlViewMaker)vm).groupTemplate.registerTagFactory("cms_link_list", ()->ioc.get(CmsLinkListTag.class));
@@ -122,37 +118,6 @@ public class Setup implements org.nutz.mvc.Setup {
         }
         long b = System.currentTimeMillis();
         log.info("init redis ig time::" + (b - a) + "ms");
-    }
-
-    /**
-     * 初始化热插拔插件
-     *
-     * @param config
-     * @param dao
-     */
-    private void initSysPlugin(NutConfig config, Dao dao) {
-        try {
-            PluginMaster pluginMaster = config.getIoc().get(PluginMaster.class);
-            List<Sys_plugin> list = dao.query(Sys_plugin.class, Cnd.where("disabled", "=", 0));
-            for (Sys_plugin sysPlugin : list) {
-                String name = sysPlugin.getPath().substring(sysPlugin.getPath().indexOf(".")).toLowerCase();
-                File file = new File(Globals.AppRoot + sysPlugin.getPath());
-                String[] p = new String[]{};
-                IPlugin plugin;
-                if (".jar".equals(name)) {
-                    plugin = pluginMaster.buildFromJar(file, sysPlugin.getClassName());
-                } else {
-                    byte[] buf = Files.readBytes(file);
-                    plugin = pluginMaster.build(sysPlugin.getClassName(), buf);
-                }
-                if (!Strings.isBlank(sysPlugin.getArgs())) {
-                    p = org.apache.commons.lang3.StringUtils.split(sysPlugin.getArgs(), ",");
-                }
-                pluginMaster.register(sysPlugin.getCode(), plugin, p);
-            }
-        } catch (Exception e) {
-            log.debug("plugin load error", e);
-        }
     }
 
     /**
