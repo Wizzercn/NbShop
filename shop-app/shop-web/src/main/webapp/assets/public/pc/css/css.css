@@ -69,7 +69,7 @@ input[type="button"]{cursor: pointer;}
 
 .d-tsecr>a{display:inline-block;width:154px;height:34px;border:1px solid #ddd;background:#fff;line-height:34px;}
 .d-tsecr>a i{font-style: normal;}
-.d-tsecr>a img{position:relative;top:5px;padding-left:5px;padding-right:5px;}
+.d-tsecr>a img{position:relative;top:7px;padding-left:6px;padding-right:15px;width:23px;}
 
 .i-l,.del,.i-r{background:none;border:none;}
 
@@ -90,11 +90,21 @@ input[type="button"]{cursor: pointer;}
 .wrap-lul li a dl dd span{color:#35C2D8;font-size:16px;}
 /*导航*/
 /*.d-navpo .d-navul{float:right;width:979px;}*/
+.quan-add{height:65px;}
+.quan-addb{background:url(../img/ico/l-bg.jpg) repeat-x top;position:fixed;top:0px;left:0px;width:100%;z-index:4}
+.d-tsecra > a i{display:none;}
+.d-tsecra>a .r-num{position:absolute;top:10px;z-index:2;left:50%;margin-left:-22px;display: inline-block;min-width:20px;height:20px;line-height:20px;font-size:12px;-moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px;background: #35C2D8;color:#fff;}
+.d-tsecra>a{background:none;border:none}
+div.d-tsecra{background:none;}
+.d-tsecra:hover>a{border:1px solid #ddd}
+.d-tsecra:hover{background:url(../img/ico/res-bg.png) no-repeat center top;}
+div.d-tsecra{position:fixed;top:9px;left:50%;margin-left:434px;z-index: 5;}
 .d-nav{border-top:5px solid #35C2D8;background:#f3f3f3;height:60px;}
 .d-nav .d-navul{float:right;width:1200px;border-bottom:1px solid #ddd;position: relative;z-index: 3;}
-.d-nav .d-navul>li{width:106px;margin-right:1px;float: left;padding:15px 5px;height:29px;line-height:29px;text-align: center;position:relative}
+.d-nav .d-navul>li{width:116px;margin-right:1px;float: left;line-height:29px;text-align: center;position:relative}
 .d-nav .d-navul>li.on,.d-nav .d-navul>li:hover{background:#35C2D8;color:#fff;}
 .d-nav .d-navul>li.on a,.d-nav .d-navul>li:hover a{color:#fff}
+.d-nav .d-navul > li>a{display:block;padding:15px 0px;height:29px;}
 /*.d-nav .d-navul li:hover{background:#35C2D8;color:#fff;border-left:1px solid #ddd;border-right:1px solid #ddd;}*/
 .d-navli{position:relative}
 .d-navli>ul{position:absolute;top:50px;left:0px;width:220px;padding-top:10px;}
@@ -320,7 +330,7 @@ span.on a{color:#666;}
 .page-l,.page-r{display: inline-block;width:108px;height:38px;border:1px solid #ddd;position:relative}
 .page-l i{border-top:4px solid #fff;border-right:4px solid #7a7a7a;border-bottom:4px solid #fff;height:0px;display:inline-block;position:relative;left:-10px;margin-left:10px;}
 .page-r i{border-top:4px solid #fff;border-left:4px solid #7a7a7a;border-bottom:4px solid #fff;height:0px;display:inline-block;position:relative;left:10px;margin-left:10px;}
-.page *{text-align: center;}
+.page *{text-align: center;} 
 .page a{line-height:38px;vertical-align: top;}
 .page-num{display: inline-block;min-width:20px;height:38px;border:1px solid #ddd;padding:0 8px;}
 .page-txt{line-height:38px;padding:0 5px;}
@@ -651,9 +661,9 @@ span.on a{color:#666;}
 .d-navlop>li dl dd a:hover{color:#fe6000;}
 
 .d-tsecrul .d-tsecrli a dl:hover .del{display:inline-block;width:20px;height:20px;background: url(../img/ico/close.jpg) no-repeat 0px center;background-size:12px;border:none;position:absolute;top:-12px;right:0px;-moz-transition:0.5s;
-    -o-transition:0.5s;
-    -webkit-transition:0.5s;
-    transition:0.5s;}
+-o-transition:0.5s;
+-webkit-transition:0.5s;
+transition:0.5s;}
 .del:hover{background-position: right;}
 
 .flush li span p{height: 30px;background:#35C2D8;position:absolute;top:0px;right:50px;color:#fff;font-size:16px;padding:10px 20px;border-right:1px solid #25AFC4;line-height:30px;}
@@ -666,47 +676,47 @@ span.on a{color:#666;}
 .picScroll-leftk .hd .next{position: absolute;right:0px;top:-50px;width:28px;height:28px;line-height:28px;text-align:center;cursor:pointer;display:inline-block;background:#35C2D8;color:#fff;font-family: "宋体";}
 /*CSS3*/
 .light{display:inline-block;
-    cursor:pointer;
-    position: absolute;
-    left: -180px;
-    top: 0;
-    width: 180px;
-    height: 300px;
-    background-image: -moz-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
-    background-image: -webkit-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
-    transform: skewx(-25deg);
-    -o-transform: skewx(-25deg);
-    -moz-transform: skewx(-25deg);
-    -webkit-transform: skewx(-25deg);
+cursor:pointer;
+position: absolute;
+left: -180px;
+top: 0;
+width: 180px;
+height: 300px;
+background-image: -moz-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
+background-image: -webkit-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
+transform: skewx(-25deg);
+-o-transform: skewx(-25deg);
+-moz-transform: skewx(-25deg);
+-webkit-transform: skewx(-25deg);
 }
 a:hover .light{
-    left:180px;
-    -moz-transition:0.5s;
-    -o-transition:0.5s;
-    -webkit-transition:0.5s;
-    transition:0.5s;
+left:180px;
+-moz-transition:0.5s;
+-o-transition:0.5s;
+-webkit-transition:0.5s;
+transition:0.5s;
 }
 
 .lighta{display:inline-block;
-    cursor:pointer;
-    position: absolute;
-    left: -180px;
-    top: 0;
-    width: 90px;
-    height: 300px;
-    background-image: -moz-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
-    background-image: -webkit-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
-    transform: skewx(-25deg);
-    -o-transform: skewx(-25deg);
-    -moz-transform: skewx(-25deg);
-    -webkit-transform: skewx(-25deg);
+cursor:pointer;
+position: absolute;
+left: -180px;
+top: 0;
+width: 90px;
+height: 300px;
+background-image: -moz-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
+background-image: -webkit-linear-gradient(0deg,rgba(255,255,255,0),rgba(255,255,255,0.5),rgba(255,255,255,0));
+transform: skewx(-25deg);
+-o-transform: skewx(-25deg);
+-moz-transform: skewx(-25deg);
+-webkit-transform: skewx(-25deg);
 }
 a:hover .lighta{
-    left:180px;
-    -moz-transition:1s;
-    -o-transition:1s;
-    -webkit-transition:1s;
-    transition:1s;
+left:180px;
+-moz-transition:1s;
+-o-transition:1s;
+-webkit-transition:1s;
+transition:1s;
 }
 .scl:hover img{-webkit-transform: scale(1.1,1.1); -moz-transform: scale(1.1,1.1); transform: scale(1.1,1.1);}
 .trana{-moz-transition:all .5s ease-in-out;-ms-transition:all .5s ease-in-out;-o-transition:all .5s ease-in-out;-webkit-transition:all .5s ease-in-out;transition:all .5s ease-in-out;}

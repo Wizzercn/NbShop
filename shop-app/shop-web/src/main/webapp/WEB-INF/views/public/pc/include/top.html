@@ -1,6 +1,6 @@
 <div class="cf2 d-top w_1200">
     <%if(!isEmpty(site.site_tel)){%><span class="d-ttel">服务热线：${site.site_tel!''}</span><%}%>
-    <span class="d-tm"><a href="#" class="d-tma">会员中心<img src="${base}/assets/public/pc/img/ico/icoa.png" /></a>
+    <span class="d-tm"><a href="#" class="d-tma">会员中心<img src="${base}/assets/public/pc/img/ico/icoa.png"/></a>
 				<span class="d-tms">
                     <a href="#">会员中心一</a>
                     <a href="#">会员中心二</a>
@@ -10,7 +10,67 @@
     <a href="javascript:;" class="d-tl register">注册</a>
 </div>
 <div class="d-tsec cf2 w_1200">
-    <a href="/" class="d-tsecl"><img src="${base}${!isEmpty(site.site_logo)?site.site_logo:'/assets/public/pc/img/logo.png'}" /> </a>
-    <div class="d-tsecr"><a href="javascript:;" class="round_m"><i>（<span id="cart_num">10</span>）</i><img src="${base}/assets/public/pc/img/ico/icob.png" />购物车</a> </div>
-    <div class="d-tsecc round_s"><input id="keyword" type="text" placeholder="请输入关键词" /><span><input type="button" /> </span> </div>
+    <a href="/" class="d-tsecl"><img
+            src="${base}${!isEmpty(site.site_logo)?site.site_logo:'/assets/public/pc/img/logo.png'}"/> </a>
+
+    <div class="d-tsecr"><a href="#" class="round_m"><i>（</i><span class="r-num">10</span><i>）</i><img
+            src="${base}/assets/public/pc/img/ico/icob.png"/>购物车</a>
+        <p class="d-tsecro"></p>
+        <div class="d-tsecrdiv">
+            <div>
+                <!--<span class="d-tsecro"></span>-->
+                <ul class="d-tsecrul">
+                    <li class="d-tsecrli">
+                        <a href="#">
+                            <dl class="cf2">
+                                <dt><input type="checkbox" name="goods"/> <img src="${base}/assets/public/pc/img/picc.jpg"/></dt>
+                                <dd><p>2017春新品TA87119-23牛仔纹尖头绑带细高跟后空凉鞋…</p>
+                                    <span>￥999.00</span>
+                                    <i class="i-op"><input type="button" class="i-l"/><input type="text" value="1"
+                                                                                             class="i-c"/><input
+                                            type="button" class="i-r"/></i>
+                                    <input type="button" class="del"/>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li class="d-tsecrli">
+                        <a href="#">
+                            <dl class="cf2">
+                                <dt><input type="checkbox" name="goods"/> <img src="${base}/assets/public/pc/img/picc.jpg"/></dt>
+                                <dd><p>2017春新品TA87119-23牛仔纹尖头绑带细高跟后空凉鞋…</p>
+                                    <span>￥999.00</span>
+                                    <i class="i-op"><input type="button" class="i-l"/><input type="text" value="1"
+                                                                                             class="i-c"/><input
+                                            type="button" class="i-r"/></i>
+                                    <input type="button" class="del"/>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li class="d-tsecrli">
+                        <a href="#">
+                            <dl class="cf2">
+                                <dt><input type="checkbox" name="goods"/> <img src="${base}/assets/public/pc/img/picc.jpg"/></dt>
+                                <dd><p>2017春新品TA87119-23牛仔纹尖头绑带细高跟后空凉鞋…</p>
+                                    <span>￥999.00</span>
+                                    <i class="i-op"><input type="button" class="i-l"/><input type="text" value="1"
+                                                                                             class="i-c"/><input
+                                            type="button" class="i-r"/></i>
+                                    <input type="button" class="del"/>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li class="d-bot cf2">
+                        <span>总计：￥999110.00</span>
+                        <input type="button" value="立即购买"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="d-tsecc round_s"><input id="keyword" type="text" placeholder="请输入关键词"/><span><input
+            type="button"/> </span>
+    </div>
 </div>
