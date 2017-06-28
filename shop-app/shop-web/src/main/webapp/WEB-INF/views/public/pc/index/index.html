@@ -11,7 +11,6 @@
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.easing.1.3.js"></script>
     <script type="text/javascript" src="${base}/assets/public/pc/js/common.js"></script>
-    <script type="text/javascript" src="${base}/assets/public/pc/js/index.js"></script>
 </head>
 <body id="r1">
 <% include( "../include/top.html" ){}; %>
@@ -64,7 +63,7 @@
                         <dl>
                             <dt><img src="${base}${o.imgurl!}" class="trana"/></dt>
                             <dd>
-                                <h3>${o.name!} ${o.title!}</h3>
+                                <h3>${o.name!} ${o.specname!}</h3>
                                 <p>立即购买</p>
                                 <span>￥${@money.fenToYuan(o.price)}</span>
                             </dd>
@@ -88,7 +87,7 @@
                     <dt><a href="${base}/shop/goods/detail/${o.pid!}" target="_blank"  class="scl"><img src="${base}${o.imgurl!}" class="trana"/></a></dt>
                     <dd>
                         <em></em>
-                        <h3>${p.name!} ${p.title!}</h3>
+                        <h3>${p.name!} ${p.specname!}</h3>
                         <p>￥${@money.fenToYuan(p.price)}
                             <del>￥${@money.fenToYuan(p.priceMarket)}</del>
                         </p>

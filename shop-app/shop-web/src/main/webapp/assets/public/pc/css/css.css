@@ -46,7 +46,7 @@ input[type="button"]{cursor: pointer;}
 .d-tsecc span input{display:inline-block;width:40px;height:40px;background:url(../img/ico/res.png) no-repeat center center;border:none;}
 .d-tsecr{position:relative;float:right;width:172px;height:52px;background:url(../img/ico/res-bg.png) no-repeat center top;text-align: center;z-index:4;padding-top:9px;}
 
-.d-tsecrdiv{position:absolute;right:4px;top:47px;width:360px;z-index: 2;padding:3px 3px 3px;border:1px solid #ddd;background:#fff;display:none;}
+.d-tsecrdiv{position:absolute;right:5px;top:47px;width:360px;z-index: 2;padding:3px 2px 3px 3px;border:1px solid #ddd;background:#fff;display:none;}
 /*.d-tsecrdiv>div{border:1px solid #ddd;}*/
 .d-tsecrul{max-height:500px;overflow-y:auto;right:8px;border:1px solid #ddd;background:#fff;padding:0 10px 10px;}
 .d-tsecrul .d-tsecrli{border-bottom:1px solid #ddd;padding-top:10px;}
@@ -59,9 +59,16 @@ input[type="button"]{cursor: pointer;}
 .d-tsecrul .d-tsecrli a dl dd p{position:relative;top:-5px;height:44px;overflow: hidden;width:120px;float:left;}
 .d-tsecrul .d-tsecrli a dl dd>span{color:#666;display:inline-block;min-width:74px;position:absolute;top:12px;right:2px;text-align: right;}
 /*.d-tsecrul .d-tsecrli a dl dd i{width:100px;position:absolute;top:10px;right:50px;}*/
-.d-tsecro{display:none;height:10px;width:154px;position:absolute;top:43px;right:8px;z-index:9;background:#fff;border-left:1px solid #ddd;border-right:1px solid #ddd;}
+.d-tsecro{display:none;height:10px;width:154px;position:absolute;top:42px;right:8px;z-index:9;background:#fff;border-left:1px solid #ddd;border-right:1px solid #ddd;}
 .d-tsecrul .d-tsecrli a dl dd i{color:#666;font-style: normal;}
-
+.d-tsecrdiv:after{content: "";
+display: inline-block;
+width: 160px;
+position: absolute;
+top: -2px;
+right: 0px;
+background: #fff;
+height: 5px;}
 .d-bot{padding-top:10px;text-align: left;position:relative;}
 .d-bot>span{color:#35C2D8;font-size:16px;height:36px;line-height:36px;padding-left:10px;}
 .d-bot input{position:absolute;top:10px;right:0px;background:#35C2D8;color:#fff;border:none;width:120px;height:36px;}
@@ -70,7 +77,7 @@ input[type="button"]{cursor: pointer;}
 .d-tsecr>a{display:inline-block;width:154px;height:34px;border:1px solid #ddd;background:#fff;line-height:34px;}
 .d-tsecr>a i{font-style: normal;}
 .d-tsecr>a img{position:relative;top:7px;padding-left:6px;padding-right:15px;width:23px;}
-
+.d-tsecr:hover{background-image: url(../img/ico/res-bga.png);background-position: center top;}
 .i-l,.del,.i-r{background:none;border:none;}
 
 

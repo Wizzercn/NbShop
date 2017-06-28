@@ -1,6 +1,7 @@
 package cn.wizzer.app.web.commons.processor;
 
 import cn.wizzer.app.web.commons.base.Globals;
+import cn.wizzer.app.web.commons.utils.ImageUtil;
 import cn.wizzer.app.web.commons.utils.MoneyUtil;
 import cn.wizzer.framework.util.DateUtil;
 import cn.wizzer.framework.util.ShiroUtil;
@@ -27,6 +28,7 @@ public class GlobalsSettingProcessor extends AbstractProcessor {
 		ac.getRequest().setAttribute("money", Mvcs.ctx().getDefaultIoc().get(MoneyUtil.class));
 		ac.getRequest().setAttribute("date", Mvcs.ctx().getDefaultIoc().get(DateUtil.class));
 		ac.getRequest().setAttribute("string", Mvcs.ctx().getDefaultIoc().get(StringUtil.class));
+		ac.getRequest().setAttribute("image", Mvcs.ctx().getDefaultIoc().get(ImageUtil.class));
 		// 如果url中有语言属性则设置
 		String lang=ac.getRequest().getParameter("lang");
 		if (!Strings.isEmpty(lang)) {

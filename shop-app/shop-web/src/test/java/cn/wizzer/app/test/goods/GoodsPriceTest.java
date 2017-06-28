@@ -1,6 +1,7 @@
 package cn.wizzer.app.test.goods;
 
 import cn.wizzer.app.test.base.TestBase;
+import cn.wizzer.app.web.commons.utils.ImageUtil;
 import org.junit.Test;
 import org.nutz.json.Json;
 import org.nutz.log.Log;
@@ -29,4 +30,8 @@ public class GoodsPriceTest extends TestBase {
         log.debug("price:::"+m);
     }
 
+    @Test
+    public void test1(){
+        log.debug(ImageUtil.m("/x/x/x/123.jpg"));
+    }
 }

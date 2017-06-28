@@ -128,7 +128,7 @@ layout("/layouts/platform.html"){
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="s_width" class="col-sm-2 control-label">列表页缩略图设定</label>
+                                <label for="s_width" class="col-sm-2 control-label">缩略小图</label>
 
                                 <div class="col-sm-8" style="text-align: left;float: left">
                                     宽:<input type="text" id="s_width" style="width: 100px;" name="s_width"
@@ -138,13 +138,23 @@ layout("/layouts/platform.html"){
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="m_width" class="col-sm-2 control-label">商品相册图设定</label>
+                                <label for="m_width" class="col-sm-2 control-label">列表图设定</label>
 
                                 <div class="col-sm-8" style="text-align: left;float: left">
                                     宽:<input type="text" id="m_width" style="width: 100px;" name="m_width"
-                                             value="${obj.m_width!300}" data-parsley-type="integer"> ×
+                                             value="${obj.m_width!380}" data-parsley-type="integer"> ×
                                     高:<input type="text" id="m_height" style="width: 100px;" name="m_height"
-                                             value="${obj.m_height!300}" data-parsley-type="integer">
+                                             value="${obj.m_height!380}" data-parsley-type="integer">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="b_width" class="col-sm-2 control-label">相册图设定</label>
+
+                                <div class="col-sm-8" style="text-align: left;float: left">
+                                    宽:<input type="text" id="b_width" style="width: 100px;" name="b_width"
+                                             value="${obj.b_width!418}" data-parsley-type="integer"> ×
+                                    高:<input type="text" id="b_height" style="width: 100px;" name="b_height"
+                                             value="${obj.b_height!418}" data-parsley-type="integer">
                                 </div>
                             </div>
                         </div>

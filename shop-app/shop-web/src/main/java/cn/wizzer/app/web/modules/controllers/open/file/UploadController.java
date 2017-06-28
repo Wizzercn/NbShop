@@ -84,6 +84,7 @@ public class UploadController {
                     Files.write(new File(p + f + suffix), tf.getInputStream());
                     Images.zoomScale(p + f + suffix, p + f + "_s" + suffix, shopConfig.getS_width(), shopConfig.getS_height(), Color.GRAY);
                     Images.zoomScale(p + f + suffix, p + f + "_m" + suffix, shopConfig.getM_width(), shopConfig.getM_height(), Color.GRAY);
+                    Images.zoomScale(p + f + suffix, p + f + "_b" + suffix, shopConfig.getB_width(), shopConfig.getB_height(), Color.GRAY);
                     return Result.success("上传成功", Globals.AppBase + f + "_s" + suffix);
 
                 } else {
@@ -94,9 +95,11 @@ public class UploadController {
                         Files.write(new File(p + f + suffix), tf.getInputStream());
                         Images.zoomScale(p + f + suffix, p + f + "_s" + suffix, shopConfig.getS_width(), shopConfig.getS_height(), Color.GRAY);
                         Images.zoomScale(p + f + suffix, p + f + "_m" + suffix, shopConfig.getM_width(), shopConfig.getM_height(), Color.GRAY);
+                        Images.zoomScale(p + f + suffix, p + f + "_b" + suffix, shopConfig.getB_width(), shopConfig.getB_height(), Color.GRAY);
                         NutMap map = qiniuService.upload(tf.getFile(), f + suffix);
                         qiniuService.upload(new File(p + f + "_s" + suffix), f + "_s" + suffix);
                         qiniuService.upload(new File(p + f + "_m" + suffix), f + "_m" + suffix);
+                        qiniuService.upload(new File(p + f + "_b" + suffix), f + "_b" + suffix);
                         return Result.success("上传成功", map.getString("domain", Globals.AppBase) + f + "_s" + suffix);
                     }
                     return Result.error("未配置云存储信息");

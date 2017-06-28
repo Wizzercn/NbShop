@@ -84,14 +84,24 @@ public class Shop_config extends BaseModel implements Serializable {
     private int s_height;
 
     @Column
-    @Comment("相册图宽")
+    @Comment("列表图宽")
     @ColDefine(type = ColType.INT)
     private int m_width;
 
     @Column
-    @Comment("相册图高")
+    @Comment("列表图高")
     @ColDefine(type = ColType.INT)
     private int m_height;
+
+    @Column
+    @Comment("相册图宽")
+    @ColDefine(type = ColType.INT)
+    private int b_width;
+
+    @Column
+    @Comment("相册图高")
+    @ColDefine(type = ColType.INT)
+    private int b_height;
 
     @Column
     @Comment("本地存储")
@@ -234,6 +244,22 @@ public class Shop_config extends BaseModel implements Serializable {
 
     public void setM_height(int m_height) {
         this.m_height = m_height;
+    }
+
+    public int getB_width() {
+        return b_width;
+    }
+
+    public void setB_width(int b_width) {
+        this.b_width = b_width;
+    }
+
+    public int getB_height() {
+        return b_height;
+    }
+
+    public void setB_height(int b_height) {
+        this.b_height = b_height;
     }
 
     public boolean isImg_save_local() {

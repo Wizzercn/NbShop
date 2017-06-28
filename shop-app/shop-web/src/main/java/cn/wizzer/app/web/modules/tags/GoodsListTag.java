@@ -73,7 +73,7 @@ public class GoodsListTag extends GeneralVarTagBinding {
             classIdList.add(classId);
             Goods_class gc = goodsClassService.getGoodsClass(Cnd.where("id", "=", classId));
             if (gc != null && Strings.isNotBlank(gc.getPath())) {
-                List<Goods_class> list = goodsClassService.getList(Cnd.where("path", "like", gc.getPath() + "_%").and("disabled","=",false));
+                List<Goods_class> list = goodsClassService.getList(Cnd.where("path", "like", gc.getPath() + "_%").and("disabled", "=", false));
                 for (Goods_class goodsClass : list)
                     classIdList.add(goodsClass.getId());
             }
@@ -167,14 +167,16 @@ public class GoodsListTag extends GeneralVarTagBinding {
             }
             Goods_goods goods = Lang.map2Object(source, Goods_goods.class);
             String pid = "";
+            String specname = "";
             for (Goods_product p : goods.getProductList()) {
                 if (p.isDefault()) {
                     pid = p.getId();
+                    specname = p.getName();
                     break;
                 }
             }
             NutMap map = goodsProductService.getPrice(goods.getId(), pid, StringUtil.getMemberUid());
-            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("imgurl", goods.getImgurl()).addv("pid", pid)
+            list.add(NutMap.NEW().addv("id", goods.getId()).addv("title", goods.getTitle()).addv("name", goods.getName()).addv("specname", specname).addv("imgurl", goods.getImgurl()).addv("pid", pid)
                     .addv("price", map.getInt("price")).addv("priceMarket", map.getInt("priceMarket")));
         });
         page.setList(list);
