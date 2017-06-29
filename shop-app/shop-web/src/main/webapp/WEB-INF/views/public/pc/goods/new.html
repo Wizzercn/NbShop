@@ -11,13 +11,13 @@
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript" src="${base}/assets/public/pc/js/jquery.easing.1.3.js"></script>
     <script type="text/javascript" src="${base}/assets/public/pc/js/common.js"></script>
-    <script type="text/javascript" src="${base}/assets/public/pc/js/index.js"></script>
+    <script type="text/javascript" src="${base}/assets/public/pc/js/page.js"></script>
 </head>
 <body>
 <% include( "../include/top.html" ){}; %>
 <% include( "../include/head.html" ){}; %>
 <div class="nav-bar w_1200">
-    当前位置：<a href="#">首页</a> / <a href="#">全部商品</a> / <a href="#" class="on">玛丽珍鞋</a>
+    当前位置：<a href="${base}/">首页</a> / <a href="javascript:;">全部商品</a> / <a href="${base}/shop/goods/new" class="on">最新上架</a>
 </div>
 <div class="wrap w_1200 cf2">
     <div class="wrap-l fl">
@@ -43,17 +43,17 @@
             </div>
         </div>
         <ul class="wrap-rnav">
-            <li class="on"><a href="#">默认排序<i></i></a></li>
-            <li><a href="#">上架时间 ↑<i></i></a></li>
-            <li><a href="#">销售价格 ↑<i></i></a></li>
-            <li><a href="#">本周销量 ↑<i></i></a></li>
+            <li <%if(sortName=="upAt,numSaleWeek"){%>class="on"<%}%>><a href="?pageNumber=1&pageSize=${pageSize}&sortName=upAt,numSaleWeek&sortType=desc">默认排序<i></i></a></li>
+            <li <%if(sortName=="upAt"){%>class="on"<%}%>><a href="?pageNumber=1&pageSize=${pageSize}&sortName=upAt&sortType=<%if(sortName=='upAt'){%><%if(sortType=='desc'){%>asc<%}else{%>desc<%}%><%}else{%>desc<%}%>">上架时间 <%if(sortName=="upAt"&&sortType=="desc"){%>↓<%}else{%>↑<%}%><i></i></a></li>
+            <li <%if(sortName=="price"){%>class="on"<%}%>><a href="?pageNumber=1&pageSize=${pageSize}&sortName=price&sortType=<%if(sortName=='price'){%><%if(sortType=='desc'){%>asc<%}else{%>desc<%}%><%}else{%>desc<%}%>">销售价格 <%if(sortName=="price"&&sortType=="desc"){%>↓<%}else{%>↑<%}%><i></i></a><i></i></a></li>
+            <li <%if(sortName=="numSaleWeek"){%>class="on"<%}%>><a href="?pageNumber=1&pageSize=${pageSize}&sortName=numSaleWeek&sortType=<%if(sortName=='numSaleWeek'){%><%if(sortType=='desc'){%>asc<%}else{%>desc<%}%><%}else{%>desc<%}%>">本周销量 <%if(sortName=="numSaleWeek"&&sortType=="desc"){%>↓<%}else{%>↑<%}%><i></i></a><i></i></a></li>
         </ul>
         <div class="pro-list">
             <#goods_list pageNumber="${pageNumber}" pageSize="${pageSize}" sortName="${sortName}" sortOrder="${sortType}" var="p">
                 <div class="pro-lsub"><a
-                        href="<%if(p.pageNo>1){%>?pageNumber=${p.pageNo-1}<%}else{%>javascript:;<%}%>"
+                        href="<%if(p.pageNo>1){%>?pageNumber=${p.pageNo-1}&pageSize=${pageSize}&sortName=${sortName!}&sortType=${sortType!}<%}else{%>javascript:;<%}%>"
                         class="p-l"><</a><span><i>${p.pageNo}</i> / ${p.totalPage}</span><a
-                        href="<%if(p.pageNo<p.totalPage){%>?pageNumber=${p.pageNo+1}<%}else{%>javascript:;<%}%>"
+                        href="<%if(p.pageNo<p.totalPage){%>?pageNumber=${p.pageNo+1}&pageSize=${pageSize}&sortName=${sortName!}&sortType=${sortType!}<%}else{%>javascript:;<%}%>"
                         class="p-r">></a></div>
                 <div class="pro-listm">
                     <ul class="i-ifirul cf2">
@@ -86,7 +86,7 @@
                                 pageCount: ${p.totalPage},
                                 current: ${p.pageNo},
                                 backFn: function (p) {
-                                    window.location.href = "?pageNumber=" + p + "&pageSize=${p.pageSize}";
+                                    window.location.href = "?pageNumber=" + p + "&pageSize=${p.pageSize}&sortName=${sortName!}&sortType=${sortType!}";
                                 }
                             });
                         });

@@ -11,6 +11,7 @@ table{ border-collapse:collapse;}
 a{ text-decoration:none; color:#333;}
 a:hover{ text-decoration:none; color:#35c2d8;}
 /*-------------------------结束公用样式--------------------------*/
+.cf3{color: #00a2d4}
 .cf { overflow:hidden; zoom:1;}
 .cf2{zoom: 1;}
 .cf2:after {content: ""; display: block;height: 0;clear: both;}
@@ -178,6 +179,7 @@ div.d-tsecra{position:fixed;top:9px;left:50%;margin-left:434px;z-index: 5;}
 .i-ifirul li dl dd p{font-size:18px;color:#86DAE8;height:40px;}
 .i-ifirul li dl dd p del{font-size:14px;color:#cccccc;}
 .i-ifirul li dl dd span{display:block;padding:0 8px;}
+.i-ifirul li dl dt a img{width:216px;height:216px;}
 .i-buy,.i-add{width:103px;height:40px;background:#35C2D8;color:#fff;line-height:40px;border:none;cursor: pointer;}
 .i-buy:hover,.i-add:hover{background:#25AFC4}
 
@@ -678,9 +680,11 @@ transition:0.5s;}
 .flush li span i img{width:90px;height:90px;}
 
 
+
 .picScroll-leftk .hd{position: relative;}
 .picScroll-leftk .hd .prev{position: absolute;right:35px;top:-50px;width:28px;height:28px;line-height:28px;text-align:center;cursor:pointer;display:inline-block;background:#35C2D8;color:#fff;font-family: "宋体";}
 .picScroll-leftk .hd .next{position: absolute;right:0px;top:-50px;width:28px;height:28px;line-height:28px;text-align:center;cursor:pointer;display:inline-block;background:#35C2D8;color:#fff;font-family: "宋体";}
+
 /*CSS3*/
 .light{display:inline-block;
 cursor:pointer;

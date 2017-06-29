@@ -61,7 +61,7 @@
                 <li>
                     <a href="${base}/shop/goods/detail/${o.pid!}" target="_blank" class="scl">
                         <dl>
-                            <dt><img src="${base}${o.imgurl!}" class="trana"/></dt>
+                            <dt><img src="${base}${@image.m(o.imgurl)}" class="trana"/></dt>
                             <dd>
                                 <h3>${o.name!} ${o.specname!}</h3>
                                 <p>立即购买</p>
@@ -84,10 +84,10 @@
             <%for(p in page.list){%>
             <li>
                 <dl>
-                    <dt><a href="${base}/shop/goods/detail/${o.pid!}" target="_blank"  class="scl"><img src="${base}${o.imgurl!}" class="trana"/></a></dt>
+                    <dt><a href="${base}/shop/goods/detail/${p.pid!}" target="_blank"  class="scl"><img src="${base}${@image.m(p.imgurl)}" class="trana"/></a></dt>
                     <dd>
                         <em></em>
-                        <h3>${p.name!} ${p.specname!}</h3>
+                        <h3><span class="cf3">${p.name!} ${p.specname!}</span> ${p.title!}</h3>
                         <p>￥${@money.fenToYuan(p.price)}
                             <del>￥${@money.fenToYuan(p.priceMarket)}</del>
                         </p>

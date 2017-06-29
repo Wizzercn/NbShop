@@ -29,7 +29,7 @@ public class PcGoodsController {
 
     @At("/new")
     @Ok("beetl:/public/pc/goods/new.html")
-    public void channel(@Param(value = "sortName", df = "upAt,numSaleWeek") String sortName, @Param(value = "sortType", df = "desc") String sortType, @Param(value = "pageSize", df = "10") int pageSize, @Param(value = "pageNumber", df = "1") int pageNumber, HttpServletRequest req) {
+    public void channel(@Param(value = "sortName", df = "upAt,numSaleWeek") String sortName, @Param(value = "sortType", df = "desc") String sortType, @Param(value = "pageSize", df = "12") int pageSize, @Param(value = "pageNumber", df = "1") int pageNumber, HttpServletRequest req) {
         req.setAttribute("sortName", sortName);
         req.setAttribute("sortType", sortType);
         req.setAttribute("pageSize", pageSize);

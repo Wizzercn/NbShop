@@ -131,11 +131,19 @@ public class GoodsListTag extends GeneralVarTagBinding {
         if (Strings.isNotBlank(sortName)) {
             String[] sortNames = StringUtils.split(sortName, ",");
             if ("asc".equalsIgnoreCase(sortOrder)) {
-                for (String s : sortNames)
-                    srb.addSort(s, SortOrder.ASC);
+                for (String s : sortNames) {
+                    if (s.equalsIgnoreCase("price")) {
+                        srb.addSort("productList.price", SortOrder.ASC);
+                    } else
+                        srb.addSort(s, SortOrder.ASC);
+                }
             } else {
-                for (String s : sortNames)
-                    srb.addSort(s, SortOrder.DESC);
+                for (String s : sortNames) {
+                    if (s.equalsIgnoreCase("price")) {
+                        srb.addSort("productList.price", SortOrder.DESC);
+                    } else
+                        srb.addSort(s, SortOrder.DESC);
+                }
             }
         }
         SearchResponse response = srb.execute().actionGet();
