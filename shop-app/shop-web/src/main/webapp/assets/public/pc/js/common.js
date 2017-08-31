@@ -120,17 +120,17 @@ $(function () {
     $(".zhe-o").hover(function () {
         $(".zhuce-inlp").stop().hide();
         $(".zhuce-inlo").stop().show();
-    })
+    });
     $(".zhe-p").hover(function () {
         $(".zhuce-inlo").stop().hide();
         $(".zhuce-inlp").stop().show();
-    })
+    });
 
 
     $(".del").click(function () {
         $(".d-tsecrdiv").show();
         $(this).closest("li").remove();
-    })
+    });
 
     $(".d-tsecr").hover(function () {
         $(".d-tsecrdiv").show();
@@ -138,28 +138,26 @@ $(function () {
     }, function () {
         $(".d-tsecrdiv").hide();
         $(".d-tsecro").hide();
-
-    })
-
+    });
 
     $(".flush li").hover(function () {
         $(this).children("span").stop().show();
     }, function () {
         $(this).children("span").stop().hide();
-    })
+    });
 
     $(".xq").click(function () {
         $(".list-pj").hide();
         $(".list-bota").stop().fadeIn();
         $(".xq").addClass("on");
         $(".pj").removeClass("on");
-    })
+    });
     $(".pj").click(function () {
         $(".list-bota").hide();
         $(".list-pj").stop().fadeIn();
         $(".pj").addClass("on");
         $(".xq").removeClass("on");
-    })
+    });
 
     //全部商品分类
     $(".d-navl").hover(function () {

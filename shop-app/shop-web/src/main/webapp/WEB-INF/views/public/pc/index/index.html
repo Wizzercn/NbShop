@@ -57,6 +57,7 @@
     <div class="bd">
         <ul class="i-idecul cf2">
             <#goods_list pageNumber="1" pageSize="10" sortName="location,numSaleWeek,numSale" sortOrder="desc" var="page">
+               ${page} <%if(page.num>0){%>
                 <%for(o in page.list){%>
                 <li>
                     <a href="${base}/shop/goods/detail/${o.pid!}" target="_blank" class="scl">
@@ -70,7 +71,7 @@
                         </dl>
                     </a>
                 </li>
-                <%}%>
+                <%}%><%}%>
             </#goods_list>
         </ul>
     </div>

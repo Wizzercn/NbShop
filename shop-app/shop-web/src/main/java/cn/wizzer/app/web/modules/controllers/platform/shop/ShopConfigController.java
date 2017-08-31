@@ -39,6 +39,15 @@ public class ShopConfigController {
     @RequiresPermissions("shop.config.config")
     public void index(HttpServletRequest req) {
         Shop_config config = shopConfigService.fetch("system");
+        if(config==null){
+            config=new Shop_config();
+            config.setId("system");
+            config.setLogistics_info("{}");
+            config.setOauth_qq_info("{}");
+            config.setOauth_wechat_info("{}");
+            config.setImg_qiniu_info("{}");
+            shopConfigService.insert(config);
+        }
         req.setAttribute("logistics_info", Json.fromJson(NutMap.class, Strings.sNull(config.getLogistics_info())));
         req.setAttribute("oauth_qq_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_qq_info())));
         req.setAttribute("oauth_wechat_info", Json.fromJson(NutMap.class, Strings.sNull(config.getOauth_wechat_info())));
