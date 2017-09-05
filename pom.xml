@@ -12,11 +12,11 @@
     </modules>
     <packaging>pom</packaging>
     <name>NutzShop</name>
-    <url>http://www.nutzshop.com</url>
+    <url>http://www.nutzshop.cn</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty-version>9.4.2.v20170220</jetty-version>
-        <nutz-version>1.r.62-SNAPSHOT</nutz-version>
+        <nutz-version>1.r.63-SNAPSHOT</nutz-version>
         <code-version>4.0.1-SNAPSHOT</code-version>
     </properties>
     <developers>

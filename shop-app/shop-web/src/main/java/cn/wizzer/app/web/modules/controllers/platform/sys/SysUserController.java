@@ -10,6 +10,7 @@ import cn.wizzer.app.web.commons.slog.annotation.SLog;
 import cn.wizzer.framework.base.Result;
 import cn.wizzer.framework.page.datatable.DataTableColumn;
 import cn.wizzer.framework.page.datatable.DataTableOrder;
+import cn.wizzer.framework.util.ShiroUtil;
 import cn.wizzer.framework.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -26,7 +27,9 @@ import org.nutz.json.Json;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.*;
+import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ public class SysUserController {
     private SysMenuService menuService;
     @Inject
     private SysUnitService unitService;
+    @Inject
+    private ShiroUtil shiroUtil;
 
     @At("")
     @Ok("beetl:/platform/sys/user/index.html")
@@ -257,14 +262,24 @@ public class SysUserController {
     @Ok("json")
     @RequiresPermissions("sys.manager.user")
     public Object tree(@Param("pid") String pid) {
-        List<Sys_unit> list = unitService.query(Cnd.where("parentId", "=", Strings.sBlank(pid)).asc("path"));
+        List<Sys_unit> list = new ArrayList<>();
         List<Map<String, Object>> tree = new ArrayList<>();
         Map<String, Object> obj = new HashMap<>();
-        if (Strings.isBlank(pid)) {
-            obj.put("id", "root");
-            obj.put("text", "所有用户");
-            obj.put("children", false);
-            tree.add(obj);
+        if (shiroUtil.hasRole("sysadmin")) {
+            list = unitService.query(Cnd.where("parentId", "=", Strings.sBlank(pid)).asc("path"));
+            if (Strings.isBlank(pid)) {
+                obj.put("id", "root");
+                obj.put("text", "所有用户");
+                obj.put("children", false);
+                tree.add(obj);
+            }
+        } else {
+            Sys_user user = (Sys_user) shiroUtil.getPrincipal();
+            if (user != null && Strings.isBlank(pid)) {
+                list = unitService.query(Cnd.where("id", "=", user.getUnitid()).asc("path"));
+            } else {
+                list = unitService.query(Cnd.where("parentId", "=", Strings.sBlank(pid)).asc("path"));
+            }
         }
         for (Sys_unit unit : list) {
             obj = new HashMap<>();
@@ -322,7 +337,7 @@ public class SysUserController {
     @RequiresAuthentication
     public Object customDo(@Param("ids") String ids, HttpServletRequest req) {
         try {
-            userService.update(Chain.make("customMenu", ids), Cnd.where("id", "=", req.getAttribute("uid")));
+            userService.update(Chain.make("customMenu", ids), Cnd.where("id", "=", StringUtil.getUid()));
             Subject subject = SecurityUtils.getSubject();
             Sys_user user = (Sys_user) subject.getPrincipal();
             if (!Strings.isBlank(ids)) {
