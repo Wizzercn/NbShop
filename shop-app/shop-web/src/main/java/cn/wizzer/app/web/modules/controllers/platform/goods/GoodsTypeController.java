@@ -96,6 +96,7 @@ public class GoodsTypeController {
             shopGoodsTypeService.add(shopGoodsType, brand, props_name, props_type, props_values, specId, specValIds, specValText, specValUrl, group_name, group_params, tab_name, tab_note);
             return Result.success("system.success");
         } catch (Exception e) {
+            log.error(e.getMessage(),e);
             return Result.error("system.error");
         }
     }
@@ -125,7 +126,7 @@ public class GoodsTypeController {
     @SLog(tag = "修改商品类型", msg = "类型名称:${args[0].name}")
     public Object editDo(@Param("..") Goods_type shopGoodsType, @Param("brand") String[] brand, @Param("props_name") String[] props_name, @Param("props_type") String[] props_type,
                          @Param("props_values") String[] props_values, @Param("specId") String[] specId,
-                         @Param(value = "specValueIds", array_auto_split = false) String[] specValIds, @Param(value = "specValText", array_auto_split = false) String[] specValText, @Param(value = "specValUrl", array_auto_split = false) String[] specValUrl,
+                         @Param(value = "specValIds", array_auto_split = false) String[] specValIds, @Param(value = "specValText", array_auto_split = false) String[] specValText, @Param(value = "specValUrl", array_auto_split = false) String[] specValUrl,
                          @Param("group_name") String[] group_name, @Param("group_params") String[] group_params,
                          @Param("tab_name") String[] tab_name, @Param("tab_note") String[] tab_note, HttpServletRequest req) {
         try {

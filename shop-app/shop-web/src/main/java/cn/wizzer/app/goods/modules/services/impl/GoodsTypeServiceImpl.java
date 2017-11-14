@@ -105,7 +105,8 @@ public class GoodsTypeServiceImpl extends BaseServiceImpl<Goods_type> implements
                         spec_values.setTypeId(shopGoodsType.getId());
                         spec_values.setTypeSpecId(spec.getId());
                         spec_values.setSpecValText(specValTextTemp[j]);
-                        spec_values.setSpecValUrl(specValUrlTemp[j]);
+                        if (specValIdsTemp.length == specValUrlTemp.length)
+                            spec_values.setSpecValUrl(specValUrlTemp[j]);
                         spec_values.setLocation(j);
                         shopGoodsTypeSpecValuesService.insert(spec_values);
                     }
@@ -209,7 +210,9 @@ public class GoodsTypeServiceImpl extends BaseServiceImpl<Goods_type> implements
                 //保存规格值
                 String[] specValIdsTemp = StringUtils.split(Strings.sNull(specValIds[i]), ",");
                 String[] specValTextTemp = StringUtils.split(Strings.sNull(specValText[i]), ",");
-                String[] specValUrlTemp = StringUtils.split(Strings.sNull(specValUrl[i]), ",");
+                String[] specValUrlTemp = null;
+                if (specValUrl != null)
+                    specValUrlTemp = StringUtils.split(Strings.sNull(specValUrl[i]), ",");
                 for (int j = 0; j < specValIdsTemp.length; j++) {
                     if (!Strings.isBlank(specValIdsTemp[j])) {
                         Goods_type_spec_values spec_values = new Goods_type_spec_values();
@@ -218,7 +221,8 @@ public class GoodsTypeServiceImpl extends BaseServiceImpl<Goods_type> implements
                         spec_values.setTypeId(shopGoodsType.getId());
                         spec_values.setTypeSpecId(spec.getId());
                         spec_values.setSpecValText(specValTextTemp[j]);
-                        spec_values.setSpecValUrl(specValUrlTemp[j]);
+                        if (specValUrlTemp != null && specValIdsTemp.length == specValUrlTemp.length)
+                            spec_values.setSpecValUrl(specValUrlTemp[j]);
                         spec_values.setLocation(j);
                         shopGoodsTypeSpecValuesService.insert(spec_values);
                     }
