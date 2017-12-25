@@ -27,14 +27,14 @@ public class ApiTestController {
      * @apiGroup Test
      * @apiVersion 1.0.0
      * @apiPermission token
-     * @apiParam {String}	appId 					appId
+     * @apiParam {String}	appid 					appid
      * @apiParam {String}	token 				    token
      * @apiParam {Object}	data 				    数据对象 
      * @apiParam {String}	data.txt			    测试文本
      * @apiParamExample {json} 示例
      * POST /open/api/test/hi
      * {
-     *      "appId": "appId",
+     *      "appid": "appid",
      *      "token": "token",
      *      "data": "\"txt\": \"你好，大鲨鱼\""
      * }
