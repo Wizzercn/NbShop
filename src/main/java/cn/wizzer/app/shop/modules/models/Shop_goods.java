@@ -12,6 +12,7 @@ import java.util.List;
  * Created by wizzer on 2019/6/11
  */
 @Table
+@TableIndexes({@Index(name = "IDX_SHOP_GOODS", fields = {"classId", "upAt", "location"}, unique = false)})
 public class Shop_goods extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -117,8 +118,8 @@ public class Shop_goods extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db= DB.MYSQL,value = "SELECT IFNULL(MAX(location),0)+1 FROM Shop_goods"),
-            @SQL(db= DB.ORACLE,value = "SELECT COALESCE(MAX(location),0)+1 FROM Shop_goods")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM Shop_goods"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM Shop_goods")
     })
     private Integer location;
 
