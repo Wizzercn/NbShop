@@ -1,5 +1,6 @@
 package cn.wizzer.app.web.commons.core;
 
+import cn.wizzer.app.shop.modules.models.Shop_config;
 import cn.wizzer.app.sys.modules.models.*;
 import cn.wizzer.app.sys.modules.services.SysTaskService;
 import cn.wizzer.app.task.modules.services.TaskPlatformService;
@@ -80,7 +81,7 @@ public class MyMainLauncher {
     }
 
     public void init() {
-        Mvcs.X_POWERED_BY = "NutzWk-Mini 1.0.0 <wizzer.cn>";
+        Mvcs.X_POWERED_BY = "NbShop 1.0.0 <wizzer.cn>";
         Globals.AppBase = Mvcs.getServletContext().getContextPath();
         Globals.AppRoot = Mvcs.getServletContext().getRealPath("/");
         //注册自定义标签
@@ -91,7 +92,36 @@ public class MyMainLauncher {
         groupTemplate.registerTagFactory("cms_link_list", () -> ioc.get(CmsLinkListTag.class));
         init_sys();
         init_task();
+        init_shop();
         ioc.get(Globals.class);
+    }
+    private void init_shop() {
+        if (0 == dao.count(Shop_config.class)) {
+            Shop_config shopConfig=new Shop_config();
+            shopConfig.setId("nbshop");
+            shopConfig.setShop_skin("skin01");
+            shopConfig.setShop_order_notice(false);
+            shopConfig.setShop_stock_notice(false);
+            shopConfig.setFreight_enabled(false);
+            shopConfig.setList_load_type("ajax");
+            shopConfig.setList_page_size(8);
+            shopConfig.setList_quick_buy(true);
+            shopConfig.setList_show_hot(true);
+            shopConfig.setFreight_enabled(false);
+            shopConfig.setTax_enabled(true);
+            shopConfig.setTax_price(10000);
+            shopConfig.setPay_cash_enabled(false);
+            shopConfig.setPay_money_enabled(true);
+            shopConfig.setPay_alipay_enabled(false);
+            shopConfig.setPay_wxpay_enabled(false);
+            shopConfig.setSms_enabled(false);
+            shopConfig.setImg_wm_enabled(false);
+            shopConfig.setImg_list_w(260);
+            shopConfig.setImg_list_h(260);
+            shopConfig.setImg_info_w(600);
+            shopConfig.setImg_info_h(600);
+            dao.insert(shopConfig);
+        }
     }
 
     private void init_sys() {
@@ -99,7 +129,7 @@ public class MyMainLauncher {
         try {
             Daos.createTablesInPackage(dao, "cn.wizzer.app", false);
             //通过POJO类修改表结构
-            //Daos.migration(dao, "cn.wizzer", true, false);
+            Daos.migration(dao, "cn.wizzer", true, false);
         } catch (Exception e) {
         }
         // 若必要的数据表不存在，则初始化数据库
@@ -107,12 +137,12 @@ public class MyMainLauncher {
             //初始化配置表
             Sys_config conf = new Sys_config();
             conf.setConfigKey("AppName");
-            conf.setConfigValue("NutzWk-Mini");
+            conf.setConfigValue("NbShop电子商城");
             conf.setNote("系统名称");
             dao.insert(conf);
             conf = new Sys_config();
             conf.setConfigKey("AppShrotName");
-            conf.setConfigValue("NutzWk-Mini");
+            conf.setConfigValue("NbShop");
             conf.setNote("系统短名称");
             dao.insert(conf);
             conf = new Sys_config();
