@@ -9,6 +9,8 @@ import java.io.Serializable;
  * Created by wizzer on 2019/6/11
  */
 @Table
+@TableIndexes({@Index(name = "IDX_SHOP_G_P_SKU", fields = {"sku"}, unique = true),
+        @Index(name = "IDX_SHOP_G_P_PRICE", fields = {"price"}, unique = false)})
 public class Shop_goods_product extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
