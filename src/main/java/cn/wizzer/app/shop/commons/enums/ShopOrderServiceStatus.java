@@ -1,19 +1,22 @@
 package cn.wizzer.app.shop.commons.enums;
 
+import org.nutz.json.JsonShape;
+
 /**
- * 订单售后类型
+ * 订单收货状态
  * Created by wizzer on 2019/6/12
  */
-public enum ShopOrderServiceType {
-    ALL(0, "退款退货"),
-    MONEY(1, "退款"),
-    GOODS(2, "退货"),
-    OTHER(3, "其他");
+@JsonShape(JsonShape.Type.OBJECT)
+public enum ShopOrderServiceStatus {
+    WAIT(0, "待处理"),
+    CHECKED(1, "审核通过"),
+    UNCHECK(2, "审核未通过"),
+    FNISH(3, "处理完成");
 
     private int value;//千万不要用final修饰符
     private String text; //千万不要用final修饰符
 
-    ShopOrderServiceType(int value, String text) {
+    ShopOrderServiceStatus(int value, String text) {
         this.value = value;
         this.text = text;
     }
@@ -34,13 +37,13 @@ public enum ShopOrderServiceType {
         return text;
     }
 
-    public static ShopOrderServiceType from(int value) {
-        for (ShopOrderServiceType t : values()) {
+    public static ShopOrderServiceStatus from(int value) {
+        for (ShopOrderServiceStatus t : values()) {
             if (t.value == value) {
                 return t;
             }
         }
-        throw new IllegalArgumentException("unknown ShopOrderServiceType: " + value);
+        throw new IllegalArgumentException("unknown ShopOrderServiceStatus: " + value);
     }
 
 }

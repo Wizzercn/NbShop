@@ -64,6 +64,11 @@ public class Shop_member_comment extends BaseModel implements Serializable {
     private Long comment_time;
 
     @Column
+    @Comment("回复人")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String reply_userid;
+
+    @Column
     @Comment("回复昵称")
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String reply_nickname;
@@ -160,6 +165,14 @@ public class Shop_member_comment extends BaseModel implements Serializable {
 
     public void setComment_time(Long comment_time) {
         this.comment_time = comment_time;
+    }
+
+    public String getReply_userid() {
+        return reply_userid;
+    }
+
+    public void setReply_userid(String reply_userid) {
+        this.reply_userid = reply_userid;
     }
 
     public String getReply_nickname() {
