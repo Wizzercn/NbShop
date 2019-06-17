@@ -21,6 +21,11 @@ public class Shop_goods_image extends BaseModel implements Serializable {
     private String id;
 
     @Column
+    @Comment("商品ID")
+    @ColDefine(type = ColType.VARCHAR, width = 32)
+    private String goodsId;
+
+    @Column
     @Comment("图片ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
     private String imageId;
@@ -44,6 +49,14 @@ public class Shop_goods_image extends BaseModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 
     public String getImageId() {

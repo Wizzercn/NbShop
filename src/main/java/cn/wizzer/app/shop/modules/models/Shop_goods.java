@@ -123,7 +123,7 @@ public class Shop_goods extends BaseModel implements Serializable {
     })
     private Integer location;
 
-    @Many
+    @ManyMany(from = "goodsId", relation = "shop_goods_image", to = "imageId")
     private List<Shop_image> images;
 
     public String getId() {

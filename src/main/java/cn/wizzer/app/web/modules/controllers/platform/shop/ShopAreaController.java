@@ -1,8 +1,7 @@
-package cn.wizzer.app.web.modules.controllers.platform.sys;
+package cn.wizzer.app.web.modules.controllers.platform.shop;
 
-import cn.wizzer.app.sys.modules.models.Sys_dict;
-import cn.wizzer.app.sys.modules.services.SysDictService;
-import cn.wizzer.app.web.commons.slog.annotation.SLog;
+import cn.wizzer.app.shop.modules.models.Shop_area;
+import cn.wizzer.app.shop.modules.services.ShopAreaService;
 import cn.wizzer.app.web.commons.utils.StringUtil;
 import cn.wizzer.framework.base.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -27,20 +26,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by wizzer on 2016/6/24.
+ * Created by wizzer on 2019/6/17
  */
 @IocBean
-@At("/platform/sys/dict")
-public class SysDictController {
+@At("/platform/sys/shop/area")
+public class ShopAreaController {
     private static final Log log = Logs.get();
     @Inject
-    private SysDictService sysDictService;
+    private ShopAreaService shopAreaService;
+
 
     @At("")
-    @Ok("beetl:/platform/sys/dict/index.html")
-    @RequiresPermissions("sys.manager.dict")
+    @Ok("beetl:/platform/shop/area/index.html")
+    @RequiresPermissions("sys.shop.area")
     public Object index() {
-        return sysDictService.query(Cnd.where("parentId", "=", "").or("parentId", "is", null).asc("location").asc("path"));
+        return shopAreaService.query(Cnd.where("parentId", "=", "").or("parentId", "is", null).asc("location").asc("path"));
     }
 
 
@@ -48,7 +48,7 @@ public class SysDictController {
     @Ok("json")
     @RequiresAuthentication
     public Object child(@Param("pid") String pid, HttpServletRequest req) {
-        List<Sys_dict> list = new ArrayList<>();
+        List<Shop_area> list = new ArrayList<>();
         List<NutMap> treeList = new ArrayList<>();
         Cnd cnd = Cnd.NEW();
         if (Strings.isBlank(pid)) {
@@ -57,12 +57,12 @@ public class SysDictController {
             cnd.and("parentId", "=", pid);
         }
         cnd.asc("location").asc("path");
-        list = sysDictService.query(cnd);
-        for (Sys_dict sysDict : list) {
-            if (sysDictService.count(Cnd.where("parentId", "=", sysDict.getId())) > 0) {
-                sysDict.setHasChildren(true);
+        list = shopAreaService.query(cnd);
+        for (Shop_area shopArea : list) {
+            if (shopAreaService.count(Cnd.where("parentId", "=", shopArea.getId())) > 0) {
+                shopArea.setHasChildren(true);
             }
-            NutMap map = Lang.obj2nutmap(sysDict);
+            NutMap map = Lang.obj2nutmap(shopArea);
             map.addv("expanded", false);
             map.addv("children", new ArrayList<>());
             treeList.add(map);
@@ -87,10 +87,10 @@ public class SysDictController {
                 cnd.and("parentId", "=", pid);
             }
             cnd.asc("location").asc("path");
-            List<Sys_dict> list = sysDictService.query(cnd);
-            for (Sys_dict sysDict : list) {
-                NutMap map = NutMap.NEW().addv("value", sysDict.getId()).addv("label", sysDict.getName());
-                if (sysDict.isHasChildren()) {
+            List<Shop_area> list = shopAreaService.query(cnd);
+            for (Shop_area shopArea : list) {
+                NutMap map = NutMap.NEW().addv("value", shopArea.getId()).addv("label", shopArea.getName());
+                if (shopArea.isHasChildren()) {
                     map.addv("children", new ArrayList<>());
                 }
                 treeList.add(map);
@@ -103,26 +103,25 @@ public class SysDictController {
 
     @At
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.add")
-    @SLog(tag = "新建字典", msg = "字典名称:${args[0].name}")
-    public Object addDo(@Param("..") Sys_dict dict, @Param(value = "parentId",df = "") String parentId, HttpServletRequest req) {
+    @RequiresPermissions("sys.shop.area.add")
+    public Object addDo(@Param("..") Shop_area shopArea, @Param(value = "parentId", df = "") String parentId, HttpServletRequest req) {
         try {
-            dict.setHasChildren(false);
-            dict.setOpBy(StringUtil.getPlatformUid());
-            sysDictService.save(dict, parentId);
-            sysDictService.clearCache();
-            return Result.success("system.success");
+            shopArea.setHasChildren(false);
+            shopArea.setOpBy(StringUtil.getPlatformUid());
+            shopAreaService.save(shopArea, parentId);
+            shopAreaService.clearCache();
+            return Result.success();
         } catch (Exception e) {
-            return Result.error("system.error");
+            return Result.error();
         }
     }
 
     @At("/edit/?")
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict")
+    @RequiresPermissions("sys.shop.area")
     public Object edit(String id, HttpServletRequest req) {
         try {
-            return Result.success().addData(sysDictService.fetch(id));
+            return Result.success().addData(shopAreaService.fetch(id));
         } catch (Exception e) {
             return Result.error();
         }
@@ -130,30 +129,27 @@ public class SysDictController {
 
     @At
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.edit")
-    @SLog(tag = "编辑字典", msg = "字典名称:${args[0].name}")
-    public Object editDo(@Param("..") Sys_dict dict, @Param("parentId") String parentId, HttpServletRequest req) {
+    @RequiresPermissions("sys.shop.area.edit")
+    public Object editDo(@Param("..") Shop_area shopArea, @Param("parentId") String parentId, HttpServletRequest req) {
         try {
-            dict.setOpBy(StringUtil.getPlatformUid());
-            dict.setOpAt(Times.getTS());
-            sysDictService.updateIgnoreNull(dict);
-            sysDictService.clearCache();
-            return Result.success("system.success");
+            shopArea.setOpBy(StringUtil.getPlatformUid());
+            shopArea.setOpAt(Times.getTS());
+            shopAreaService.updateIgnoreNull(shopArea);
+            shopAreaService.clearCache();
+            return Result.success();
         } catch (Exception e) {
-            return Result.error("system.error");
+            return Result.error();
         }
     }
 
     @At("/delete/?")
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.delete")
-    @SLog(tag = "删除字典", msg = "字典名称:${args[1].getAttribute('name')}")
+    @RequiresPermissions("sys.shop.area.delete")
     public Object delete(String id, HttpServletRequest req) {
         try {
-            Sys_dict dict = sysDictService.fetch(id);
-            req.setAttribute("name", dict.getName());
-            sysDictService.deleteAndChild(dict);
-            sysDictService.clearCache();
+            Shop_area shopArea = shopAreaService.fetch(id);
+            shopAreaService.deleteAndChild(shopArea);
+            shopAreaService.clearCache();
             return Result.success();
         } catch (Exception e) {
             return Result.error();
@@ -162,13 +158,11 @@ public class SysDictController {
 
     @At("/enable/?")
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.edit")
-    @SLog(tag = "启用菜单", msg = "菜单名称:${args[1].getAttribute('name')}")
+    @RequiresPermissions("sys.shop.area.edit")
     public Object enable(String menuId, HttpServletRequest req) {
         try {
-            req.setAttribute("name", sysDictService.fetch(menuId).getName());
-            sysDictService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", menuId));
-            sysDictService.clearCache();
+            shopAreaService.update(org.nutz.dao.Chain.make("disabled", false), Cnd.where("id", "=", menuId));
+            shopAreaService.clearCache();
             return Result.success();
         } catch (Exception e) {
             return Result.error();
@@ -177,13 +171,11 @@ public class SysDictController {
 
     @At("/disable/?")
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.edit")
-    @SLog(tag = "禁用菜单", msg = "菜单名称:${args[1].getAttribute('name')}")
+    @RequiresPermissions("sys.shop.area.edit")
     public Object disable(String menuId, HttpServletRequest req) {
         try {
-            req.setAttribute("name", sysDictService.fetch(menuId).getName());
-            sysDictService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", menuId));
-            sysDictService.clearCache();
+            shopAreaService.update(org.nutz.dao.Chain.make("disabled", true), Cnd.where("id", "=", menuId));
+            shopAreaService.clearCache();
             return Result.success();
         } catch (Exception e) {
             return Result.error();
@@ -192,18 +184,18 @@ public class SysDictController {
 
     @At("/menuAll")
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict")
+    @RequiresPermissions("sys.shop.area")
     public Object menuAll(HttpServletRequest req) {
         try {
-            List<Sys_dict> list = sysDictService.query(Cnd.NEW().asc("location").asc("path"));
+            List<Shop_area> list = shopAreaService.query(Cnd.NEW().asc("location").asc("path"));
             NutMap menuMap = NutMap.NEW();
-            for (Sys_dict unit : list) {
-                List<Sys_dict> list1 = menuMap.getList(unit.getParentId(), Sys_dict.class);
+            for (Shop_area shopArea : list) {
+                List<Shop_area> list1 = menuMap.getList(shopArea.getParentId(), Shop_area.class);
                 if (list1 == null) {
                     list1 = new ArrayList<>();
                 }
-                list1.add(unit);
-                menuMap.put(unit.getParentId(), list1);
+                list1.add(shopArea);
+                menuMap.put(shopArea.getParentId(), list1);
             }
             return Result.success().addData(getTree(menuMap, ""));
         } catch (Exception e) {
@@ -213,12 +205,12 @@ public class SysDictController {
 
     private List<NutMap> getTree(NutMap menuMap, String pid) {
         List<NutMap> treeList = new ArrayList<>();
-        List<Sys_dict> subList = menuMap.getList(pid, Sys_dict.class);
-        for (Sys_dict menu : subList) {
-            NutMap map = Lang.obj2nutmap(menu);
-            map.put("label", menu.getName());
-            if (menu.isHasChildren() || (menuMap.get(menu.getId()) != null)) {
-                map.put("children", getTree(menuMap, menu.getId()));
+        List<Shop_area> subList = menuMap.getList(pid, Shop_area.class);
+        for (Shop_area shopArea : subList) {
+            NutMap map = Lang.obj2nutmap(shopArea);
+            map.put("label", shopArea.getName());
+            if (shopArea.isHasChildren() || (menuMap.get(shopArea.getId()) != null)) {
+                map.put("children", getTree(menuMap, shopArea.getId()));
             }
             treeList.add(map);
         }
@@ -227,19 +219,19 @@ public class SysDictController {
 
     @At
     @Ok("json")
-    @RequiresPermissions("sys.manager.dict.edit")
+    @RequiresPermissions("sys.shop.area.edit")
     public Object sortDo(@Param("ids") String ids, HttpServletRequest req) {
         try {
             String[] menuIds = StringUtils.split(ids, ",");
             int i = 0;
-            sysDictService.execute(Sqls.create("update sys_dict set location=0"));
+            shopAreaService.execute(Sqls.create("update shop_area set location=0"));
             for (String s : menuIds) {
                 if (!Strings.isBlank(s)) {
-                    sysDictService.update(org.nutz.dao.Chain.make("location", i), Cnd.where("id", "=", s));
+                    shopAreaService.update(org.nutz.dao.Chain.make("location", i), Cnd.where("id", "=", s));
                     i++;
                 }
             }
-            sysDictService.clearCache();
+            shopAreaService.clearCache();
             return Result.success();
         } catch (Exception e) {
             return Result.error();

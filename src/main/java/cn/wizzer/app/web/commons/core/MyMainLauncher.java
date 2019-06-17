@@ -131,6 +131,7 @@ public class MyMainLauncher {
             //通过POJO类修改表结构
             Daos.migration(dao, "cn.wizzer", true, false);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         // 若必要的数据表不存在，则初始化数据库
         if (0 == dao.count(Sys_user.class)) {
