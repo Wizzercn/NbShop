@@ -1,8 +1,36 @@
 <!--#
 layout("/layouts/platform.html"){
 #-->
+<div id="app" v-cloak>
+    <el-row class="header navbar bg-white shadow">
+        <div class="pull-right offscreen-right mt5">
+            <el-button size="medium" icon="ti-save" type="primary"> 保存</el-button>
+        </div>
+    </el-row>
+    <el-row class="el-table-container">
+        <el-tabs type="border-card">
+            <el-tab-pane label="店铺配置">
+                <el-form :model="formData" ref="addForm" :rules="formRules" label-width="80px">
+                </el-form>
 
-
+            </el-tab-pane>
+            <el-tab-pane label="配置管理">配置管理</el-tab-pane>
+            <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+            <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+        </el-tabs>
+    </el-row>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: function () {
+            return {}
+        },
+        created: function () {
+            this.pageData();
+        }
+    });
+</script>
 <!--#
 }
 #-->

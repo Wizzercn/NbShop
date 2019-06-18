@@ -3,6 +3,7 @@ package cn.wizzer.app.shop.modules.models;
 import cn.wizzer.app.shop.commons.enums.*;
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.entity.annotation.*;
+import org.nutz.dao.interceptor.annotation.PrevInsert;
 
 import java.io.Serializable;
 
@@ -19,6 +20,7 @@ public class Shop_order extends BaseModel implements Serializable {
     @Name
     @Comment("ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
+    @PrevInsert(els = {@EL("uuid()")})
     private String id;
 
     @Column

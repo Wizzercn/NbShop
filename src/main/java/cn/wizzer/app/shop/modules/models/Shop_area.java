@@ -3,6 +3,7 @@ package cn.wizzer.app.shop.modules.models;
 import cn.wizzer.framework.base.model.BaseModel;
 import org.nutz.dao.DB;
 import org.nutz.dao.entity.annotation.*;
+import org.nutz.dao.interceptor.annotation.PrevInsert;
 
 import java.io.Serializable;
 
@@ -18,7 +19,7 @@ public class Shop_area extends BaseModel implements Serializable {
     @Name
     @Comment("ID")
     @ColDefine(type = ColType.VARCHAR, width = 32)
-    @Prev(els = {@EL("uuid()")})
+    @PrevInsert(els = {@EL("uuid()")})
     private String id;
 
     @Column
@@ -49,8 +50,8 @@ public class Shop_area extends BaseModel implements Serializable {
     @Column
     @Comment("排序字段")
     @Prev({
-            @SQL(db= DB.MYSQL,value = "SELECT IFNULL(MAX(location),0)+1 FROM Shop_area"),
-            @SQL(db= DB.ORACLE,value = "SELECT COALESCE(MAX(location),0)+1 FROM Shop_area")
+            @SQL(db = DB.MYSQL, value = "SELECT IFNULL(MAX(location),0)+1 FROM Shop_area"),
+            @SQL(db = DB.ORACLE, value = "SELECT COALESCE(MAX(location),0)+1 FROM Shop_area")
     })
     private Integer location;
 
